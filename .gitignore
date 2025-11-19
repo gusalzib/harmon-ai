@@ -1,0 +1,7 @@
+#Please add all unnecessary folders, directories, and files here to prevent crowding the repo
+
+#----- IDE related ---------
+/idea/
+.idea/
+
+#----- 
