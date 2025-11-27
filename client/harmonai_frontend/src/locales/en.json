@@ -1,0 +1,43 @@
+{
+    "buttons": {
+        "login": "Login",
+        "logout": "Logout",
+        "signupBtn": "Create Account",
+        "delete": "Delete",
+        "save": "Save",
+        "add": "Add",
+        "edit": "Edit",
+        "undo": "Undo",
+        "apply": "Apply",
+        "cancel": "Cancel",
+        "finish": "Finish",
+        "copy": "Copy"
+    },
+    "nav": {
+        "about": "About",
+        "home": "Home",
+        "login": "Login",
+        "logout": "Log out",
+        "signup": "Sign Up",
+        "statistics": "Statistics",
+        "darktheme": "Dark theme",
+        "lighttheme": "Light theme"
+    },
+    "home": {
+        "title": "Welcome to HarmonAI",
+        "subtitle": "Start your musical journey here",
+        "getStarted": "Get Started",
+        "login": "Login",
+        "signup": "Sign Up",
+        "signupBtn": "Create Account"
+    },
+    "about": {
+        "title": "What do we do?",
+        "description": "We are amazing"
+    },
+    "labels":{
+        "email": "Email",
+        "password": "Password",
+        "username": "Username"
+    }
+}

@@ -6,7 +6,7 @@
       <!-- <img src="@\assets\images\harmonai.png" alt="banner"> -->
       <!-- <img src="@\assets\images\9.jpeg" alt="banner"> -->
        <div class="banner-text">
-        <h1>Welcome to HarmonAI</h1>
+        <h1>{{ $t('home.title') }}</h1>
        </div>
     </div>
   </div>
