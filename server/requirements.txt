@@ -1,0 +1,6 @@
+asgiref==3.11.0
+Django==5.2.8
+django-mongodb-backend==5.2.3
+dnspython==2.8.0
+pymongo==4.15.4
+sqlparse==0.5.3
