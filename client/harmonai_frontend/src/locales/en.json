@@ -45,6 +45,8 @@
         "loginFailed": "Login failed",
         "invalidCridentials": "Invalid cridentials",
         "userNotFound": "User not found. Please make sure email is correct",
-        "loginSuccessful": "Login successful"
+        "loginSuccessful": "Login successful",
+        "signupSuccessful": "Account created succssfully",
+        "duplicateInformation": "There is already an account with this email or username"
     }
 }

@@ -3,15 +3,15 @@
     <div class="login-form-container">
         <div class="login-form">
             <label for="login_email"> {{ $t('labels.email') }} </label>
-            <input id="login_email" class="login_input" type="email" placeholder="email">
+            <input v-model="form.email" id="login_email" class="login_input" type="email" placeholder="email">
             <br>
             <label for="login_password"> {{ $t('labels.password') }} </label>
-            <input id="login_password" class="login_input" type="password" placeholder="password">
+            <input v-model="form.password" id="login_password" class="login_input" type="password" placeholder="password">
             <div class="show-password-box">
-                <label style="font-size: small; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">{{ $t('labels.ShowPassword') }}</label>
+                <label>{{ $t('labels.ShowPassword') }}</label>
                 <input id="checkbox" type="checkbox" v-on:click="toggle()">
             </div>
-            <button type="submit"> {{ $t('buttons.login') }} </button>
+            <button type="submit" @click="login()"> {{ $t('buttons.login') }} </button>
         </div>
     </div>
 </template>
