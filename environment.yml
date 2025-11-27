@@ -1,0 +1,17 @@
+name: HarmonAI-PyConda
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - keras
+  - scikit-learn
+  - seaborn
+  - matplotlib
+  - tensorflow
+  - scipy
+  - jupyter
+  - ipython
+  - h5py
+prefix: /Users/jawad/anaconda3/envs/HarmonAI-PyConda
