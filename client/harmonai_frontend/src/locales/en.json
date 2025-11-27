@@ -38,6 +38,13 @@
     "labels":{
         "email": "Email",
         "password": "Password",
-        "username": "Username"
+        "username": "Username",
+        "ShowPassword": "Show password"
+    },
+    "notification": {
+        "loginFailed": "Login failed",
+        "invalidCridentials": "Invalid cridentials",
+        "userNotFound": "User not found. Please make sure email is correct",
+        "loginSuccessful": "Login successful"
     }
 }

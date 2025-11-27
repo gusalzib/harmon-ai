@@ -38,6 +38,13 @@
     "labels": {
         "email": "mejl",
         "password": "lösenord",
-        "username": "användarnamn"
+        "username": "användarnamn",
+        "ShowPassword": "Visa lösenord"
+    },
+    "notification": {
+        "loginFailed": "Inloggning misslyckades",
+        "invalidCridentials": "Ogiltiga inloggningsuppgifter",
+        "userNotFound": "Användaren hittades inte. Kontrollera att e-postadressen är korrekt",
+        "loginSuccessful": "Inloggning lyckades"
     }
 }
