@@ -38,6 +38,7 @@
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
   --color-navbar-background: var(--palette-thistle);
+  --color-gradient-background: linear-gradient(180deg,rgba(211, 188, 204, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
 
   /* border colors */
   --color-border: var(--palette-indigo-velvet-border);
@@ -59,9 +60,11 @@
   --color-background-soft: var(--vt-c-black-soft);
   --color-background-mute: var(--vt-c-black-mute);
   --color-navbar-background: var(--palette-deep-space-blue);
+  --color-gradient-background: linear-gradient(180deg,rgba(14, 39, 60, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
 
-/* border colors */
+  /* border colors */
   --color-border: var(--palette-indigo-velvet-border);
+
   /* --color-border-hover: var(--vt-c-divider-dark-1); */
   --color-border-hover: var(--palette-vintage-lavendar);
 
