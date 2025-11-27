@@ -295,7 +295,18 @@ a{
 }
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
-/* ###########################################################    ###########################################################*/
+/* ###########################################################  LANGUAGE SWITCHER  ###########################################################*/
+
+.language-selector {
+  margin-left: 20px;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 50px;
+  color: var(--color-text);
+  background-color: var(--color-navbar-background);
+}
+
+
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 /* ###########################################################    ###########################################################*/

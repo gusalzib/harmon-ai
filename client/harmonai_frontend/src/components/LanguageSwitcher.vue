@@ -1,5 +1,5 @@
 <template>
-  <select :value="locale" @change="changeLanguage($event.target.value)">
+  <select class="language-selector" :value="locale" @change="changeLanguage($event.target.value)">
     <option value="en">English</option>
     <option value="sv">Svenska</option>
   </select>
