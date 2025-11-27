@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class PredictionserviceConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
-    name = "prediction_service"
+    default_auto_field = "django_mongodb_backend.fields.ObjectIdAutoField"
+    name = "prediction_service_app"

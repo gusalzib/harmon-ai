@@ -2,14 +2,14 @@ from django.db import models
 
 class Song(models.Model):
     title = models.CharField(max_length=100)
-    artist = models.CharField(max_length=100)
-    genre = models.CharField(max_length=100)
-    bpm = models.IntegerField()
-    duration = models.FloatField()
-    user_rating = models.FloatField()
-    added_by = models.CharField(max_length=100)
-    chromogram = models.JSONField() #this should store a 2D array
-    prediction = models.JSONField() 
+   # artist = models.CharField(max_length=100)
+   # genre = models.CharField(max_length=100)
+   # bpm = models.IntegerField()
+   # duration = models.FloatField()
+   # user_rating = models.FloatField()
+   # added_by = models.CharField(max_length=100)
+   # chromogram = models.JSONField() #this should store a 2D array
+   # prediction = models.JSONField() 
 
 
     # these are the columns of the chromogram:
