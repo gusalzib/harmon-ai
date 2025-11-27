@@ -31,6 +31,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style src="src\assets\main.css"></style>

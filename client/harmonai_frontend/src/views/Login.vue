@@ -13,5 +13,37 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { useToast } from 'vue-toastification'
 
+export default {
+    data() {
+        return {
+            form: {
+                email: '',
+                password: '',
+            },
+            error: '',
+            url: '',
+            toast: null, // declare a toast variable to be used with toastification library for notifications
+
+                
+            }
+    },
+    mounted() {
+        this.toast = useToast(); // initiate a toast variable
+
+    },
+    methods: {
+        async login() {
+                try {
+                    const response = await axios.get(`${this.url}`, {
+                        
+                    })
+                } catch (error) {
+                    
+                }
+            }
+        }
+    }
 </script>

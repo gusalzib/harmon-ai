@@ -4,6 +4,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+import Toast, { POSITION } from 'vue-toastification'
+import 'vue-toastification/dist/index.css' // getting the required styles from the toast css
+
 // importing the locales english and swedish files
 import en from './locales/en.json'
 import sv from './locales/sv.json'
@@ -31,5 +34,10 @@ const app = createApp(App)
 
 app.use(router)
 app.use(i18n)
-
+app.use(Toast, {
+    position: POSITION.BOTTOM_CENTER,
+    timeout: 3000,
+    closeOnClick: true, // close the notification when the user click
+    pauseonHover: true // pasue the timeout timer when the user hovers on it
+})
 app.mount('#app')
