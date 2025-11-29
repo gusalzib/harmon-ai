@@ -1,0 +1,77 @@
+{
+    "buttons": {
+        "start": "Starta",
+        "signupBtn": "Skapa konto",
+        "pause": "Pausa",
+        "reset": "Återställ",
+        "delete": "Ta bort",
+        "save": "Spara",
+        "add": "Lägg till",
+        "edit": "Redigera",
+        "undo": "Ångra",
+        "apply": "Tillämpa",
+        "cancel": "Avbryt",
+        "finish": "Sluta"
+    },
+    "nav": {
+        "about": "Om Oss",
+        "home": "Hem",
+        "login": "Logga in",
+        "logout": "Logga ut",
+        "signup": "Skapa nytt konto",
+        "profile": "Profil",
+        "statistics": "Statistik",
+        "darktheme": "Mörk tema",
+        "lighttheme": "Ljus tema"
+    },
+    "home": {
+        "title": "Välkommen till HarmonAI",
+        "subtitle": "h",
+        "getStarted": "Kom igång",
+        "login": "Logga in",
+        "signup": "Skapa nytt konto",
+        "signupBtn": "Skapa konto"
+    },
+    "about": {
+        "title": "Varför välja oss?",
+        "description": "sd"
+    },
+    "labels": {
+        "email": "mejl",
+        "password": "lösenord",
+        "username": "användarnamn",
+        "ShowPassword": "Visa lösenord"
+    },
+    "notification": {
+        "loginFailed": "Inloggning misslyckades",
+        "invalidCridentials": "Ogiltiga inloggningsuppgifter",
+        "userNotFound": "Användaren hittades inte. Kontrollera att e-postadressen är korrekt",
+        "loginSuccessful": "Inloggning lyckades",
+        "signupSuccessful": "Konton skapades",
+        "duplicateInformation": "Det finns redan ett konto men denna e-postadressen eller användarnamn",
+        "sessionExpired": "Användarsessionen har löpt ut",
+        "failedToLoadUserInfo": "Kunde inte ladda användardata",
+        "updateSuccessful": "Uppdateringed lyckades",
+        "loadingFailed": "Laddningen missslyckades",
+        "somethingWentWrong": "Något gick fel"
+    },
+    "sidebar": {
+        "menu": "Meny",
+        "profile": "Profil",
+        "favorite_songs": "Favoritlåtar",
+        "history": "Historik"
+    },
+    "profile": {
+        "updateInfo": "Uppdatera",
+        "editProfile": "Redigera profil"
+    },
+    "song": {
+        "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",
+        "chords": "Chords",
+        "yourFavoriteSongs": "Dina favoritlåtar"
+    },
+    "history": {
+        "yourSongsHistory": "Din låthistorik",
+        "noHistory": "Du har ingen historik ännu. Ladda upp dina låtar här "
+    }
+}

@@ -1,6 +1,6 @@
 <template>
   <button @click="toggleTheme" class="theme-toggle">
-    {{ isDark ? '☀️ light' :  '🌙 dark'  }}
+    {{ isDark ? '☀️ ' + $t('nav.lighttheme') :  '🌙' + $t('nav.darktheme')  }}
   </button>
 </template>
 
@@ -31,19 +31,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.theme-toggle {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  background-color: var(--standard-btn);
-  color: white;
-  cursor: pointer;
-  margin-left: 1rem;
-}
-
-.theme-toggle:hover {
-  background-color: var(--standard-btn-hover);
-}
-</style>
+<style src="src\assets\main.css"></style>

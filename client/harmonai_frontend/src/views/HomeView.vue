@@ -2,7 +2,13 @@
 
 <template>
   <div class="home-container">
-    <p>Hello</p>
+    <div class="banner-image">
+      <!-- <img src="@\assets\images\harmonai.png" alt="banner"> -->
+      <!-- <img src="@\assets\images\9.jpeg" alt="banner"> -->
+       <div class="banner-text">
+        <h1>{{ $t('home.title') }}</h1>
+       </div>
+    </div>
   </div>
 </template>
 
