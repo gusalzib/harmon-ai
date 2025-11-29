@@ -19,6 +19,7 @@
         "login": "Login",
         "logout": "Log out",
         "signup": "Sign Up",
+        "profile": "Profile",
         "statistics": "Statistics",
         "darktheme": "Dark theme",
         "lighttheme": "Light theme"
@@ -47,6 +48,20 @@
         "userNotFound": "User not found. Please make sure email is correct",
         "loginSuccessful": "Login successful",
         "signupSuccessful": "Account created succssfully",
-        "duplicateInformation": "There is already an account with this email or username"
+        "duplicateInformation": "There is already an account with this email or username",
+        "sessionExpired": "User session expired",
+        "failedToLoadUserInfo": "Failed to load user data",
+        "updateSuccessful": "Updated successfully",
+        "loadingFailed": "Loading failed",
+        "somethingWentWrong": "Something went wrong"
+    },
+    "sidebar":{
+        "menu": "Menu",
+        "profile": "Profile",
+        "favorite_songs": "Favorite Songs",
+        "history": "History"
+    },
+    "profile":{
+        "updateInfo": "Update"
     }
 }

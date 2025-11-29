@@ -19,6 +19,7 @@
         "login": "Logga in",
         "logout": "Logga ut",
         "signup": "Skapa nytt konto",
+        "profile": "Profil",
         "statistics": "Statistik",
         "darktheme": "Mörk tema",
         "lighttheme": "Ljus tema"
@@ -47,6 +48,20 @@
         "userNotFound": "Användaren hittades inte. Kontrollera att e-postadressen är korrekt",
         "loginSuccessful": "Inloggning lyckades",
         "signupSuccessful": "Konton skapades",
-        "duplicateInformation": "Det finns redan ett konto men denna e-postadressen eller användarnamn"
+        "duplicateInformation": "Det finns redan ett konto men denna e-postadressen eller användarnamn",
+        "sessionExpired": "Användarsessionen har löpt ut",
+        "failedToLoadUserInfo": "Kunde inte ladda användardata",
+        "updateSuccessful": "Uppdateringed lyckades",
+        "loadingFailed": "Laddningen missslyckades",
+        "somethingWentWrong": "Något gick fel"
+    },
+    "sidebar": {
+        "menu": "Meny",
+        "profile": "Profil",
+        "favorite_songs": "Favoritlåtar",
+        "history": "Historik"
+    },
+    "profile": {
+        "updateInfo": "Uppdatera"
     }
 }
