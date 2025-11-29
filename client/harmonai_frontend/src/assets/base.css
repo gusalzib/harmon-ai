@@ -22,7 +22,9 @@
   
   --palette-vintage-lavendar: #A167A5;
   --palette-thistle: #D3BCCC;
+  --palette-thistle-30: rgba(211, 188, 204, 0.3);
   --palette-deep-space-blue: #0E273C;
+  --palette-deep-space-blue-50: rgba(14, 39, 60, 0.5);
   --palette-deep-space-blue-test: #a1d5ff;
   --palette-indigo-velvet: #4A306D;
   --palette-indigo-velvet-border: #862ff8;
@@ -41,6 +43,11 @@
   /* Default background image is the light pattern */
   --svg-musical-pattern: var(--svg-musical-pattern-light);
 
+  /*Shadows */
+  --light-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  --medium-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  --heavy-shadow:rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
 
   
   /* gradient images  */
@@ -56,12 +63,13 @@
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
   --color-navbar-background: var(--palette-thistle);
+  --color-user-account-background: var(--palette-thistle-50);
   --color-gradient-background: linear-gradient(180deg,rgba(211, 188, 204, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
   --color-form-background: var(--palette-lavendar-veil);
   --color-background-image: var(--color-background-image-light);
 
   /* border colors */
-  --color-border: var(--palette-indigo-velvet-border);
+  --color-border: var(--palette-vintage-lavendar);
   --color-border-hover: var(--vt-c-divider-light-1);
   --color-border-active: var(--palette-indigo-velvet);
 
@@ -71,6 +79,7 @@
 
   /* accent colors */
   --color-nav-link-active: var(--palette-vintage-lavendar);
+  --color-sidebar-hover: var(--palette-deep-space-blue-test)
 
 }
 
@@ -81,12 +90,13 @@
   --color-background-soft: var(--vt-c-black-soft);
   --color-background-mute: var(--vt-c-black-mute);
   --color-navbar-background: var(--palette-deep-space-blue);
+  --color-user-account-background: var(--palette-deep-space-blue-50);
   --color-gradient-background: linear-gradient(180deg,rgba(14, 39, 60, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
   --color-form-background: var(--palette-indigo-velvet);
   --color-background-image: var(--color-background-image-dark);
   
   /* border colors */
-  --color-border: var(--palette-indigo-velvet-border);
+  --color-border: var(--palette-deep-space-blue-test);
   --color-border-active: var(--palette-indigo-velvet-border);
   /* --color-border-hover: var(--vt-c-divider-dark-1); */
   --color-border-hover: var(--palette-vintage-lavendar);
