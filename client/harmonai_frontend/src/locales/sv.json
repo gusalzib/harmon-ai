@@ -62,6 +62,12 @@
         "history": "Historik"
     },
     "profile": {
-        "updateInfo": "Uppdatera"
+        "updateInfo": "Uppdatera",
+        "editProfile": "Redigera profil"
+    },
+    "song": {
+        "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",
+        "chords": "Chords",
+        "yourFavoriteSongs": "Dina favoritlåtar"
     }
 }

@@ -62,6 +62,12 @@
         "history": "History"
     },
     "profile":{
-        "updateInfo": "Update"
+        "updateInfo": "Update",
+        "editProfile": "Edit Profile"
+    },
+    "song":{
+        "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
+        "chords": "Chords",
+        "yourFavoriteSongs": "Your Favorite Songs"
     }
 }
