@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 import json
 
 # Create your views here.
+# Some info about queries: https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/Models#model_primer
+# Might use index to redirect to either login or main-page. Some code from (https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/Django/skeleton_website):
+# from django.views.generic import RedirectView
+# urlpatterns += [
+#     path('', RedirectView.as_view(url='catalog/', permanent=True)),
+# ]
 def index(request):
     return JsonResponse({
         "message": "hey xD"
@@ -13,12 +19,17 @@ def index(request):
 @csrf_exempt
 def register(request):
     if request.method == "POST":
-        request_body = json.loads(request.body)
-        email = request_body.get("email")
-        password = request_body["password"]
-        new_user = User.objects.create_user(username=email, password=password)
-        return JsonResponse({
-            "message": "Signup successful"
-        }, status=201)
+        try:
+            request_body = json.loads(request.body)
+            email = request_body.get("email")
+            password = request_body["password"]
+            new_user = User.objects.create_user(username=email, password=password)
+            return JsonResponse({
+                "message": "Signup successful"
+            }, status=201)
+        except:
+            return JsonResponse({
+                "message":"Registration failed, and we don't know why"
+            }, status=400)
     else:
         return JsonResponse({"message": "Registration failed xD"},status=404)
