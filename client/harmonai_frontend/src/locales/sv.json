@@ -69,5 +69,9 @@
         "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",
         "chords": "Chords",
         "yourFavoriteSongs": "Dina favoritlåtar"
+    },
+    "history": {
+        "yourSongsHistory": "Din låthistorik",
+        "noHistory": "Du har ingen historik ännu. Ladda upp dina låtar här "
     }
 }

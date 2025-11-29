@@ -69,5 +69,9 @@
         "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
         "chords": "Chords",
         "yourFavoriteSongs": "Your Favorite Songs"
+    },
+    "history": {
+        "yourSongsHistory": "Your Song History",
+        "noHistory": "You have no history yet. Upload your songs here"
     }
 }

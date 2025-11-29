@@ -41,6 +41,11 @@ const router = createRouter({
       name: 'favoriteSongs',
       component: FavoriteSongs,
     },
+    {
+      path: '/history',
+      name: 'history',
+      component: History,
+    },
   ],
 })
 
