@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Login from '@/views/Login.vue'
 import Signup from '@/views/Signup.vue'
 import UserAccount from '@/views/UserAccount.vue'
+import FavoriteSongs from '@/components/FavoriteSongs.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: UserAccount,
+    },
+    {
+      path: '/favorite_songs',
+      name: 'favoriteSongs',
+      component: FavoriteSongs,
     },
   ],
 })

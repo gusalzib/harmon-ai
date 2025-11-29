@@ -18,13 +18,14 @@
             </div>
 
             <div v-else-if="activeSection === 'favorite_songs'">
-
+                <FavoriteSongs/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import FavoriteSongs from '@/components/FavoriteSongs.vue';
 import Profile from '@/components/Profile.vue';
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
@@ -32,7 +33,8 @@ import { useToast } from 'vue-toastification'
 export default {
     name: 'UserAccount',
     components: {
-        Profile
+        Profile,
+        FavoriteSongs
     },
     data() {
         return {
