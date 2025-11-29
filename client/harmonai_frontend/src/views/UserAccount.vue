@@ -2,15 +2,15 @@
     <div class="account-main-container">
         <div class="account-sidebar">
             <div class="account-sidebar-menu">
-                <h3>{{ $t('sidebar.menu') }}</h3>
+                <h2>{{ $t('sidebar.menu') }}</h2>
                 <a id="sidebar-links" @click.native="setActive('profile')">{{ $t('sidebar.profile') }}</a>
                 <a id="sidebar-links" @click.native="setActive('history')">{{ $t('sidebar.history') }}</a>
                 <a id="sidebar-links" @click.native="setActive('favorite_songs')">{{ $t('sidebar.favorite_songs') }}</a>
             </div>
         </div>
         <div class="profile-container">
-            <div class="profile" v-if="activeSection === 'profile'">
-
+            <div v-if="activeSection === 'profile'">
+                <Profile/>
             </div>
 
             <div v-else-if="activeSection === 'history'">
@@ -25,11 +25,15 @@
 </template>
 
 <script>
+import Profile from '@/components/Profile.vue';
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 
 export default {
     name: 'UserAccount',
+    components: {
+        Profile
+    },
     data() {
         return {
             form: {
@@ -50,9 +54,6 @@ export default {
 
     },
     methods: {
-        async getUserInfo() {
-
-        },
         setActive(section) {
             try {
                 this.activeSection = section
@@ -60,17 +61,6 @@ export default {
                 this.toast && this.toast.error(this.$t('notification.loadingFailed') || 'Loading failed')
             }
         },
-        toggle() {
-            // allow user to show the password in the password filed
-            let temp = document.getElementById("password")
-
-            if (temp.type === "password") {
-                temp.type = "text";
-
-            } else {
-                temp.type = "password";
-            }
-            }
         },
     }
 </script>

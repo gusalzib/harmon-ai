@@ -4,6 +4,7 @@
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
         <div class="nav-links">
           <RouterLink to="/">{{ $t('nav.home') }}</RouterLink>
+          <RouterLink to="/profile">{{ $t('nav.profile') }}</RouterLink>
           <RouterLink to="/about">{{ $t('nav.about') }}</RouterLink>
           <RouterLink to="/login">{{ $t('nav.login') }}</RouterLink>
           <RouterLink to="/logout">{{ $t('nav.logout') }}</RouterLink>
