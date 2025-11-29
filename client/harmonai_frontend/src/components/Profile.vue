@@ -1,6 +1,6 @@
 <template>
     <div class="profile" id="edit-profile" v-if="activeSection === 'profile'">
-        <h3>Edit Profile</h3>
+        <h3>{{ $t('profile.editProfile') }}</h3>
         
             <label>{{ $t('labels.username') }}</label>
             <input v-model="form.username" type="text" id="name" required/>
@@ -10,7 +10,10 @@
             <br>
             <label>{{ $t('labels.password') }}</label>
             <input v-model="form.password" type="password" id="password" required/>
-            
+            <div class="show-password-box">
+                <label>{{ $t('labels.ShowPassword') }}</label>
+                <input id="checkbox" type="checkbox" v-on:click="toggle()">
+            </div>
 
             <button id="update-button" class="submit-button" v-on:click="updateUserInfo()" type="button">{{ $t('profile.updateInfo') }}</button>
     </div>
@@ -109,13 +112,6 @@ export default {
 
                 }
 
-            }
-        },
-        setActive(section) {
-            try {
-                this.activeSection = section
-            } catch (error) {
-                this.toast && this.toast.error(this.$t('notification.loadingFailed') || 'Loading failed')
             }
         },
         toggle() {
