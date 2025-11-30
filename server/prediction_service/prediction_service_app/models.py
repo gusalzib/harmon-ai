@@ -5,7 +5,7 @@ class Song(models.Model):
    # artist = models.CharField(max_length=100)
    # genre = models.CharField(max_length=100)
    # bpm = models.IntegerField()
-   # duration = models.FloatField()
+    duration = models.CharField(max_length=50)
    # user_rating = models.FloatField()
    # added_by = models.CharField(max_length=100)
    # chromogram = models.JSONField() #this should store a 2D array
