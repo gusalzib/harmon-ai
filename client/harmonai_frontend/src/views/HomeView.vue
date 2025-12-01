@@ -1,9 +1,17 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
+
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="home-container">
+    <div class="banner-image">
+      <!-- <img src="@\assets\images\harmonai.png" alt="banner"> -->
+      <!-- <img src="@\assets\images\9.jpeg" alt="banner"> -->
+       <div class="banner-text">
+        <h1>{{ $t('home.title') }}</h1>
+       </div>
+    </div>
+  </div>
 </template>
+
+
+<script setup>
+</script>
