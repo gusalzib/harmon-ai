@@ -4,7 +4,7 @@ class Song(models.Model):
     title = models.CharField(max_length=100)
    # artist = models.CharField(max_length=100)
    # genre = models.CharField(max_length=100)
-   # bpm = models.IntegerField()
+    tempo = models.CharField(max_length=50)
     duration = models.CharField(max_length=50)
    # user_rating = models.FloatField()
    # added_by = models.CharField(max_length=100)
