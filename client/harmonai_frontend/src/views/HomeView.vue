@@ -49,12 +49,9 @@ export default {
   name: 'home',
   data() {
     return {
-      form: {
-        email: '',
-        password: '',
-      },
+      audioFile: null, // holds the selecte audio file
       error: '',
-      url: 'http://localhost:8000/api/prediction',
+      url: 'http://localhost:8000/api/create-song/',
       toast: null, // declare a toast variable to be used with toastification library for notifications
 
 
@@ -65,9 +62,45 @@ export default {
 
   },
   methods: {
-    async handleFileUpload() {
-      // placeholder until we implement the audio upload logic
+    handleFileUpload() {
+      this.audioFile = event.target.files[0];
+      this.toast.info('File selected: ' + this.audioFile.name)
     },
+
+    async submitUpload() {
+      // check if the user selected a file first
+      if (!this.audioFile) {
+        this.toast.error(this.$t('notification.pleaseSelectFile') || 'Please select a file first');
+        return;
+      }
+
+      const formData = new FormData();
+      // the audio file must match the key Django expects: request.files['audio']
+      formData.append('audio', this.audioFile);
+
+      // displaying a permanent toat notification here until the file upload is done
+      this.toast.info('Processing started...', { timeout: false });
+
+      try {
+        const response = await axios.post(this.url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data', 
+          }
+        })
+
+        if (response.status === 200) {
+          this.toast.clear(); // removes the permanenet loading notification we had created earlier
+          this.toast.success(('notification.uploadSuccessful') || 'File uploaded successfully');
+        }
+
+      } catch (error) {
+
+        this.toast.clear(); // clearing any hanging loading notification
+        this.toast && this.toast.error(this.$t('notification.processFailed') || 'Processing failed');
+
+        console.error(error); // debug
+      }
+    }
 
   }
 }

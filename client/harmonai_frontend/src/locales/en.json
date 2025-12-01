@@ -62,6 +62,9 @@
         "failedToLoadUserInfo": "Failed to load user data",
         "updateSuccessful": "Updated successfully",
         "loadingFailed": "Loading failed",
+        "pleaseSelectFile": "Please select a file first",
+        "uploadSuccessful": "File uploaded successfully",
+        "processFailed": "Processing failed",
         "somethingWentWrong": "Something went wrong"
     },
     "sidebar":{
