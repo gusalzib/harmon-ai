@@ -54,10 +54,9 @@ export default {
                 temp.type = "password";
             }
         },
-    async signup() {
-        try {
+        async signup() {
+            try {
                 /* we send the user info as json to backend and await response */
-                console.log("Signup function!")
                 const response = await axios.post(this.url, JSON.stringify(this.form));
 
                 if (response.status === 201) {
@@ -82,5 +81,6 @@ export default {
                 }
             }
         }
-    }}
+    }
+}
 </script>
