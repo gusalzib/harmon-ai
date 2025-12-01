@@ -37,6 +37,8 @@ def register(request):
 
 @csrf_exempt
 def login(request): # Maybe call this in register()?
+    if request.method != "POST":
+        return JsonResponse({}, status=404)
     print(1)
     try:
         req_body = json.loads(request.body)
