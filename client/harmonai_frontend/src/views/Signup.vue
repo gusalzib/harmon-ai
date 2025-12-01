@@ -32,7 +32,7 @@ export default {
                 password: '',
             },
             error: '',
-            url: 'http://localhost:8000/api/users/signup',
+            url: 'http://localhost:8000/users/register',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to LOGIN page upon succesful SIGNUP
                 
@@ -53,14 +53,14 @@ export default {
             } else {
                 temp.type = "password";
             }
-            }
-    },
+        },
     async signup() {
         try {
                 /* we send the user info as json to backend and await response */
-                const response = await axios.post(`${this.url}`, JSON.stringify(this.form));
+                console.log("Signup function!")
+                const response = await axios.post(this.url, JSON.stringify(this.form));
 
-                if (response.status === 200) {
+                if (response.status === 201) {
                     // display notifications
                     this.toast && this.toast.success(this.$t('notification.signupSuccessful') || 'Signup successful');
 
@@ -82,5 +82,5 @@ export default {
                 }
             }
         }
-    }
+    }}
 </script>
