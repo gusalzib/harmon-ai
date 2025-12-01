@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 import json
 
 # Create your views here.
@@ -33,3 +34,25 @@ def register(request):
             }, status=400)
     else:
         return JsonResponse({"message": "Registration failed xD"},status=404)
+
+@csrf_exempt
+def login(request): # Maybe call this in register()?
+    print(1)
+    try:
+        req_body = json.loads(request.body)
+        print(req_body)
+        user = authenticate(username=req_body["email"], password=req_body["password"])
+        print(3)
+        if user is None:
+            return JsonResponse({
+                "message": "Login failed: User is None"
+            }, status=400)
+        else:
+            return JsonResponse({
+                "message": "Login successfull"
+            }, status=201)
+            login(request)
+    except:
+        return JsonResponse({
+            "message": "Login failed: Exception"
+        }, status=400)
