@@ -11,7 +11,9 @@
         "undo": "Ångra",
         "apply": "Tillämpa",
         "cancel": "Avbryt",
-        "finish": "Sluta"
+        "finish": "Sluta",
+        "searchButton": "Söka",
+        "uploadButton": "Ladda upp"
     },
     "nav": {
         "about": "Om Oss",
@@ -30,7 +32,15 @@
         "getStarted": "Kom igång",
         "login": "Logga in",
         "signup": "Skapa nytt konto",
-        "signupBtn": "Skapa konto"
+        "signupBtn": "Skapa konto",
+        "findChordsHeading": "Hitta dina ackord",
+        "searchPlaceholder": "Låtnamn",
+        "uploadLabel": "Eller ladda upp en MP3-fil",
+        "searchLabel": "Sök i vårt låtbibliotek",
+        "warning": "Se till att du har rättigheter till filen du laddar upp",
+        "purposeOfTheApp": "Upptäck ackorden i vilken låt du vill",
+        "purposeOfTheAppExplanation1": "HarmonAI analyserar låtens ljudegenskaper, såsom kromagram, för att direkt generera mycket träffsäkra ackordförslag. Inget mer manuellt transkriberande!\nDu kan spara dina favoritlåtar och komma tillbaka till dem när du vill i din låthistorik, här"
+            
     },
     "about": {
         "title": "Varför välja oss?",
