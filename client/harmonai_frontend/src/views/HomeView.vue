@@ -32,6 +32,16 @@
 
       <div class="upload-form">
         <label for="mp3-upload">{{ $t('home.uploadLabel') }}</label>
+        <br>
+        <label class="input-label" for="song-title">{{ $t('home.songTitle') }}</label>
+        <input v-model="this.title" type="text" id="song-title" :placeholder="$t('home.songTitlePlaceholder')" required>
+
+        <label class="input-label" for="song-artist">{{ $t('home.songArtist') }}</label>
+        <input v-model="this.artist" type="text" id="song-artist" :placeholder="$t('home.songArtistPlaceholder')" required>
+
+        <label class="input-label" for="song-genre">{{ $t('home.songGenre') }}</label>
+        <input v-model="this.genre" type="text" id="song-genre" :placeholder="$t('home.songGenrePlaceholder')" required>
+
         <input type="file" accept="audio/mp3" @change="handleFileUpload">
         <p class="disclaimer">{{ $t('home.warning') }}</p>
         <button class="btn upload-btn" @click="submitUpload">{{ $t('buttons.uploadButton') }}</button>
@@ -50,6 +60,9 @@ export default {
   data() {
     return {
       audioFile: null, // holds the selecte audio file
+      title: '',
+      artist: '',
+      genre: '',
       error: '',
       url: 'http://localhost:8000/api/create-song/',
       toast: null, // declare a toast variable to be used with toastification library for notifications
@@ -68,6 +81,7 @@ export default {
     },
 
     async submitUpload() {
+
       // check if the user selected a file first
       if (!this.audioFile) {
         this.toast.error(this.$t('notification.pleaseSelectFile') || 'Please select a file first');
@@ -78,20 +92,45 @@ export default {
       // the audio file must match the key Django expects: request.files['audio']
       formData.append('audio', this.audioFile);
 
+      // check if all fields are filled
+      if (!this.title || !this.genre || !this.artist) {
+
+        this.toast.error(this.$t('notification.pleaseFillIntheFields') || 'Please fill in the missing fields');
+        return; 
+      }
+
+      // add the input to formData in preparation for sending it to server
+      formData.append('title', this.title);
+      formData.append('artist', this.artist);
+      formData.append('genre', this.genre);
+
+      // debug prints 
+      // console.log(this.title);
+      // console.log(this.artist);
+      // console.log(this.genre);
+        
       // displaying a permanent toat notification here until the file upload is done
-      this.toast.info('Processing started...', { timeout: false });
+      this.toast.info(this.$t('notification.processingStarted'), { timeout: false });
 
       try {
+        // THE FIRST POST REQUEST
         const response = await axios.post(this.url, formData, {
           headers: {
             'Content-Type': 'multipart/form-data', 
           }
         })
 
+
+        console.log('response ', response);
+        
+        console.log('status', response.status);
+        
         if (response.status === 200) {
           this.toast.clear(); // removes the permanenet loading notification we had created earlier
-          this.toast.success(('notification.uploadSuccessful') || 'File uploaded successfully');
+          this.toast.success(this.$t('notification.uploadSuccessful') || 'File uploaded successfully');
         }
+
+
 
       } catch (error) {
 

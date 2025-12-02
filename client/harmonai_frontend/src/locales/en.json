@@ -65,7 +65,9 @@
         "pleaseSelectFile": "Please select a file first",
         "uploadSuccessful": "File uploaded successfully",
         "processFailed": "Processing failed",
-        "somethingWentWrong": "Something went wrong"
+        "somethingWentWrong": "Something went wrong",
+        "pleaseFillIntheFields": "Please fill in the missing fields",
+        "processingStarted": "Processing started ... \n Be patient this might take a while"
     },
     "sidebar":{
         "menu": "Menu",

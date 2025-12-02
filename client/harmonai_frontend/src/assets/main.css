@@ -169,6 +169,12 @@ label{
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
 }
 
+.input-label{
+  margin-left: 0;
+  text-align: start;
+  
+}
+
 input[type=file]{
   padding: 7px;
   background-image: var(--color-background-image);
