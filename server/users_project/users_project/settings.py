@@ -143,3 +143,13 @@ MIGRATION_MODULES = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173"
 ]
+CORS_ALLOW_CREDENTIALS = True
+
+# CSRF related configurations
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173"
+]
+
+#CSRF_COOKIE_SECURE = False
+#CSRF_COOKIE_HTTPONLY = False
+

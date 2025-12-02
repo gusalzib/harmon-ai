@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requires_csrf_token
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -17,7 +17,12 @@ def index(request):
         "message": "hey xD"
     }, status=200)
 
-@csrf_exempt
+@ensure_csrf_cookie
+def set_csrf_cookie(request):
+    return JsonResponse({"message": "cookie 4 u"})
+
+
+# @csrf_exempt
 def register(request):
     if request.method == "POST":
         try:
@@ -35,7 +40,8 @@ def register(request):
     else:
         return JsonResponse({"message": "Registration failed xD"},status=404)
 
-@csrf_exempt
+# @csrf_exempt
+@requires_csrf_token
 def login(request): # Maybe call this in register()?
     if request.method != "POST":
         return JsonResponse({}, status=404)

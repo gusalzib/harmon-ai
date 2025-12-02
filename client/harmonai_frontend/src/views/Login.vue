@@ -37,13 +37,38 @@ export default {
     },
     mounted() {
         this.toast = useToast(); // initiate a toast variable
+        this.get_csrf()
 
     },
     methods: {
+        async get_csrf() {
+            try {
+                const response = await axios.get("http://localhost:8000/users/set-csrf-cookie", {withCredentials: true})
+                console.log("Response received")
+                const cookie = response.headers
+
+                console.log(cookie)
+                console.log("Cookie set")
+            }
+            catch(e) {
+                console.log("sorry lmao")
+            }
+        },
         async login() {
             try {
+                // Disgusting JS magic
+                const xsrf_token = document.cookie.split(";").map(val => {
+                            if (val.includes("csrftoken"))
+                                return val.split("=")[1]
+                        })[0]
+                
                 /* we send the login info as json to backend and await response */
-                const response = await axios.post(`${this.url}`, JSON.stringify(this.form))
+                const response = await axios.post(`${this.url}`, JSON.stringify(this.form), {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFToken": xsrf_token
+                    }
+                })
 
                 // if the login was successful, we automatically redirect the
                 // user to the home page
