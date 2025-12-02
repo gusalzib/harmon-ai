@@ -37,18 +37,20 @@ export default {
     },
     mounted() {
         this.toast = useToast(); // initiate a toast variable
-        this.get_csrf()
+        this.get_csrf() // Get CSRF token
 
     },
     methods: {
         async get_csrf() {
             try {
+                // Get CSRF token from server. If cookie != X-CSRFToken value, bad news
                 const response = await axios.get("http://localhost:8000/users/set-csrf-cookie", {withCredentials: true})
-                console.log("Response received")
-                const cookie = response.headers
-
-                console.log(cookie)
-                console.log("Cookie set")
+                    .then(response => {
+                        if(response.status == 200)
+                            console.log("XSRF cookie set")
+                        else
+                            console.log("Failed setting XSRF cookie")
+                    })
             }
             catch(e) {
                 console.log("sorry lmao")
@@ -56,7 +58,7 @@ export default {
         },
         async login() {
             try {
-                // Disgusting JS magic
+                // Disgusting JS magic to retrieve csrftoken cookie
                 const xsrf_token = document.cookie.split(";").map(val => {
                             if (val.includes("csrftoken"))
                                 return val.split("=")[1]
