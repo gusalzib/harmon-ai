@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requires_csrf_token
+from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -23,38 +24,32 @@ def set_csrf_cookie(request):
 
 
 # @csrf_exempt
+@require_POST
 def register(request):
-    if request.method == "POST":
-        try:
-            request_body = json.loads(request.body)
-            email = request_body.get("email")
-            password = request_body["password"]
-            new_user = User.objects.create_user(username=email, password=password)
-            return JsonResponse({
-                "message": "Signup successful"
-            }, status=201)
-        except:
-            return JsonResponse({
-                "message":"Registration failed, and we don't know why"
-            }, status=400)
-    else:
-        return JsonResponse({"message": "Registration failed xD"},status=404)
+    try:
+        request_body = json.loads(request.body)
+        email = request_body.get("email")
+        password = request_body["password"]
+        new_user = User.objects.create_user(username=email, password=password)
+        return JsonResponse({
+            "message": "Signup successful"
+        }, status=201)
+    except:
+        return JsonResponse({
+            "message":"Registration failed, and we don't know why"
+        }, status=400)
 
 # @csrf_exempt
+@require_POST
 @requires_csrf_token
 def login(request): # Maybe call this in register()?
-    if request.method != "POST":
-        return JsonResponse({}, status=404)
-    print(1)
     try:
         req_body = json.loads(request.body)
-        print(req_body)
         user = authenticate(username=req_body["email"], password=req_body["password"])
-        print(3)
         if user is None:
             return JsonResponse({
                 "message": "Login failed: User is None"
-            }, status=400)
+            }, status=401)
         else:
             return JsonResponse({
                 "message": "Login successfull"
@@ -63,4 +58,4 @@ def login(request): # Maybe call this in register()?
     except:
         return JsonResponse({
             "message": "Login failed: Exception"
-        }, status=400)
+        }, status=500)
