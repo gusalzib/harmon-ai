@@ -8,7 +8,8 @@ class Song(models.Model):
     duration = models.CharField(max_length=50)
    # user_rating = models.FloatField()
    # added_by = models.CharField(max_length=100)
-   # chromogram = models.JSONField() #this should store a 2D array
+    columns = models.CharField(max_length = 100,null=True, blank=True)
+    chromogram = models.JSONField(null=True, blank=True) #this should store a 2D array
    # prediction = models.JSONField() 
 
 

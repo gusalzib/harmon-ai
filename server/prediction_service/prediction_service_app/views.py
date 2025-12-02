@@ -107,8 +107,14 @@ def create_song(request):
             tempo = get_tempo(y_percussive, sampling_rate)
             print("tempo: ", tempo)
 
-            #new_song = Song.objects.create(title=name,duration=duration, tempo=tempo)
-            #new_song.save()
+            new_song = Song.objects.create(
+                title=name,
+                duration=duration, 
+                tempo=tempo,
+                columns=["time","C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+                chromogram=chromagram.tolist()
+                )
+            new_song.save()
             response = {
                 'status': 'success',
                 'message': 'Audio received',
