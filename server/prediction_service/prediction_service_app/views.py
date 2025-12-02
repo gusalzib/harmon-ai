@@ -1,7 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
-from django.db import models
 from .models import Song
 import librosa
 import numpy as np
@@ -36,19 +35,19 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
         aggregate=np.median,
         pad=False
     )
-
+    #make the array show what time the beats occur insted of what index
     beat_into_time = librosa.frames_to_time(
         index_of_the_beats,
         sr=sampling_rate,
         hop_length=hop_length
     )
-
+    #flip the columns and rows in the chroma
     beat_chroma_T = beat_chroma.T
 
+    #remove the extra line so the sizes matches
     sliced_beat_into_time = 0.5 * (beat_into_time[:-1] + beat_into_time[1:])
-  
+    #add time to the chroma
     chroma = np.column_stack((sliced_beat_into_time, beat_chroma_T))
-    
     
     return chroma
 
@@ -70,14 +69,6 @@ def get_tempo(y_percussive, samling_rate):
     the_tempo = round(the_tempo[0])
     the_tempo = str(the_tempo)
     the_tempo = the_tempo + " Bpm"
-
-    #option:
-    #tempo, beats = librosa.beat.beat_track(y=y, sr=sr)
-    #print(tempo)
-    #print(beats)
-
-
-
     return the_tempo
 
 
@@ -86,48 +77,63 @@ def create_song(request):
     if request.method == "POST":
         try:
             #get the file from the request
-            audio = request.FILES['audio']
-            name = audio.name
-            print("file is:", name)
+            if 'audio' not in request.FILES:
+                response = {
+                    'result': 'error',
+                    'status': 400,
+                    'message': 'No audio file provided',
+                }
+                return response
             
+            title = request.POST.get("title")
+            artist = request.POST.get("artist")
+            genre = request.POST.get("genre")
+        
+            audio = request.FILES['audio']
+        
 
+        
             #extract the samplingrate and create the waveform of the audio
             waveform, sampling_rate = librosa.load(audio, sr=None)
 
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
-            jump_time = 0.05 
+            jump_time = 0.05 #this is good for tweaking the chroma
 
+            #call the methods to extract info from audio
             chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
-            print("Chroma: ", chromagram)
-            print("chroma shape: ", chromagram.shape)
             duration = fetch_duration(y_harmonic, sampling_rate)
-            print("duration", duration)
-
             tempo = get_tempo(y_percussive, sampling_rate)
-            print("tempo: ", tempo)
+            name = audio.name
 
+            #create the song object and save it to the db
             new_song = Song.objects.create(
-                title=name,
-                duration=duration, 
+                title=title,
+                artist=artist,
+                genre=genre,
                 tempo=tempo,
-                columns=["time","C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
-                chromogram=chromagram.tolist()
+                duration=duration, 
+                columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
+                chromogram=chromagram.astype(float).tolist()
                 )
             new_song.save()
+            
             response = {
-                'status': 'success',
+                'result': 'success',
+                'status': 200,
                 'message': 'Audio received',
             }
             
         except json.JSONDecodeError:
             response = {
-                'status': 'error',
+                'result': 'error',
+                'status': 400,
                 'message': 'Invalid JSON',
             }
     else:
         response = {
-            'status': 'error',
+            'result': 'error',
+            'status': 400,
             'message': 'Invalid request method',
         }
     return JsonResponse(response)
