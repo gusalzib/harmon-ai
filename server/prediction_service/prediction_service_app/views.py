@@ -117,7 +117,7 @@ def create_song(request):
                 chromogram=chromagram.astype(float).tolist()
                 )
             new_song.save()
-            
+
             response = {
                 'result': 'success',
                 'status': 200,
@@ -138,5 +138,35 @@ def create_song(request):
         }
     return JsonResponse(response)
 
+@csrf_exempt
+def update_song(request):
+    if request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+            searchTitle = data.get("title")
+            apdatedUser_rating = data.get("user_rating")
+            Song.objects.filter(title=searchTitle).update(
+                user_rating=apdatedUser_rating
+            )
+
+            response = {
+                'result': 'success',
+                'status': 200,
+                'message': 'Song updated',
+            }
+            
+        except json.JSONDecodeError:
+            response = {
+                'result': 'error',
+                'status': 400,
+                'message': 'Invalid JSON',
+            }
+    else:
+        response = {
+            'result': 'error',
+            'status': 400,
+            'message': 'Invalid request method',
+        }
+    return JsonResponse(response)
 
 
