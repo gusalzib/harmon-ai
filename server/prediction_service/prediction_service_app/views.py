@@ -55,12 +55,18 @@ def fetch_duration(y_harmonic,sampling_rate):
     the_duration = librosa.get_duration(y=y_harmonic,sr= sampling_rate)
     minutes = int(the_duration/60)
     sec = int(the_duration % 60)
-    minutes = str(minutes)
+    minutes = int(minutes)
+    print("minutes:" ,minutes)
+    if(minutes == 0 and sec < 10):
+        sec  = str(sec)
+        transformed_duration = "0:"+sec
+        return transformed_duration
     if(sec < 10):
         sec = str(sec)
         sec = str("0"+sec)
     else:
         sec = str(sec)
+        minutes = str(minutes)
     transformed_duration = minutes + ":"+ sec
     return transformed_duration
 
@@ -90,8 +96,6 @@ def create_song(request):
             genre = request.POST.get("genre")
         
             audio = request.FILES['audio']
-        
-
         
             #extract the samplingrate and create the waveform of the audio
             waveform, sampling_rate = librosa.load(audio, sr=None)
