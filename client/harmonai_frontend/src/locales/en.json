@@ -4,6 +4,8 @@
         "logout": "Logout",
         "signupBtn": "Create Account",
         "delete": "Delete",
+        "searchButton": "Search",
+        "uploadButton": "Upload",
         "save": "Save",
         "add": "Add",
         "edit": "Edit",
@@ -30,7 +32,20 @@
         "getStarted": "Get Started",
         "login": "Login",
         "signup": "Sign Up",
-        "signupBtn": "Create Account"
+        "signupBtn": "Create Account",
+        "findChordsHeading": "Find your chords",
+        "searchPlaceholder": "Song name",
+        "uploadLabel": "Or upload an mp3 file",
+        "searchLabel": "Search in our song collection",
+        "warning": "Please make sure you have the rights to the file you upload",
+        "purposeOfTheApp": "Discover the Chords in Any Song You Want",
+        "purposeOfTheAppExplanation1": "HarmonAI analyzez the audio features of a song, such as chromagrams, to instantly generate highly accurate chord predictions. No more manual transcriptions! \n You can save your favorite songs and go back to them whenever you wish in your song history, here ",
+        "songTitle": "Song title",
+        "songArtist": "Song artist",
+        "songGenre": "Song genre",
+        "songGenrePlaceholder": "Enter the genre of your song",
+        "songTitlePlaceholder": "Enter the title of your song",
+        "songArtistPlaceholder": "Enter the artist of your song"
     },
     "about": {
         "title": "What do we do?",
@@ -53,7 +68,12 @@
         "failedToLoadUserInfo": "Failed to load user data",
         "updateSuccessful": "Updated successfully",
         "loadingFailed": "Loading failed",
-        "somethingWentWrong": "Something went wrong"
+        "pleaseSelectFile": "Please select a file first",
+        "uploadSuccessful": "File uploaded successfully",
+        "processFailed": "Processing failed",
+        "somethingWentWrong": "Something went wrong",
+        "pleaseFillIntheFields": "Please fill in the missing fields",
+        "processingStarted": "Processing started ... \n Be patient this might take a while"
     },
     "sidebar":{
         "menu": "Menu",
