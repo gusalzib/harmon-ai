@@ -51,10 +51,10 @@ def login(request): # Maybe call this in register()?
                 "message": "Login failed: User is None"
             }, status=401)
         else:
+            request.session["email"] = user.email
             return JsonResponse({
-                "message": "Login successfull"
+                "message": "Login successful"
             }, status=201)
-            login(request)
     except:
         return JsonResponse({
             "message": "Login failed: Exception"
