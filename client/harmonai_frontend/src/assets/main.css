@@ -1,35 +1,813 @@
-@import './base.css';
+@import './base.css'; /* getting the basic color schemas from the base file*/
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+/* ###########################################################  BODY, HTML  ###########################################################*/
+body{
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  /* background: var(--color-background); */
+  background: var(--page-background);
+  background-color: var(--color-background);
 }
 
-a,
-.green {
+html{
+  margin: 0;
+  padding: 0;
+}
+
+a{
+  color: var(--color-text);
+}
+
+label{
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+/* ###########################################################  HOME PAGE  ###########################################################*/
+
+.home-container{
+  color: var(--color-text);
+  min-height: 100vh; 
+  min-width: 100%; 
+}
+
+.banner-image{
+  width: 100%;
+  height: 500px;
+  margin: auto;
+  padding: auto;
+  background: var(--color-gradient-background);
+
+  /* to display the banner text in the middle of the banner div */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-text{
+  min-width: 40%;
+  margin: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2rem;
+}
+
+.banner-text h1{
+  text-align: center;
+}
+
+/* added the img style but we do not have an image for now but this 
+  keeps the option open */
+.banner-image img{
+  width: 100%;
+  height: 800px;
+}
+
+.home-container hr{
+  width: 80%;
+  color: var(--color-border-active);
+  background-color: var(--color-border-active);
+  height: 2px;
+  border-width:0;
+}
+
+.disclaimer{
+  font-style: italic;
+  color: var(--color-text);
+}
+
+.explanation {
+  font-size: 1.3rem;
+}
+.home-container h2{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.explanation-box{
+  border: 1px solid var(--palette-indigo-valvet-border);
+  width: 60%;
+  padding: 40px;
+  border-radius: 8px;
+  background-image: var(--color-background-image);
+  margin: auto;
+  margin-top: 20px;
+  line-height: 1.6;
+  box-shadow: var(--heavy-shadow);
+  opacity: 0.8;
+}
+
+.search-upload-section{
+  padding: 40px;
+  border: 1px solid var(--color-border-active);
+  background-image: var(--color-background-image);
+  border-radius: 8px;
+  text-align: center;
+  width: 60%;
+  margin: auto;
+  margin-bottom: 20%;
+  opacity: 0.8;
+}
+
+.search-upload-section label, .explanation-box label{
+  margin-right: 10px;
+  font-size: x-large;
+}
+
+.search-upload-section input{
+  width: 95%;
+	height: 10px;
+	background: var(--color-background);
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 12px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+  font-size: medium;
+  font-weight: 550;
+  color: var(--color-text);
+}
+
+.search-upload-section input:hover{
+  border: 1px solid var(--color-border-active);
+}
+.search-form, .upload-form{
+  margin: 20px auto;
+  padding: 15px;
+  border: 3px dotted var(--color-border);
+  border-radius: 8px;
+  width: 60%;
+}
+
+.search-btn, .upload-btn{
+  width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: var(--color-text);
+	background: var(--color-gradient-background);
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.329);
+	cursor: pointer;
+}
+
+.search-btn:hover, .upload-btn:hover{
+  background-color: var(--color-border-active);
+  color: var(--vt-c-white);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
+}
+
+.input-label{
+  margin-left: 0;
+  text-align: start;
+  
+}
+
+input[type=file]{
+  padding: 7px;
+  background-image: var(--color-background-image);
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  height: 100%;
+  width: 50%;
+  color: var(--color-text);
+}
+input[type=file]:hover{
+  background-color: var(--color-border-hover);
+  cursor: pointer;
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  USER ACCOUNT PAGE  ###########################################################*/
+
+.account-main-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  height: 100%;
+  min-height: 400px;
+  margin: 5% auto;
+  margin-top: 5%;
+  /* border: 3px var(--palette-deep-space-blue-test) solid; */
+  background-color: var(--color-user-account-background);
+  border-radius: 10px;
+  box-shadow: var(--heavy-shadow);
+  padding: 30px;
+  color: var(--color-text);
+}
+.account-sidebar-menu h2{
+  color: var(--color-text);
+}
+.account-sidebar{
+  color: var(--color-text);
+  position: sticky;
+  top: 25%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: var(--color-user-account-background);
+  /* border: 1px blue solid; */
+  border-radius: 10px;
+  box-shadow: var(--light-shadow);
+  width: 20%;
+  max-height: 300px;
+}
+
+.account-sidebar-menu{
+  padding: 40px 0;
+  padding-top: 5px;
+  text-align: center;
+}
+
+#sidebar-links{
+  display: block;
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  color: var(--color-text);
+  padding: 10px 20px;
+  margin: auto;
+  cursor: pointer;
+  text-align: left;
+  font-size: large;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+#sidebar-links:hover{
+    background-color: var(--color-sidebar-hover);
+    color: black;
 }
+
+.profile-container{
+  width: 70%;
+  height: 100%;
+  background-color: var(--color-user-account-background);
+  border: none;
+  border-radius: 15px;
+  box-shadow: var(--light-shadow);
+  overflow: hidden;
+  padding: 20px;
+  transition: transform 750ms;
+  margin:  auto;
+  margin-right: 5%;
+  cursor: pointer;
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  USER Profile COMPONENT  ###########################################################*/
+.profile{
+  padding: 40px 30px;
+  margin: auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.profile h3{
+  text-align: center;
+  margin: auto;
+}
+
+
+.profile label{
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.profile button{
+  width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: var(--color-text);
+	background: var(--color-gradient-background);
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.329);
+	cursor: pointer;
+}
+
+.profile button:hover{
+  background-color: var(--color-border-active);
+  color: var(--vt-c-white);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
+}
+
+.profile input{
+  width: 95%;
+	height: 10px;
+	background: var(--color-background);
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 12px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+  font-size: medium;
+  font-weight: 550;
+}
+
+.profile input:hover{
+  border: 1px solid var(--color-border-active);
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  USER HISTORY COMPONENT  ###########################################################*/
+
+.history-list-container{
+  list-style: none;
+  padding: 0;
+  max-width: 90%;
+  /* max-width: 900px; */
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.history-section{
+  padding: 40px 30px;
+  margin: auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  ABOUT PAGE  ###########################################################*/
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: var(--color-text);
+  }
 
 @media (min-width: 1024px) {
-  body {
+  .about {
+    min-height: 100vh;
     display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    align-items: center;
+    color: var(--color-text);
   }
 }
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  HEADER PAGE  ###########################################################*/
+
+
+.nav-bar{
+  margin: 0 auto;
+  /* the border style is temporarily used for debugging and to make it easier to see and
+      manipulate the elements on the page */
+  /* border: 1px solid rgb(26, 248, 26); */
+  padding: 0; 
+}
+
+.nav-bar header{
+  max-width: 100%; 
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background-color: var(--color-navbar-background);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.nav-bar header img{
+  width: 48px; 
+  height: 48px;
+  transition: transform 0.3s ease;
+
+}
+
+
+
+.nav-links a {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.nav-links a:hover{
+  border-color: var(--color-border-hover);
+}
+ 
+.nav-links a.router-link-active{
+  border: 2px solid var(--color-border-active);
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+/* ###########################################################  LOGIN PAGE  ###########################################################*/
+.login-form-container{
+  max-width: 400px;
+  height: auto;
+  margin: 40px auto;
+  border-radius: 12px;
+  background-color: var(--color-form-background);
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.2);
+  padding: 0;
+}
+
+.login-form{
+  padding: 40px 30px;
+  margin: auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.login-form label{
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.login-form button{
+  width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: var(--color-text);
+	background: var(--color-gradient-background);
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.329);
+	cursor: pointer;
+}
+
+.login-form button:hover{
+  background-color: var(--color-border-active);
+  color: var(--vt-c-white);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
+}
+
+.login-form input{
+  width: 95%;
+	height: 10px;
+	background: var(--color-background);
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 12px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+.show-password-box{
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  flex-wrap: nowrap;
+  width: fit-content;
+}
+
+.show-password-box label{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: small;
+  margin-right: 8px;
+  user-select: none; /*prevent the user from selecting this text while selecting the box*/
+}
+
+#checkbox{
+  
+  margin: 0;
+  cursor: pointer;
+  transform: scale(1.4);
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  SIGNUP PAGE  ###########################################################*/
+.signup-form-container{
+  max-width: 400px;
+  height: auto;
+  margin: 40px auto;
+  border-radius: 12px;
+  background-color: var(--color-form-background);
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.2);
+  padding: 0;
+  background-image: var(--color-background-image);
+}
+
+.signup-form{
+  padding: 40px 30px;
+  margin: auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.signup-form label{
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.signup-form button{
+  width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: var(--color-text);
+	background: var(--color-gradient-background);
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.329);
+	cursor: pointer;
+}
+
+.signup-form button:hover{
+  background-color: var(--color-border-active);
+  color: var(--vt-c-white);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
+}
+
+.signup-form input{
+  width: 95%;
+	height: 10px;
+	background: var(--color-background);
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 12px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+
+.signup-form input:hover{
+  border: 1px solid var(--color-border-active);
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  THEME SWITCHER  ###########################################################*/
+.theme-toggle {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: var(--standard-btn);
+  color: var(--color-text);
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-background);
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  LANGUAGE SWITCHER  ###########################################################*/
+
+.language-selector {
+  margin-left: 20px;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 50px;
+  color: var(--color-text);
+  background-color: var(--color-navbar-background);
+}
+
+
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################  FAVORITE SONGS COMPONENT  ###########################################################*/
+
+.favorite-songs-section{
+  padding: 40px 30px;
+  margin: auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.favorite-songs-section h3{
+  text-align: center;
+  margin: auto;
+}
+
+
+.favorite-songs-section label{
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.favorite-songs-section button{
+  width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: var(--color-text);
+	background: var(--color-gradient-background);
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-top: 30px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+
+  box-shadow: 0 4px 6px rgba(150, 1, 142, 0.329);
+	cursor: pointer;
+}
+
+.favorite-songs-section button:hover{
+  background-color: var(--color-border-active);
+  color: var(--vt-c-white);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
+}
+
+.favorite-songs-section input{
+  width: 95%;
+	height: 10px;
+	background: var(--color-background);
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 12px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+  font-size: medium;
+  font-weight: 550;
+}
+
+.favorite-songs-section input:hover{
+  border: 1px solid var(--color-border-active);
+}
+
+.empty-list-message{
+  list-style: none;
+  font-size: medium;
+  font-style: italic;
+  color: var(--color-text);
+
+}
+
+.song-list-container{
+  list-style: none;
+  padding: 0;
+  max-width: 90%;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.song-details-header{
+  border-bottom: 2px solid var(--color-border-hover);
+}
+
+.song-name{
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.song-artist{
+  font-size: 1em;
+  font-style: italic;
+}
+
+.song-artist, .song-name{
+  color: var(--color-text);
+}
+.chord-display-box{
+  text-align: left;
+  flex-grow: 1; /*it allows the content to grow into the aviable space*/
+}
+
+.chord-label{
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.chord-list{
+  
+  background-color: var(--color-background-mute);
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+  padding: 15px;
+
+  font-size: 1.35em;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 0;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+.song-card{
+  background-color: var(--color-form-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 30px;
+  transition: 0.3s ease;
+}
+
+.song-card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--heavy-shadow);
+}
+
+/* responsive settings for the favorite songs section */
+@media (min-width: 768px){
+  .song-card{
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .song-details-header{
+    flex-shrink: 0; /*to avoid header from shinking in size*/
+    width: 100%;
+    margin-right: 30px;
+
+    border-bottom: none; /*removing the border will allow side by side view*/
+    padding-bottom: 0;
+  }
+
+  .chord-display-box{
+    width: 65%;
+  }
+}
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+/* ###########################################################    ###########################################################*/
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
