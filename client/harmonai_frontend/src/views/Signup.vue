@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { getCsrfToken } from '@/utils/csrfTokenUtils';
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 
@@ -56,16 +57,12 @@ export default {
         },
         async signup() {
             try {
-                const xsrf_token = document.cookie.split(";").map(val => {
-                            if (val.includes("csrftoken"))
-                                return val.split("=")[1]
-                        })[0]
-
+                        
                 /* we send the user info as json to backend and await response */
                 const response = await axios.post(this.url, JSON.stringify(this.form), {
                     withCredentials: true,
                     headers: {
-                        "X-CSRFToken": xsrf_token
+                         "X-CSRFToken": getCsrfToken()
                     }
                 });
 

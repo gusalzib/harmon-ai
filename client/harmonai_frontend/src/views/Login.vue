@@ -19,6 +19,7 @@
 <script>
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
+import { getCsrftoken } from "@/utils/csrfTokenUtils";
 
 export default {
     name: 'login',
@@ -58,24 +59,19 @@ export default {
         },
         async login() {
             try {
-                // Disgusting JS magic to retrieve csrftoken cookie
-                const xsrf_token = document.cookie.split(";").map(val => {
-                            if (val.includes("csrftoken"))
-                                return val.split("=")[1]
-                        })[0]
                 
                 /* we send the login info as json to backend and await response */
                 const response = await axios.post(`${this.url}`, JSON.stringify(this.form), {
                     withCredentials: true,
                     headers: {
-                        "X-CSRFToken": xsrf_token
+                        "X-CSRFToken": getCsrftoken()
                     }
                 })
 
                 // if the login was successful, we automatically redirect the
                 // user to the home page
                 // timeout is set to 2 seconds as a default
-                if (response.status === 200) {
+                if (response.status === 201) {
 
                     // display notifications
                     this.toast && this.toast.success(this.$t('notification.loginSuccessful') || 'Login successful');
@@ -86,8 +82,8 @@ export default {
 
                     // redirect the user to home page
                         setTimeout(() => {
-                            window.location.replace('/')
-                        }, timeout);
+                            this.$router.push('/'); // go to home
+                        }, this.timeout);
                 }
                         
             } catch (error) {
