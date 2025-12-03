@@ -39,7 +39,13 @@
         "searchLabel": "Search in our song collection",
         "warning": "Please make sure you have the rights to the file you upload",
         "purposeOfTheApp": "Discover the Chords in Any Song You Want",
-        "purposeOfTheAppExplanation1": "HarmonAI analyzez the audio features of a song, such as chromagrams, to instantly generate highly accurate chord predictions. No more manual transcriptions! \n You can save your favorite songs and go back to them whenever you wish in your song history, here "
+        "purposeOfTheAppExplanation1": "HarmonAI analyzez the audio features of a song, such as chromagrams, to instantly generate highly accurate chord predictions. No more manual transcriptions! \n You can save your favorite songs and go back to them whenever you wish in your song history, here ",
+        "songTitle": "Song title",
+        "songArtist": "Song artist",
+        "songGenre": "Song genre",
+        "songGenrePlaceholder": "Enter the genre of your song",
+        "songTitlePlaceholder": "Enter the title of your song",
+        "songArtistPlaceholder": "Enter the artist of your song"
     },
     "about": {
         "title": "What do we do?",

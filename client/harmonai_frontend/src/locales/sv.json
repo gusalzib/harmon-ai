@@ -39,8 +39,13 @@
         "searchLabel": "Sök i vårt låtbibliotek",
         "warning": "Se till att du har rättigheter till filen du laddar upp",
         "purposeOfTheApp": "Upptäck ackorden i vilken låt du vill",
-        "purposeOfTheAppExplanation1": "HarmonAI analyserar låtens ljudegenskaper, såsom kromagram, för att direkt generera mycket träffsäkra ackordförslag. Inget mer manuellt transkriberande!\nDu kan spara dina favoritlåtar och komma tillbaka till dem när du vill i din låthistorik, här"
-            
+        "purposeOfTheAppExplanation1": "HarmonAI analyserar låtens ljudegenskaper, såsom kromagram, för att direkt generera mycket träffsäkra ackordförslag. Inget mer manuellt transkriberande!\nDu kan spara dina favoritlåtar och komma tillbaka till dem när du vill i din låthistorik, här",
+        "songTitle": "Låttitel",
+        "songArtist": "Låtartist",
+        "songGenre": "Låtgenre",
+        "songGenrePlaceholder": "Ange genren för din låt",
+        "songTitlePlaceholder": "Ange titeln för din låt",
+        "songArtistPlaceholder": "Ange artisten namn för din låt"
     },
     "about": {
         "title": "Varför välja oss?",

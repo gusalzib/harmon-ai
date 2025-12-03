@@ -8,3 +8,6 @@
 music_for_chroma/
 
 #--------
+
+__pycache__/
+env-name/
