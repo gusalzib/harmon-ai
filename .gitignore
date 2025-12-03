@@ -8,5 +8,14 @@
 music_for_chroma/
 
 #--------
+
+# Python bytecode and temporary files
 __pycache__/
+*.pyc
+*.pyo
+*~
+*.log
+
+
+env-name/
 migrations/
