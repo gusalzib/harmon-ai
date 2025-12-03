@@ -55,18 +55,12 @@ def fetch_duration(y_harmonic,sampling_rate):
     the_duration = librosa.get_duration(y=y_harmonic,sr= sampling_rate)
     minutes = int(the_duration/60)
     sec = int(the_duration % 60)
-    minutes = int(minutes)
-    print("minutes:" ,minutes)
-    if(minutes == 0 and sec < 10):
-        sec  = str(sec)
-        transformed_duration = "0:"+sec
-        return transformed_duration
+    minutes = str(minutes)
     if(sec < 10):
         sec = str(sec)
         sec = str("0"+sec)
     else:
         sec = str(sec)
-        minutes = str(minutes)
     transformed_duration = minutes + ":"+ sec
     return transformed_duration
 
@@ -122,25 +116,23 @@ def create_song(request):
                 )
             new_song.save()
 
-            response = {
+            response = JsonResponse({
                 'result': 'success',
-                'status': 200,
                 'message': 'Audio received',
-            }
+            },status=200)
             
         except json.JSONDecodeError:
-            response = {
+            response = JsonResponse({
                 'result': 'error',
-                'status': 400,
                 'message': 'Invalid JSON',
-            }
+            },status=400)
     else:
-        response = {
+        response = JsonResponse({
             'result': 'error',
-            'status': 400,
             'message': 'Invalid request method',
-        }
-    return JsonResponse(response)
+        },status=400)
+
+    return response
 
 @csrf_exempt
 def update_song(request):
@@ -153,24 +145,22 @@ def update_song(request):
                 user_rating=apdatedUser_rating
             )
 
-            response = {
+            response = JsonResponse({
                 'result': 'success',
-                'status': 200,
                 'message': 'Song updated',
-            }
+            }, status=200)
             
         except json.JSONDecodeError:
-            response = {
+            response = JsonResponse({
                 'result': 'error',
-                'status': 400,
                 'message': 'Invalid JSON',
-            }
+            },status=400)
     else:
-        response = {
+        response = JsonResponse({
             'result': 'error',
-            'status': 400,
             'message': 'Invalid request method',
-        }
-    return JsonResponse(response)
+            },status=400)
+        
+    return response
 
 
