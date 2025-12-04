@@ -63,6 +63,7 @@
         "invalidCridentials": "Ogiltiga inloggningsuppgifter",
         "userNotFound": "Användaren hittades inte. Kontrollera att e-postadressen är korrekt",
         "loginSuccessful": "Inloggning lyckades",
+        "logoutSuccessful": "Utloggad",
         "signupSuccessful": "Konton skapades",
         "duplicateInformation": "Det finns redan ett konto men denna e-postadressen eller användarnamn",
         "sessionExpired": "Användarsessionen har löpt ut",

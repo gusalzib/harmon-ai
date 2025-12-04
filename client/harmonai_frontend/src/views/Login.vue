@@ -76,10 +76,6 @@ export default {
                     // display notifications
                     this.toast && this.toast.success(this.$t('notification.loginSuccessful') || 'Login successful');
 
-                    /* this line is commented out for now because we do not have authentication yet
-                        it sets an item called 'token' and store the token received wuth the response */
-                    //localStorage.setItem('token', response.token)
-
                     // redirect the user to home page
                         setTimeout(() => {
                             this.$router.push('/'); // go to home
