@@ -24,3 +24,18 @@ def validate_bothchroma_columns(data_frame):
         return False
     else:
         return True
+
+
+# validating if there are any nulls 
+def is_bothchroma_missing_val(data_frame):
+    df_to_check = data_frame.drop(columns=[0])
+    print("are we getting here?")
+    null_count = df_to_check.isnull().sum().sum()
+    print(f"Count is: {null_count}")
+    if (null_count > 0).any():
+        print(f"DataFrame has null values")
+        return False
+    else:
+        print("All good :)")
+        return True
+    
