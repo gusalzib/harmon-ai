@@ -8,14 +8,14 @@ def validate_bothchroma_exist(path_to_file):
 
     if not os.path.exists(bothchroma_file):
         print(f"The file bothchromas.csv was not found at {bothchroma_file}")
-        return False
+        return None
     else:
         try: 
             df = pd.read_csv(bothchroma_file, header=None, nrows=1)
-            return True
+            return df
         except Exception:
             print(f"Cannot read bothchromas.csv")
-            return False
+            return None
 
 # validating if all the columns are there.
 def validate_bothchroma_columns(path_to_file):
@@ -32,3 +32,4 @@ def validate_bothchroma_columns(path_to_file):
     except Exception:
         print(f"Cannot read bothchromas.csv")
         return False
+    
