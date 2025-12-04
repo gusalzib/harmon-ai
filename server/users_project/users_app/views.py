@@ -28,17 +28,19 @@ def set_csrf_cookie(request):
 def register(request):
     try:
         request_body = json.loads(request.body)
-        email = request_body["email"]
-        password = request_body["password"]
+
+        # Check if username is already taken
         username = request_body["username"]
+        users = User.objects.filter(username=username)
+        if len(users) != 0:
+            return JsonResponse({"message": f"Username {username} already taken"}, status=409)
+
+        password = request_body["password"]
+        email = request_body["email"]
         new_user = User.objects.create_user(username=username, password=password, email=email)
-        return JsonResponse({
-            "message": "Signup successful"
-        }, status=201)
-    except:
-        return JsonResponse({
-            "message":"Registration failed, and we don't know why"
-        }, status=400)
+        return JsonResponse({"message": "Signup successful"}, status=201)
+    except Exception as e:
+        return JsonResponse({"message":f"Registration failed: {str(e)}"}, status=400)
 
 # @csrf_exempt
 @require_POST
