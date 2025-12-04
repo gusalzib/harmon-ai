@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requires_csrf_token
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -93,3 +93,29 @@ def get_user_info(request):
        return JsonResponse({
            "message": "Catastrophic error"
        }, status=500)
+
+@require_http_methods(["PUT"])
+@requires_csrf_token
+def change_password(request):
+    try:
+        # Get password deets
+        req_body = json.loads(request.body)
+        old_pass = req_body["oldPassword"]
+        new_pass = req_body["newPassword"]
+
+        if old_pass and new_pass:
+            # Verify correct password
+            username = request.session["username"]
+            user = authenticate(username=username, password=old_pass)
+            if user is not None:
+                # If correct, change pass and save. Success
+                user.password = new_pass
+                user.save()
+                return JsonResponse({"message": "Password updated"}, status=200)
+        else:
+            return JsonResponse({"message": "Expected oldPassword and newPassword"}, status=400)
+    except KeyError as e:
+        # Means getting session data went wrong. Maybe redirect to logout then login??
+        return JsonResponse({"message": f"KeyError. Session may be invalid: {str(e)}"}, status=500)
+    except Exception as e:
+        return JsonResponse({"message": f"Internal Error: {str(e)}"}, status=500)
