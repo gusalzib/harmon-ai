@@ -158,3 +158,24 @@ def edit_profile(request):
     except Exception as e:
         return JsonResponse({"message": f"Internal Error: {str(e)}"}, status=500)
 
+@require_GET
+@requires_csrf_token
+def check_status(request):
+    response = {
+        "logged_in": False,
+        "is_superuser": False
+    }
+
+    try:
+        # Check if logged in
+        username = request.session["username"]
+        user = User.objects.get(username=username)
+        if user is not None:
+            response["logged_in"] = True
+
+        # Is admin?
+        response["is_superuser"] = user.is_superuser
+        return JsonResponse(response, status=200)
+    except Exception as e:
+        return JsonResponse(response, status=200)
+
