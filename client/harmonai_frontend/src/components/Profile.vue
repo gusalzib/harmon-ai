@@ -1,25 +1,29 @@
 <template>
     <div class="profile" id="edit-profile" v-if="activeSection === 'profile'">
         <h3>{{ $t('profile.editProfile') }}</h3>
-        
-            <label>{{ $t('labels.username') }}</label>
-            <input v-model="form.username" type="text" id="name" required/>
             <br>
             <label>{{ $t('labels.email') }}</label>
             <input v-model="form.email" type="email" id="email" required/>
             <br>
-            <label>{{ $t('labels.password') }}</label>
-            <input v-model="form.password" type="password" id="password" required/>
+            <button id="update-button" class="submit-button" v-on:click="updateUserEmail()" type="button">{{ $t('profile.updateInfo') }}</button>
+    </div>
+    <hr>
+    <div class="change-password-section" v-if="activeSection === 'profile'">
+        <h3>{{ $t('profile.editPassword') }}</h3>
+            <label>{{ $t('labels.changePassword') }}</label>
+            <input v-model="passwordForm.oldPassword" type="password" id="old_password" class="password" :placeholder="$t('profile.yourOldPasswordPlaceholder')" required/>
+            <input v-model="passwordForm.newPassword" type="password" id="new_password" class="password"  :placeholder="$t('profile.yourNewPasswordPlaceholder')" required/>
             <div class="show-password-box">
                 <label>{{ $t('labels.ShowPassword') }}</label>
                 <input id="checkbox" type="checkbox" v-on:click="toggle()">
             </div>
 
-            <button id="update-button" class="submit-button" v-on:click="updateUserInfo()" type="button">{{ $t('profile.updateInfo') }}</button>
+            <button id="update-button" class="submit-button" v-on:click="updatePassword()" type="button">{{ $t('profile.updateInfo') }}</button>
     </div>
 </template>
 
 <script>
+import { getCsrfToken } from '@/utils/csrfTokenUtils';
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 
@@ -28,14 +32,17 @@ export default {
     data() {
         return {
             form: {
-                username: '',
                 email: '',
-                //password: '',
             },
             url: 'http://localhost:8000/users/profile',
+            passwordURL: 'http://localhost:8000/users/change-password',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
             activeSection: 'profile', //this controls which section in visible to the user at any time. I set it to the profile page as default
+            passwordForm: {
+                oldPassword: '',
+                newPassword: ''
+            }
 
 
         }
@@ -77,13 +84,11 @@ export default {
             }
 
         },
-        async updateUserInfo() {
+        async updateUserEmail() {
             try {
-                // get token of the logged in user - the token should hold the userid
-                const userId = localStorage.getItem('token');
 
                 // put request to update the user info if the user makes any changes
-                const response = await axios.put(`${this.url}/${userId}`, JSON.stringify(this.form));
+                const response = await axios.put(`${this.url}`, JSON.stringify(this.form));
 
                 if (response.status === 200) {
 
@@ -114,15 +119,59 @@ export default {
 
             }
         },
+        async updatePassword() {
+            try {
+                console.log('token ', getCsrfToken());
+                
+                // put request to update the user info if the user makes any changes
+                const response = await axios.put(`${this.passwordURL}`, JSON.stringify(this.passwordForm), {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFToken": getCsrfToken()
+                    }
+                });
+
+                if (response.status === 201) {
+
+                    // refresh the user info displayed 
+                    this.getUserInfo()
+
+                    // display notification
+                    this.toast && this.toast.success(this.$t('notification.updateSuccessful') || 'Updated successfully');
+
+                }
+
+
+            } catch (error) {
+                // we may detect upon a put request that the session is xpired
+                if (error.response?.status === 401) {
+
+                    this.toast && this.toast.error(this.$t('notification.sessionExpired') || 'User session expired')
+
+                    // automatically send the user to login page
+                    setTimeout(() => {
+                        this.$router.push('/login')
+                    }, this.timeout)
+                } else {
+                    // else we have a server error and we display a generic error message
+                    this.toast && this.toast.error(this.$t('notification.somethingWentWrong') || 'Something went wrong')
+
+                }
+
+            }
+        },
         toggle() {
             // allow user to show the password in the password filed
-            let temp = document.getElementById("password")
+            let temp1 = document.getElementById("old_password")
+            let temp2 = document.getElementById("new_password")
 
-            if (temp.type === "password") {
-                temp.type = "text";
+            if (temp1.type === "password" && temp2.type === "password") {
+                temp1.type = "text";
+                temp2.type = "text";
 
             } else {
-                temp.type = "password";
+                temp1.type = "password";
+                temp2.type = "password";
             }
             }
         },

@@ -266,7 +266,7 @@ input[type=file]:hover{
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 /* ###########################################################  USER Profile COMPONENT  ###########################################################*/
-.profile{
+.profile, .change-password-section{
   padding: 40px 30px;
   margin: auto;
   border-radius: 10px;
@@ -276,19 +276,20 @@ input[type=file]:hover{
   padding: 30px;
 }
 
-.profile h3{
+.profile h3, .change-password-section h3{
   text-align: center;
   margin: auto;
 }
 
 
-.profile label{
+
+.profile label, .change-password-section label{
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--color-text);
 }
 
-.profile button{
+.profile button, .change-password-section button{
   width: 60%;
 	height: 40px;
 	margin: 10px auto;
@@ -308,16 +309,17 @@ input[type=file]:hover{
 	cursor: pointer;
 }
 
-.profile button:hover{
+.profile button:hover, .change-password-section button:hover{
   background-color: var(--color-border-active);
   color: var(--vt-c-white);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
 }
 
-.profile input{
+.profile input, .change-password-section input{
   width: 95%;
 	height: 10px;
 	background: var(--color-background);
+  color: var(--color-text);
 	justify-content: center;
 	display: flex;
 	margin: 20px auto;
@@ -329,7 +331,7 @@ input[type=file]:hover{
   font-weight: 550;
 }
 
-.profile input:hover{
+.profile input:hover, .change-password-section input:hover{
   border: 1px solid var(--color-border-active);
 }
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
@@ -485,6 +487,7 @@ input[type=file]:hover{
   width: 95%;
 	height: 10px;
 	background: var(--color-background);
+  color: var(--color-text);
 	justify-content: center;
 	display: flex;
 	margin: 20px auto;

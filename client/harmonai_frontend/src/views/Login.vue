@@ -2,8 +2,8 @@
 
     <div class="login-form-container">
         <div class="login-form">
-            <label for="login_email"> {{ $t('labels.email') }} </label>
-            <input v-model="form.email" id="login_email" class="login_input" type="email" placeholder="email">
+            <label for="login_username"> {{ $t('labels.username') }} </label>
+            <input v-model="form.username" id="login_username" class="login_input" type="text" placeholder="Username">
             <br>
             <label for="login_password"> {{ $t('labels.password') }} </label>
             <input v-model="form.password" id="login_password" class="login_input" type="password" placeholder="password">
@@ -26,7 +26,7 @@ export default {
     data() {
         return {
             form: {
-                email: '',
+                username: '',
                 password: ''
             },
             error: '',

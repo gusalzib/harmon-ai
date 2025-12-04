@@ -55,7 +55,9 @@
         "email": "Email",
         "password": "Password",
         "username": "Username",
-        "ShowPassword": "Show password"
+        "ShowPassword": "Show password",
+        "changePassword": "Enter your old password and the new password"
+        
     },
     "notification": {
         "loginFailed": "Login failed",
@@ -83,7 +85,10 @@
     },
     "profile":{
         "updateInfo": "Update",
-        "editProfile": "Edit Profile"
+        "editProfile": "Edit Profile",
+        "yourOldPasswordPlaceholder": "Type in your old password",
+        "yourNewPasswordPlaceholder": "Type in your new password",
+        "editPassword": "Change password"
     },
     "song":{
         "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
