@@ -28,9 +28,10 @@ def set_csrf_cookie(request):
 def register(request):
     try:
         request_body = json.loads(request.body)
-        email = request_body.get("email")
+        email = request_body["email"]
         password = request_body["password"]
-        new_user = User.objects.create_user(username=email, password=password)
+        username = request_body["username"]
+        new_user = User.objects.create_user(username=username, password=password, email=email)
         return JsonResponse({
             "message": "Signup successful"
         }, status=201)
@@ -45,17 +46,50 @@ def register(request):
 def login(request): # Maybe call this in register()?
     try:
         req_body = json.loads(request.body)
-        user = authenticate(username=req_body["email"], password=req_body["password"])
+        print(req_body)
+        email = req_body["email"]
+        password = req_body["password"]
+        user = authenticate(username=email, password=password)
         if user is None:
             return JsonResponse({
                 "message": "Login failed: User is None"
             }, status=401)
         else:
             request.session["email"] = user.email
+            request.session["username"] = user.username  # NOTE: Username isn't actually being sent
+            request.session.modified = True
+
             return JsonResponse({
                 "message": "Login successful"
             }, status=201)
-    except:
+    except Exception as e:
         return JsonResponse({
-            "message": "Login failed: Exception"
+            "message": f"Login failed: Exception: {str(e)}"
         }, status=500)
+    
+@require_GET
+@requires_csrf_token
+def get_user_info(request):
+    try:
+        email = request.session["email"]
+        username = request.session["username"]
+        print(f"email: {email}")
+        print(f"username: {username}")
+        if email and username:
+            return JsonResponse({
+                "email": email,
+                "username": username
+            }, status=200)
+        else:
+            return JsonResponse({
+                "message": "Email couldn't be retrieved from session. Are you logged in?"
+            }, status=400)
+        
+    except KeyError:
+       return JsonResponse({
+           "message": "KeyError"
+       }, status=500)
+    except:
+       return JsonResponse({
+           "message": "Catastrophic error"
+       }, status=500)
