@@ -55,7 +55,8 @@
         "email": "mejl",
         "password": "lösenord",
         "username": "användarnamn",
-        "ShowPassword": "Visa lösenord"
+        "ShowPassword": "Visa lösenord",
+        "changePassword": "Ange ditt gamla samt ditt nya lösenord"
     },
     "notification": {
         "loginFailed": "Inloggning misslyckades",
@@ -78,7 +79,10 @@
     },
     "profile": {
         "updateInfo": "Uppdatera",
-        "editProfile": "Redigera profil"
+        "editProfile": "Redigera profil",
+        "yourOldPasswordPlaceholder": "Ange ditt gamla lösenord",
+        "yourNewPasswordPlaceholder": "Ange ditt nya lösenord",
+        "editPassword": "Byta lösenord"
     },
     "song": {
         "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",

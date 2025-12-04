@@ -47,9 +47,9 @@ def login(request): # Maybe call this in register()?
     try:
         req_body = json.loads(request.body)
         print(req_body)
-        email = req_body["email"]
+        username = req_body["username"]
         password = req_body["password"]
-        user = authenticate(username=email, password=password)
+        user = authenticate(username=username, password=password)
         if user is None:
             return JsonResponse({
                 "message": "Login failed: User is None"
@@ -109,9 +109,11 @@ def change_password(request):
             user = authenticate(username=username, password=old_pass)
             if user is not None:
                 # If correct, change pass and save. Success
-                user.password = new_pass
+                user.set_password(new_pass)
                 user.save()
                 return JsonResponse({"message": "Password updated"}, status=200)
+            else:
+                return JsonResponse({"message": "user not found"}, status=404)
         else:
             return JsonResponse({"message": "Expected oldPassword and newPassword"}, status=400)
     except KeyError as e:
