@@ -35,6 +35,7 @@ export default {
                 email: '',
             },
             url: 'http://localhost:8000/users/profile',
+            emailURL: 'http://localhost:8000/users/edit-profile',
             passwordURL: 'http://localhost:8000/users/change-password',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
@@ -58,7 +59,10 @@ export default {
 
                 //get info of the logged in user using their ID
                 const response = await axios.get(`${this.url}`, {
-                    withCredentials: true
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFToken": getCsrfToken()
+                    }
                 });
 
                 // if server returns 200, then we populate the form data
@@ -88,7 +92,12 @@ export default {
             try {
 
                 // put request to update the user info if the user makes any changes
-                const response = await axios.put(`${this.url}`, JSON.stringify(this.form));
+                const response = await axios.put(`${this.emailURL}`, JSON.stringify(this.form), {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFToken": getCsrfToken()
+                    }
+                });
 
                 if (response.status === 200) {
 
