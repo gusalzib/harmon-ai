@@ -19,7 +19,7 @@
 <script>
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
-import { getCsrftoken } from "@/utils/csrfTokenUtils";
+import { getCsrfToken } from "@/utils/csrfTokenUtils";
 
 export default {
     name: 'login',
@@ -27,7 +27,7 @@ export default {
         return {
             form: {
                 email: '',
-                password: '',
+                password: ''
             },
             error: '',
             url: 'http://localhost:8000/users/login',
@@ -64,7 +64,7 @@ export default {
                 const response = await axios.post(`${this.url}`, JSON.stringify(this.form), {
                     withCredentials: true,
                     headers: {
-                        "X-CSRFToken": getCsrftoken()
+                        "X-CSRFToken": getCsrfToken()
                     }
                 })
 
