@@ -139,6 +139,9 @@ MIGRATION_MODULES = {
     'contenttypes': 'mongo_migrations.contenttypes',
 }
 
+# Session configuration
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
 # Allowed origins. Initially just vue dev server, should be extended later for deployment
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173"
