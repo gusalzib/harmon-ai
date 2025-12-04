@@ -74,9 +74,9 @@ def login(request): # Maybe call this in register()?
 def logout_user(request):
     try:
         request.session.flush()
-        return JsonResponse({"message": "Logout succesful"}, 200)
+        return JsonResponse({"message": "Logout succesful"}, status=200)
     except Exception as e:
-        return JsonResponse({"message": f"Logout failed: {str(e)}"}, 500)
+        return JsonResponse({"message": f"Logout failed: {str(e)}"}, status=500)
 
 
     
