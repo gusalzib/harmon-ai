@@ -30,9 +30,9 @@ export default {
             form: {
                 username: '',
                 email: '',
-                password: '',
+                //password: '',
             },
-            url: 'http://localhost:8000/api/users',
+            url: 'http://localhost:8000/users/profile',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
             activeSection: 'profile', //this controls which section in visible to the user at any time. I set it to the profile page as default
@@ -48,15 +48,15 @@ export default {
         async getUserInfo() {
 
             try {
-                // get token of the logged in user - the token should hold the userid
-                const userId = localStorage.getItem('token');
 
                 //get info of the logged in user using their ID
-                const response = await axios.get(`${this.url}/${userId}`);
+                const response = await axios.get(`${this.url}`, {
+                    withCredentials: true
+                });
 
                 // if server returns 200, then we populate the form data
                 if (response.status === 200) {
-                    this.form = response.data.user;
+                    this.form = response.data;
 
                 }
             } catch (error) {
