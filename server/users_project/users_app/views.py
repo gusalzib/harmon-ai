@@ -67,6 +67,17 @@ def login(request): # Maybe call this in register()?
             "message": f"Login failed: Exception: {str(e)}"
         }, status=500)
     
+@require_POST
+@requires_csrf_token
+def logout_user(request):
+    try:
+        request.session.flush()
+        return JsonResponse({"message": "Logout succesful"}, 200)
+    except Exception as e:
+        return JsonResponse({"message": f"Logout failed: {str(e)}"}, 500)
+
+
+    
 @require_GET
 @requires_csrf_token
 def get_user_info(request):
