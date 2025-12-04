@@ -39,3 +39,26 @@ def is_bothchroma_missing_val(data_frame):
         print("All good :)")
         return True
     
+
+# the maximum values returned from data analysis of chromas and timestamps are as follows: 
+# chromas min: 0.0, max: 4.45774
+# timestamps: min: 0.0, max: 150.883265306
+# validating that all values of chromas and timestamps are in range
+def is_bothchroma_val_in_range(data_frame):
+    min_chroma = 0.0 
+    max_chroma = 4.5
+    min_timestamp = 0.0
+    max_timestamp = 155.0
+    df_to_check = data_frame.drop(columns=[0])
+    if df_to_check.iloc[:, 2:26].min().min() < min_chroma or df_to_check.loc[:, 2:26].max().max() > max_chroma:
+        print(f"There are abnormal chroma values")
+        return False
+    if df_to_check.iloc[:, 1].min() < min_timestamp or df_to_check.iloc[:, 1].max() > max_timestamp:
+        print(f"There are abnormal timestamps values")
+        return False
+    else: 
+        print("All values are in range!)")
+        return True
+    
+
+
