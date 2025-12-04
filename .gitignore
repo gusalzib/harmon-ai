@@ -3,6 +3,8 @@
 #----- IDE related ---------
 /idea/
 .idea/
+resources/
+
 
 #----- 
 server/.DS_Store
