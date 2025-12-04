@@ -18,18 +18,9 @@ def validate_bothchroma_exist(path_to_file):
             return None
 
 # validating if all the columns are there.
-def validate_bothchroma_columns(path_to_file):
-    bothchroma_file = os.path.join(path_to_file, "bothchroma.csv")
-
-    try:
-        df = pd.read_csv(bothchroma_file, header=None, nrows=1)
-        if len(df.columns) != 26:
-            print(f"File at {bothchroma_file} is missing columns")
-            return False
-        else:
-            return True
-    
-    except Exception:
-        print(f"Cannot read bothchromas.csv")
+def validate_bothchroma_columns(data_frame):
+    if len(data_frame.columns) != 26:
+        print(f"DataFrame is missing columns")
         return False
-    
+    else:
+        return True
