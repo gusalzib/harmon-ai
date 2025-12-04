@@ -119,3 +119,27 @@ def change_password(request):
         return JsonResponse({"message": f"KeyError. Session may be invalid: {str(e)}"}, status=500)
     except Exception as e:
         return JsonResponse({"message": f"Internal Error: {str(e)}"}, status=500)
+    
+@require_http_methods(["PUT"])
+@requires_csrf_token
+def edit_profile(request):
+    try:
+        # Retrieve email
+        req_body = json.loads(request.body)
+        new_email = req_body["email"]
+
+        # Query for user and set new email
+        username = request.session["username"]
+        user = User.objects.get(username=username)
+        user.email = new_email
+        user.save()
+
+        # Refresh session email value
+        request.session["email"] = new_email
+        return JsonResponse({"message": "Successfully updated profile"}, status=200)
+    except KeyError as e:
+        # Means getting session data went wrong. Maybe redirect to logout then login??
+        return JsonResponse({"message": f"KeyError. Session may be invalid: {str(e)}"}, status=500)
+    except Exception as e:
+        return JsonResponse({"message": f"Internal Error: {str(e)}"}, status=500)
+
