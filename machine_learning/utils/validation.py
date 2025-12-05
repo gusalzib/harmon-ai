@@ -22,7 +22,7 @@ def validate_bothchroma_exist(path_to_file):
 # validating if all the columns are there.
 def validate_bothchroma_columns(data_frame):
     if len(data_frame.columns) != 26:
-        print(f"Bothchroma DataFrame is missing columns")
+        print(f"Bothchroma dataframe is missing columns")
         return False
     else:
         return True
@@ -35,7 +35,7 @@ def is_bothchroma_missing_val(data_frame):
     null_count = df_to_check.isnull().sum().sum()
     print(f"Count is: {null_count}")
     if (null_count > 0).any():
-        print(f"DataFrame has null values")
+        print(f"Bothchroma dataframe has null values")
         return False
     else:
         print("All good :)")
@@ -92,7 +92,18 @@ def validate_majmin_exist(path_to_file):
 # validating if all the columns are there.
 def validate_majmin_columns(data_frame):
     if len(data_frame.columns) != 3:
-        print(f"Majmin DataFrame is missing columns")
+        print(f"Majmin dataframe is missing columns")
         return False
     else:
+        return True
+    
+# validating if there are any nulls 
+def is_majmin_missing_val(data_frame):
+    null_count = data_frame.isnull().sum().sum()
+    print(f"Count is: {null_count}")
+    if (null_count > 0).any():
+        print(f"Majmin dataframe has null values")
+        return False
+    else:
+        print("All good :)")
         return True
