@@ -11,6 +11,7 @@ test_quality_gate.py
 validate.py
 toy_around.ipynb
 validation.py
+testing.py
 
 # Do not push the McGill dataset to gitlab
 McGill_Billboard/
