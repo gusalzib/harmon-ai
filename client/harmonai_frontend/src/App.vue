@@ -45,12 +45,27 @@ export default {
   },
   mounted() {
     this.toast = useToast(); // initiate a toast variable
+    this.get_csrf() // Get CSRF token
 
     // Check session validity
     this.authStore.checkStatus()
   },
   methods: {
-
+    get_csrf() {
+      try {
+        // Get CSRF token from server. If cookie != X-CSRFToken value, bad news
+        axios.get("http://localhost:8000/users/set-csrf-cookie", {withCredentials: true})
+          .then(response => {
+            if(response.status == 200)
+              console.log("XSRF cookie set")
+            else
+              console.log("Failed setting XSRF cookie")
+          })
+      }
+      catch(e) {
+        console.log("sorry lmao")
+      }
+    },
     async logout() {      
       try {
         const response = await axios.post(`${this.url}`, 'logout',{
