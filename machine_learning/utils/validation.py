@@ -2,8 +2,9 @@ import os
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
-# validating if the "bothchroma" file exists.
+# ----------------- bothchroma file validation ------------------
 
+# validating if the "bothchroma" file exists.
 def validate_bothchroma_exist(path_to_file):
     bothchroma_file = os.path.join(path_to_file, "bothchroma.csv")
 
@@ -69,3 +70,21 @@ def is_bothchroma_numeric_val(data_frame):
             print(f"Failed. there are non-numeric values in col {col}")
             return False
     return True
+
+
+# ----------------- majmin file validation ------------------
+
+# validating if the "bothchroma" file exists.
+def validate_majmin_exist(path_to_file):
+    majmin_file = os.path.join(path_to_file, "majmin.lab")
+
+    if not os.path.exists(majmin_file):
+        print(f"The file majmin.csv was not found at {majmin_file}")
+        return None
+    else:
+        try: 
+            df = pd.read_csv(majmin_file, sep='\t', header=None, nrows=1)
+            return df
+        except Exception:
+            print(f"Cannot read majmin.lab")
+            return None
