@@ -20,6 +20,7 @@
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 import { getCsrfToken } from "@/utils/csrfTokenUtils";
+import { useAuthStore } from "@/stores/auth"
 
 export default {
     name: 'login',
@@ -33,16 +34,12 @@ export default {
             url: 'http://localhost:8000/users/login',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to home page upon succesful login
-            status: {
-                isLoggedin: false,
-                isAdmin: false,
-            }
+            authStore: useAuthStore()
         }
     },
     mounted() {
         this.toast = useToast(); // initiate a toast variable
         this.get_csrf() // Get CSRF token
-
     },
     methods: {
         async get_csrf() {
@@ -62,7 +59,6 @@ export default {
         },
         async login() {
             try {
-                
                 /* we send the login info as json to backend and await response */
                 const response = await axios.post(`${this.url}`, JSON.stringify(this.form), {
                     withCredentials: true,
@@ -75,16 +71,16 @@ export default {
                 // user to the home page
                 // timeout is set to 2 seconds as a default
                 if (response.status === 201) {
-
                     // display notifications
                     this.toast && this.toast.success(this.$t('notification.loginSuccessful') || 'Login successful');
 
                     // check the user status 
-                    checkUserStatus(this.status)
+                    this.authStore.checkStatus()
+
                     // redirect the user to home page
-                        setTimeout(() => {
-                            this.$router.push('/'); // go to home
-                        }, this.timeout);
+                    setTimeout(() => {
+                        this.$router.push('/'); // go to home
+                    }, this.timeout);
                 }
                         
             } catch (error) {

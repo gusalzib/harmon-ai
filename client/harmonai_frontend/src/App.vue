@@ -4,11 +4,11 @@
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
         <div class="nav-links">
           <RouterLink to="/">{{ $t('nav.home') }}</RouterLink>
-          <RouterLink v-show="this.status.isLoggedin" to="/profile">{{ $t('nav.profile') }}</RouterLink>
+          <RouterLink v-show="this.authStore.isLoggedIn" to="/profile">{{ $t('nav.profile') }}</RouterLink>
           <RouterLink to="/about">{{ $t('nav.about') }}</RouterLink>
-          <RouterLink v-show="!this.status.isLoggedin" to="/login">{{ $t('nav.login') }}</RouterLink>
-          <RouterLink v-show="!this.status.isLoggedin" to="/signup">{{ $t('nav.signup') }}</RouterLink>
-          <button v-show="this.status.isLoggedin" class="standard-btn" @click="logout">{{ $t('nav.logout') }}</button>
+          <RouterLink v-show="!this.authStore.isLoggedIn" to="/login">{{ $t('nav.login') }}</RouterLink>
+          <RouterLink v-show="!this.authStore.isLoggedIn" to="/signup">{{ $t('nav.signup') }}</RouterLink>
+          <button v-show="this.authStore.isLoggedIn" class="standard-btn" @click="logout">{{ $t('nav.logout') }}</button>
           <ThemeToggle />
         </div>
         <LanguageSwitcher />
@@ -23,9 +23,9 @@ import { RouterLink, RouterView } from 'vue-router'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from './components/LanguageSwitcher.vue';
 import { getCsrfToken } from './utils/csrfTokenUtils';
-import { checkUserStatus } from './utils/checkStatus';
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
+import { useAuthStore } from "@/stores/auth"
 
 export default {
   name: 'App',
@@ -40,19 +40,14 @@ export default {
       statusURL: 'http://localhost:8000/users/check-status',
       timeout: 1000,
       toast: null,
-
-      status: {
-        isLoggedin: false,
-        isAdmin: false,
-      }
+      authStore: useAuthStore()
     }
   },
   mounted() {
     this.toast = useToast(); // initiate a toast variable
 
-
-    checkUserStatus(this.status);
-    
+    // Check session validity
+    this.authStore.checkStatus()
   },
   methods: {
 
@@ -65,6 +60,8 @@ export default {
           }
         })
 
+        this.authStore.checkStatus()
+
         // if the logout was successful, we automatically redirect the
         // user to the login page
         // timeout is set to 2 seconds as a default
@@ -72,7 +69,6 @@ export default {
 
           // display notifications
           this.toast && this.toast.success(this.$t('notification.logoutSuccessful') || 'Logout successful');
-          checkUserStatus(this.status)
           // redirect the user to home page
           setTimeout(() => {
             this.$router.push('/login'); // go to login
