@@ -38,13 +38,14 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
     )
     #flip the columns and rows in the chroma
     beat_chroma_T = beat_chroma.T
+    chroma_T = the_chroma.T
 
     #remove the extra line so the sizes matches
     sliced_beat_into_time = 0.5 * (beat_into_time[:-1] + beat_into_time[1:])
     #add time to the chroma
     chroma = np.column_stack((sliced_beat_into_time, beat_chroma_T))
-    
-    return chroma
+    print("beat_chroma: ", beat_chroma)
+    return chroma_T
 
 def fetch_duration(y_harmonic,sampling_rate):
     the_duration = librosa.get_duration(y=y_harmonic,sr= sampling_rate)

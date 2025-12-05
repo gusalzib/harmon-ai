@@ -5,7 +5,12 @@ from .models import Song
 import librosa
 import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
+import tensorflow as tf
 
+
+# [A, A#, B, C, C#, D, D#, E, F, F#, G, G#, none]
+
+model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-yo")
 
 @csrf_exempt
 def create_song(request):
@@ -19,7 +24,7 @@ def create_song(request):
                     'message': 'No audio file provided',
                 }
                 return response
-            
+            print("got the song")
             title = request.POST.get("title")
             artist = request.POST.get("artist")
             genre = request.POST.get("genre")
@@ -35,6 +40,24 @@ def create_song(request):
 
             #call the methods to extract info from audio
             chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
+            print("Made chroma")
+            print(chromagram)
+           
+           # features = np.array(chromagram, dtype=np.float32)
+            features= tf.constant(chromagram, dtype=tf.float32)
+            result = model(features)
+            print(result)
+            key=result['key_probs'].numpy()
+            key_predictions=np.argmax(key,axis=1)
+            print(key_predictions)
+            chords=[]
+
+            translate = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "N", "X"]
+            for i in range(len(key_predictions)):
+                chords.append(translate[(int(key_predictions[i]))])
+            
+            print(chords)
+
             duration = fetch_duration(y_harmonic, sampling_rate)
             tempo = get_tempo(y_percussive, sampling_rate)
             name = audio.name
