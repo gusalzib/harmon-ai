@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from pandas.api.types import is_numeric_dtype
 
 # validating if the "bothchroma" file exists.
 
@@ -61,4 +62,10 @@ def is_bothchroma_val_in_range(data_frame):
         return True
     
 
-
+def is_bothchroma_numeric_val(data_frame):
+    df_to_check = data_frame.drop(columns=[0])
+    for col in df_to_check.columns:
+        if not pd.api.types.is_numeric_dtype(df_to_check[col]):
+            print(f"Failed. there are non-numeric values in col {col}")
+            return False
+    return True
