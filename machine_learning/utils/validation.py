@@ -30,7 +30,7 @@ def validate_bothchroma_columns(data_frame):
 
 # validating if there are any nulls 
 def is_bothchroma_missing_val(data_frame):
-    df_to_check = data_frame.drop(columns=[0])
+    df_to_check = data_frame.iloc[:, 1:25]
     print("are we getting here?")
     null_count = df_to_check.isnull().sum().sum()
     print(f"Count is: {null_count}")
@@ -88,7 +88,7 @@ def validate_majmin_exist(path_to_file):
         except Exception:
             print(f"Cannot read majmin.lab")
             return None
-        
+
 # validating if all the columns are there.
 def validate_majmin_columns(data_frame):
     if len(data_frame.columns) != 3:
@@ -96,7 +96,7 @@ def validate_majmin_columns(data_frame):
         return False
     else:
         return True
-    
+
 # validating if there are any nulls 
 def is_majmin_missing_val(data_frame):
     null_count = data_frame.isnull().sum().sum()
@@ -105,5 +105,5 @@ def is_majmin_missing_val(data_frame):
         print(f"Majmin dataframe has null values")
         return False
     else:
-        print("All good :)")
+        print("No missing values")
         return True
