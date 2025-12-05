@@ -33,8 +33,11 @@ export default {
             url: 'http://localhost:8000/users/login',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to home page upon succesful login
-                
+            status: {
+                isLoggedin: false,
+                isAdmin: false,
             }
+        }
     },
     mounted() {
         this.toast = useToast(); // initiate a toast variable
@@ -76,6 +79,8 @@ export default {
                     // display notifications
                     this.toast && this.toast.success(this.$t('notification.loginSuccessful') || 'Login successful');
 
+                    // check the user status 
+                    checkUserStatus(this.status)
                     // redirect the user to home page
                         setTimeout(() => {
                             this.$router.push('/'); // go to home
