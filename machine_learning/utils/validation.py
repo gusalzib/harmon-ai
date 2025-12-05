@@ -22,7 +22,7 @@ def validate_bothchroma_exist(path_to_file):
 # validating if all the columns are there.
 def validate_bothchroma_columns(data_frame):
     if len(data_frame.columns) != 26:
-        print(f"DataFrame is missing columns")
+        print(f"Bothchroma DataFrame is missing columns")
         return False
     else:
         return True
@@ -88,3 +88,11 @@ def validate_majmin_exist(path_to_file):
         except Exception:
             print(f"Cannot read majmin.lab")
             return None
+        
+# validating if all the columns are there.
+def validate_majmin_columns(data_frame):
+    if len(data_frame.columns) != 3:
+        print(f"Majmin DataFrame is missing columns")
+        return False
+    else:
+        return True
