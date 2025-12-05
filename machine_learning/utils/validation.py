@@ -108,7 +108,6 @@ def is_majmin_missing_val(data_frame):
         print("No missing values")
         return True
     
-
 def is_majmin_timestamp_numerical(data_frame):
     df_to_check = data_frame.iloc[:, 0:2]
     for col in df_to_check.columns:
@@ -116,3 +115,27 @@ def is_majmin_timestamp_numerical(data_frame):
             print(f"Failed. there are non-numeric values in col {col}")
             return False
     return True
+
+# the maximum values returned from data analysis of chromas and timestamps are as follows: 
+# chromas min: 0.0, max: 4.45774
+# timestamps: min: 0.0, max: 150.883265306
+# validating that all values of chromas and timestamps are in range
+def is_majmin_timestamp_valid(data_frame):
+    min_timestamp = 0.0
+    max_timestamp = 155.0
+    current_ts_start = data_frame.iloc[1:, 0].reset_index(drop=True)
+    previous_ts_end = data_frame.iloc[:-1, 1].reset_index(drop=True)
+    epsilon = 1e-6
+    if (data_frame.iloc[:, 1] < data_frame.iloc[:, 0]).any():
+        print(f"timestamp is corrupted")
+        return False
+    if data_frame.iloc[:, 0:2].min().min() < min_timestamp or data_frame.iloc[:, 0:2].max().max() > max_timestamp:
+        print(f"There are abnormal timestamps values: out of range")
+        return False
+
+    if (current_ts_start + epsilon < previous_ts_end).any():
+        print(f"There are abnormal timestamps values")
+        return False
+    else: 
+        print("all time stamps are valid!!)")
+        return True
