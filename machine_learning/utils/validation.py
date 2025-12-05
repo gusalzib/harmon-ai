@@ -30,17 +30,17 @@ def validate_bothchroma_columns(data_frame):
 
 # validating if there are any nulls 
 def is_bothchroma_missing_val(data_frame):
-    df_to_check = data_frame.iloc[:, 1:25]
+    df_to_check = data_frame.iloc[:, 1:26]
     print("are we getting here?")
     null_count = df_to_check.isnull().sum().sum()
     print(f"Count is: {null_count}")
-    if (null_count > 0).any():
+    if (null_count > 0):
         print(f"Bothchroma dataframe has null values")
         return False
     else:
         print("All good :)")
         return True
-    
+
 
 # the maximum values returned from data analysis of chromas and timestamps are as follows: 
 # chromas min: 0.0, max: 4.45774
@@ -107,3 +107,12 @@ def is_majmin_missing_val(data_frame):
     else:
         print("No missing values")
         return True
+    
+
+def is_majmin_timestamp_numerical(data_frame):
+    df_to_check = data_frame.iloc[:, 0:2]
+    for col in df_to_check.columns:
+        if not pd.api.types.is_numeric_dtype(df_to_check[col]):
+            print(f"Failed. there are non-numeric values in col {col}")
+            return False
+    return True
