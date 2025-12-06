@@ -139,3 +139,11 @@ def is_majmin_timestamp_valid(data_frame):
     else: 
         print("all time stamps are valid!!)")
         return True
+
+def is_majmin_chord_string(data_frame):
+    if pd.api.types.infer_dtype(data_frame.iloc[1:, 2], skipna=False) != 'string':
+        print("Not all values in column 2 are strings")
+        return False
+    else: 
+        print("all values of chords are Strings")
+        return True
