@@ -107,7 +107,7 @@ def is_majmin_missing_val(data_frame):
     else:
         print("No missing values")
         return True
-    
+
 def is_majmin_timestamp_numerical(data_frame):
     df_to_check = data_frame.iloc[:, 0:2]
     for col in df_to_check.columns:
@@ -147,3 +147,12 @@ def is_majmin_chord_string(data_frame):
     else: 
         print("all values of chords are Strings")
         return True
+
+def does_majmin_have_whitespaces(data_frame):
+    if data_frame.iloc[:, 2].str.contains(r'\s', na=False).any():
+        print("there are white spaces in chord labels!")
+        return False
+    else: 
+        print("there are no white spaces")
+        return True
+    
