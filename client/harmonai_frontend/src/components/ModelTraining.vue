@@ -27,8 +27,7 @@ export default {
     mounted() {
         this.toast = useToast(); // initiate a toast variable
 
-        // since the users service is not online yet, we do not want to fetch the songs on page load because that just causes errors
-        // this.getUserSongsHistory() // we get the user favorite songs as soon as the page is loaded
+
     },
     methods: {
 

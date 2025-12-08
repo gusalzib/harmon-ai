@@ -93,7 +93,17 @@
     "admin": {
         "model": {
             "startTrainingCycle": "Starta ny träningsomgång",
-            "uploadData": "Ladda upp ny dataset"
+            "uploadData": "Ladda upp ny dataset",
+            "selectFileLabel": "Välj CSV-fil för träning:",
+            "fileSelected": "Vald fil",
+            "fileSize": "Fil storlek: ",
+            "uploadingButton": "Laddar upp",
+            "uploadingInfo": "Laddar upp data och påbörjar validering...",
+            "uploadSuccess": "Uppladdning klar!",
+            "uploadError": "Uppladdningsfel",
+            "uploadErrorGeneric": "Ett oväntat fel uppstod under uppladdningen.",
+            "noFileError": "Vänligen välj en fil att ladda upp.",
+            "fileTypeError": "Endast CSV-filer är tillåtna."
         }
     }
 }

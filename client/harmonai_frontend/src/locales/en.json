@@ -105,7 +105,17 @@
     "admin": {
         "model":{
             "startTrainingCycle": "Start a new training session",
-            "uploadData": "Upload a new dataset"
+            "uploadData": "Upload a new dataset",
+            "selectFileLabel": "Choose a CSV file for training: ",
+            "fileSelected": "Choosen file: ",
+            "fileSize": "File size: ",
+            "uploadingButton": "Uploading...",
+            "uploadingInfo": "Uploading and validating...",
+            "uploadSuccess": "Upload done!",
+            "uploadError": "Upload error",
+            "uploadErrorGeneric": "Something went wrong.",
+            "noFileError": "Please choose a file to upload",
+            "fileTypeError": "Only CSV files are allowed"
         }
     }
 }
