@@ -90,8 +90,10 @@
         "chords": "Chords",
         "yourFavoriteSongs": "Dina favoritlåtar"
     },
-    "history": {
-        "yourSongsHistory": "Din låthistorik",
-        "noHistory": "Du har ingen historik ännu. Ladda upp dina låtar här "
+    "admin": {
+        "model": {
+            "startTrainingCycle": "Starta ny träningsomgång",
+            "uploadData": "Ladda upp ny dataset"
+        }
     }
 }

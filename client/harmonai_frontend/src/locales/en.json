@@ -82,7 +82,9 @@
         "menu": "Menu",
         "profile": "Profile",
         "favorite_songs": "Favorite Songs",
-        "history": "History"
+        "history": "History",
+        "dataUpload": "Upload Data",
+        "modelTraining": "Model Training"
     },
     "profile":{
         "updateInfo": "Update",
@@ -99,5 +101,11 @@
     "history": {
         "yourSongsHistory": "Your Song History",
         "noHistory": "You have no history yet. Upload your songs here"
+    },
+    "admin": {
+        "model":{
+            "startTrainingCycle": "Start a new training session",
+            "uploadData": "Upload a new dataset"
+        }
     }
 }
