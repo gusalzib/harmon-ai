@@ -263,32 +263,81 @@ input[type=file]:hover{
   margin-right: 5%;
   cursor: pointer;
 }
+
+/* responsiveness settings for UserAccount page */
+@media(max-width: 1000px){
+  .account-main-container{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 5% auto;
+    margin-top: 5%;
+    padding: 10px;
+
+  }
+
+  .account-sidebar{
+    width: 100%;
+    position: relative;
+    padding: 10px 0;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    margin: auto;
+    margin-bottom: 30px;
+    max-height: none;
+
+  }
+
+  .account-sidebar h2{
+    display: none; 
+  }
+
+  .account-sidebar-menu{
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10px;
+  }
+
+  #sidebar-links{
+    padding: 10px 15px;
+    text-align: center;
+  }
+
+  .profile-container{
+    margin: auto;
+    width: 95%;
+    padding: 20px 10px;
+  }
+
+}
+
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 /* ###########################################################  USER Profile COMPONENT  ###########################################################*/
-.profile{
+.profile, .change-password-section{
   padding: 40px 30px;
   margin: auto;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 30px;
+  
 }
 
-.profile h3{
+.profile h3, .change-password-section h3{
   text-align: center;
   margin: auto;
 }
 
 
-.profile label{
+
+.profile label, .change-password-section label{
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--color-text);
 }
 
-.profile button{
+.profile button, .change-password-section button{
   width: 60%;
 	height: 40px;
 	margin: 10px auto;
@@ -308,16 +357,17 @@ input[type=file]:hover{
 	cursor: pointer;
 }
 
-.profile button:hover{
+.profile button:hover, .change-password-section button:hover{
   background-color: var(--color-border-active);
   color: var(--vt-c-white);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--palette-indigo-valvet-border);
 }
 
-.profile input{
+.profile input, .change-password-section input{
   width: 95%;
 	height: 10px;
 	background: var(--color-background);
+  color: var(--color-text);
 	justify-content: center;
 	display: flex;
 	margin: 20px auto;
@@ -329,7 +379,7 @@ input[type=file]:hover{
   font-weight: 550;
 }
 
-.profile input:hover{
+.profile input:hover, .change-password-section input:hover{
   border: 1px solid var(--color-border-active);
 }
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
@@ -425,6 +475,22 @@ input[type=file]:hover{
 .nav-links a.router-link-active{
   border: 2px solid var(--color-border-active);
 }
+
+.standard-btn{
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  background-color: transparent;
+}
+
+.standard-btn:hover{
+  border-color: var(--color-border-hover);
+}
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 
@@ -485,6 +551,7 @@ input[type=file]:hover{
   width: 95%;
 	height: 10px;
 	background: var(--color-background);
+  color: var(--color-text);
 	justify-content: center;
 	display: flex;
 	margin: 20px auto;

@@ -66,13 +66,10 @@ export default {
       error: '',
       url: 'http://localhost:8000/api/create-song/',
       toast: null, // declare a toast variable to be used with toastification library for notifications
-
-
     }
   },
   mounted() {
     this.toast = useToast(); // initiate a toast variable
-
   },
   methods: {
     handleFileUpload() {
