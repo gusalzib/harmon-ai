@@ -47,7 +47,7 @@ def register(request):
         # Sanity check + example of syntax
         is_darkmode = new_user.profile.preferences.darkmode 
         print(f"Is darkmode? {is_darkmode}")
-        
+
         return JsonResponse({"message": "Signup successful"}, status=201)
     except Exception as e:
         return JsonResponse({"message":f"Registration failed: {str(e)}"}, status=400)
@@ -88,7 +88,22 @@ def logout_user(request):
     except Exception as e:
         return JsonResponse({"message": f"Logout failed: {str(e)}"}, status=500)
 
-
+@require_GET
+@requires_csrf_token
+def get_user_preferences(request):
+    try:
+        username = request.session["username"]
+        user = User.objects.find(username=username)
+        if user is None:
+            return JsonResponse({"message": "User not found"}, status=404)
+        else:
+            preferences = user.profile.preferences
+            print(f"Preferences: {preferences}")
+            return JsonResponse({
+                "preferences": preferences
+            }, status=200)
+    except Exception as e:
+        return JsonResponse({"message": f"Internal Error: {str(e)}"}, status=500)
     
 @require_GET
 @requires_csrf_token
