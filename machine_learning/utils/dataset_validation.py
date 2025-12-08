@@ -156,3 +156,36 @@ def does_majmin_have_whitespaces(data_frame):
         print("there are no white spaces")
         return True
     
+def is_majmin_format_correct(data_frame):
+    chord_key = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 
+                 'B', 'Db', 'Eb', 'Gb', 'Ab', 'Bb', 'Cb', 'Fb']
+    no_key_labels = ['X', 'N']
+    chord_quality = ['maj', 'min']
+
+    label_column = data_frame.iloc[:, 2]
+
+    excludable = label_column.isin(no_key_labels)
+    
+    chords_to_check = label_column[~excludable]
+    if chords_to_check.empty:
+        print("Note: labels are all either N or X")
+        return True 
+    
+    if not chords_to_check.str.contains(':', na=False).all():
+        print("Some chord labels are incorrectly formatted")
+        return False
+    
+    split_chords = chords_to_check.str.split(':', expand=True)
+    if split_chords.shape[1] != 2:
+        print("Some chord labels are incorrectly formatted")
+        return False
+        
+    valid_key = split_chords.iloc[:, 0].isin(chord_key)
+    valid_quality = split_chords.iloc[:, 1].isin(chord_quality)
+
+    if (valid_key & valid_quality).all():
+        print("chords correctly formatted")
+        return True
+    else: 
+        print("invalid labels found")
+        return False
