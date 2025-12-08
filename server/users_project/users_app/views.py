@@ -68,7 +68,7 @@ def login(request): # Maybe call this in register()?
             }, status=401)
         else:
             request.session["email"] = user.email
-            request.session["username"] = user.username  # NOTE: Username isn't actually being sent
+            request.session["username"] = user.username
             request.session.modified = True
 
             return JsonResponse({
