@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requir
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from users_app.models import Profile, Preferences
 from django.contrib.auth import authenticate, login, logout
 import json
 
@@ -37,7 +38,16 @@ def register(request):
 
         password = request_body["password"]
         email = request_body["email"]
+
+        # Create user and preferences, and store them in a profile
         new_user = User.objects.create_user(username=username, password=password, email=email)
+        new_preferences = Preferences.objects.create()
+        new_profile = Profile.objects.create(user=new_user, preferences=new_preferences)
+
+        # Sanity check + example of syntax
+        is_darkmode = new_user.profile.preferences.darkmode 
+        print(f"Is darkmode? {is_darkmode}")
+        
         return JsonResponse({"message": "Signup successful"}, status=201)
     except Exception as e:
         return JsonResponse({"message":f"Registration failed: {str(e)}"}, status=400)
