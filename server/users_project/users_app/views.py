@@ -93,14 +93,15 @@ def logout_user(request):
 def get_user_preferences(request):
     try:
         username = request.session["username"]
-        user = User.objects.find(username=username)
+        user = User.objects.get(username=username)
         if user is None:
             return JsonResponse({"message": "User not found"}, status=404)
         else:
             preferences = user.profile.preferences
-            print(f"Preferences: {preferences}")
             return JsonResponse({
-                "preferences": preferences
+                "preferences": {
+                    "darkmode": preferences.darkmode
+                }
             }, status=200)
     except Exception as e:
         return JsonResponse({"message": f"Internal Error: {str(e)}"}, status=500)
