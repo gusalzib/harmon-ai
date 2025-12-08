@@ -5,6 +5,7 @@ from .models import Song
 import librosa
 import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
+from .prediction import prediction_output
 
 
 @csrf_exempt
@@ -34,22 +35,24 @@ def create_song(request):
             jump_time = 0.05 #this is good for tweaking the chroma
 
             #call the methods to extract info from audio
-            chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
+            #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
+            beats = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
             duration = fetch_duration(y_harmonic, sampling_rate)
             tempo = get_tempo(y_percussive, sampling_rate)
             name = audio.name
+            prediction_output(beats)
 
             #create the song object and save it to the db
-            new_song = Song.objects.create(
-                title=title,
-                artist=artist,
-                genre=genre,
-                tempo=tempo,
-                duration=duration, 
-                columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-                chromogram=chromagram.astype(float).tolist()
-                )
-            new_song.save()
+            #new_song = Song.objects.create(
+             #   title=title,
+              #  artist=artist,
+            #    genre=genre,
+             #   tempo=tempo,
+              #  duration=duration, 
+            #    columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
+             #   chromogram=chromagram.astype(float).tolist()
+              #  )
+            #new_song.save()
 
             response = JsonResponse({
                 'result': 'success',

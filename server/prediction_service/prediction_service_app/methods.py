@@ -44,7 +44,7 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
     #add time to the chroma
     chroma = np.column_stack((sliced_beat_into_time, beat_chroma_T))
     
-    return chroma
+    return sliced_beat_into_time
 
 def fetch_duration(y_harmonic,sampling_rate):
     the_duration = librosa.get_duration(y=y_harmonic,sr= sampling_rate)
