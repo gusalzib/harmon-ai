@@ -55,13 +55,15 @@
         "email": "mejl",
         "password": "lösenord",
         "username": "användarnamn",
-        "ShowPassword": "Visa lösenord"
+        "ShowPassword": "Visa lösenord",
+        "changePassword": "Ange ditt gamla samt ditt nya lösenord"
     },
     "notification": {
         "loginFailed": "Inloggning misslyckades",
         "invalidCridentials": "Ogiltiga inloggningsuppgifter",
         "userNotFound": "Användaren hittades inte. Kontrollera att e-postadressen är korrekt",
         "loginSuccessful": "Inloggning lyckades",
+        "logoutSuccessful": "Utloggad",
         "signupSuccessful": "Konton skapades",
         "duplicateInformation": "Det finns redan ett konto men denna e-postadressen eller användarnamn",
         "sessionExpired": "Användarsessionen har löpt ut",
@@ -78,7 +80,10 @@
     },
     "profile": {
         "updateInfo": "Uppdatera",
-        "editProfile": "Redigera profil"
+        "editProfile": "Redigera profil",
+        "yourOldPasswordPlaceholder": "Ange ditt gamla lösenord",
+        "yourNewPasswordPlaceholder": "Ange ditt nya lösenord",
+        "editPassword": "Byta lösenord"
     },
     "song": {
         "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",

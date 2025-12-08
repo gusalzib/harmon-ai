@@ -55,13 +55,16 @@
         "email": "Email",
         "password": "Password",
         "username": "Username",
-        "ShowPassword": "Show password"
+        "ShowPassword": "Show password",
+        "changePassword": "Enter your old password and the new password"
+        
     },
     "notification": {
         "loginFailed": "Login failed",
         "invalidCridentials": "Invalid cridentials",
-        "userNotFound": "User not found. Please make sure email is correct",
+        "userNotFound": "User not found. Please make sure username is correct",
         "loginSuccessful": "Login successful",
+        "logoutSuccessful": "Logged out",
         "signupSuccessful": "Account created succssfully",
         "duplicateInformation": "There is already an account with this email or username",
         "sessionExpired": "User session expired",
@@ -83,7 +86,10 @@
     },
     "profile":{
         "updateInfo": "Update",
-        "editProfile": "Edit Profile"
+        "editProfile": "Edit Profile",
+        "yourOldPasswordPlaceholder": "Type in your old password",
+        "yourNewPasswordPlaceholder": "Type in your new password",
+        "editPassword": "Change password"
     },
     "song":{
         "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
