@@ -5,8 +5,10 @@ from .models import Song
 import librosa
 import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
-from .prediction import prediction_output
+from .prediction import predict, prediction_into_chords
+import tensorflow as tf
 
+model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
 @csrf_exempt
 def create_song(request):
@@ -32,15 +34,16 @@ def create_song(request):
 
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
-            jump_time = 0.05 #this is good for tweaking the chroma
+            jump_time = 0.02 #this is good for tweaking the chroma
 
             #call the methods to extract info from audio
             #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
-            beats = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
+            chroma_T, index_of_the_beats = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
             duration = fetch_duration(y_harmonic, sampling_rate)
             tempo = get_tempo(y_percussive, sampling_rate)
             name = audio.name
-            prediction_output(beats)
+            key_prediction, major_minor = predict(chroma_T,model)
+            chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor)
 
             #create the song object and save it to the db
             #new_song = Song.objects.create(
@@ -55,6 +58,7 @@ def create_song(request):
             #new_song.save()
 
             response = JsonResponse({
+                'data': chords,
                 'result': 'success',
                 'message': 'Audio received',
             },status=200)
