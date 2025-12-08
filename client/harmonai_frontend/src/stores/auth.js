@@ -8,10 +8,10 @@ export const useAuthStore = defineStore('auth', {
     isSuperUser: false
   }),
   actions: {
-    checkStatus() {
+    async checkStatus() {
       // Ask for session validity from server
       const statusUrl = "http://localhost:8000/users/check-status"
-      axios.get(statusUrl, {
+      await axios.get(statusUrl, {
         withCredentials: true,
         headers: {
           "X-CSRFToken": getCsrfToken()

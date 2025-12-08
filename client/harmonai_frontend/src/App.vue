@@ -38,19 +38,36 @@ export default {
     return {
       url: 'http://localhost:8000/users/logout',
       statusURL: 'http://localhost:8000/users/check-status',
+      prefsURL: "http://localhost:8000/users/get-preferences",
       timeout: 1000,
       toast: null,
       authStore: useAuthStore()
     }
   },
-  mounted() {
+  async mounted() {
     this.toast = useToast(); // initiate a toast variable
     this.get_csrf() // Get CSRF token
 
     // Check session validity
-    this.authStore.checkStatus()
+    await this.authStore.checkStatus()
+    await this.loadPrefs()
   },
   methods: {
+    async loadPrefs() {
+      console.log(`Is logged in? ${this.authStore.isLoggedIn}. Is superuser? ${this.authStore.isSuperUser}`)
+      if(this.authStore.isLoggedIn == true) {
+        const response = await axios.get(this.prefsURL, {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": getCsrfToken()
+          }
+        });
+        console.log(`Prefs: ${JSON.stringify(response.data)}`)
+      }
+      else {
+        console.log("Not logged in")
+      }
+    },
     get_csrf() {
       try {
         // Get CSRF token from server. If cookie != X-CSRFToken value, bad news
