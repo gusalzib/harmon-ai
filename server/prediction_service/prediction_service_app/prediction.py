@@ -6,6 +6,8 @@ import collections
 from collections import Counter
 
 N = 12
+MAJOR = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B", "N", "X"]
+MINOR = ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "Abm", "Am", "Bbm", "Bm", "N", "X"]
 
 def predict(chroma_T, model):
     # features = np.array(chromagram, dtype=np.float32)
@@ -19,46 +21,27 @@ def predict(chroma_T, model):
     return key_predictions,major_minor
 
 def prediction_into_chords(key_prediction, index_of_the_beats, major_minor):
-    prediction_with_beat = []
-    chords = []
-    indices = index_of_the_beats.astype(int)
-    print("DUR MOLL: ", major_minor)
-    #[0] major, [1] minor, [2] 'N', [3] 7?
-    #prediction_intervals =key_prediction[start_frame:end_frame]
-    for i in range(len(indices)-1):
-        start_frame = indices[i]
-        end_frame = indices[i+1]
-        prediction_intervals =key_prediction[start_frame:end_frame]
-        if len(prediction_intervals) > 0:
-            #counter = Counter(prediction_intervals)
+    prediction_with_quality=np.stack((key_prediction, major_minor), axis=1)
+    condition = (prediction_with_quality[:,1] == 3)
+    result_true = (np.array(MAJOR)[ prediction_with_quality[:,0]])
+    result_false = ((np.array(MINOR)[ prediction_with_quality[:,0]]))
+    quality_chords = np.where(condition, result_true, result_false)
 
-            #most_common_prediction=counter.most_common()
-            counts = collections.Counter(prediction_intervals).most_common()
-            most_common_index = counts[0][0]
-
-            if most_common_index == N:
-                fallback_index = None
-                for label_index, label_count in counts:
-                    if label_index < N:
-                        fallback_index = label_index
-                        break
-                if fallback_index is not None:
-                    final_index = fallback_index
-                else:
-                    final_index = most_common_index
-                
-                prediction_with_beat.append(final_index)
-
-
-    translate =["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "N", "X"]
-    #translate = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "N", "X"]
     
-    chords = [translate[i] for i in prediction_with_beat]
-    length_of_chords = len(chords)
-    print("CHORDS: ", chords)
-    print("LENGTH OF CHORDS: ",length_of_chords )
-    print("most common in the interval: ")
     
-    return chords
+    
+    
+    #[0] 7, [1] none, [2] Major , [3] MINOR?
+    
+    
+ 
+
+    #chords = [translate[i] for i in prediction_with_beat]
+    #length_of_chords = len(chords)
+    #print("CHORDS: ", chords)
+    #print("LENGTH OF CHORDS: ",length_of_chords )
+    #print("most common in the interval: ")
+    
+    return quality_chords
 
 
