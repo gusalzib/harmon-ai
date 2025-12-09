@@ -7,6 +7,9 @@ import numpy as np
 #Add timestamp (in seconds) as column 0, so you get the shape (n, 13)
 
 def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
+
+    sampling_rate=22050
+    hop_length=1024
     # how far to "jump" in each step
     hop_length = int(sampling_rate * jump_time)
 
@@ -16,6 +19,7 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
         sr=sampling_rate,
         hop_length=hop_length
     )
+    
     #get the tempo and an array of all the frame indices where there is a beat
     tempo, index_of_the_beats = librosa.beat.beat_track(
         y=y_percussive, 
@@ -24,12 +28,15 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
     )
     #put together the beat with the frames so that you 
     #have a list of the frames that is within two beats.
-    beat_chroma = librosa.util.sync(
-        the_chroma,
-        index_of_the_beats,
-        aggregate=np.median,
-        pad=False
-    )
+    
+    
+    #beat_chroma = librosa.util.sync(
+    #    the_chroma,
+    #    index_of_the_beats,
+    #    aggregate=np.median,
+    #    pad=False
+    #)
+
     #make the array show what time the beats occur insted of what index
     beat_into_time = librosa.frames_to_time(
         index_of_the_beats,
@@ -37,15 +44,23 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
         hop_length=hop_length
     )
     #flip the columns and rows in the chroma
-    beat_chroma_T = beat_chroma.T
+    #beat_chroma_T = beat_chroma.T
     chromagram_T= the_chroma.T
-
+    frames = np.arange(chromagram_T.shape[0])
+    timestamps = librosa.frames_to_time(
+        frames,
+        sr=sampling_rate,
+        hop_length=hop_length
+    )
+    print("BEAT INTO TIME: ", beat_into_time)
+    print("BEAT INTO TIME shape: ", beat_into_time.shape)
+    print("BEAT INTO TIME: ", index_of_the_beats.shape)
     #remove the extra line so the sizes matches
-    sliced_beat_into_time = 0.5 * (beat_into_time[:-1] + beat_into_time[1:])
+    #sliced_beat_into_time = 0.5 * (beat_into_time[:-1] + beat_into_time[1:])
     #add time to the chroma
-    chroma = np.column_stack((sliced_beat_into_time, beat_chroma_T))
+    #chroma = np.column_stack((sliced_beat_into_time, beat_chroma_T))
     
-    return chromagram_T,index_of_the_beats
+    return chromagram_T,index_of_the_beats,timestamps
 
 def fetch_duration(y_harmonic,sampling_rate):
     the_duration = librosa.get_duration(y=y_harmonic,sr= sampling_rate)

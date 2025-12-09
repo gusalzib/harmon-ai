@@ -38,12 +38,12 @@ def create_song(request):
 
             #call the methods to extract info from audio
             #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
-            chroma_T, index_of_the_beats = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
+            chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
             duration = fetch_duration(y_harmonic, sampling_rate)
             tempo = get_tempo(y_percussive, sampling_rate)
             name = audio.name
             key_prediction, major_minor = predict(chroma_T,model)
-            chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor)
+            chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
 
             #create the song object and save it to the db
             new_song = Song.objects.create(
