@@ -5,7 +5,7 @@ from .models import Song
 import librosa
 import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
-from .prediction import predict, prediction_into_chords
+from .prediction import predict, prediction_into_chords,structure_chords
 import tensorflow as tf
 
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
@@ -44,7 +44,7 @@ def create_song(request):
             name = audio.name
             key_prediction, major_minor = predict(chroma_T,model)
             chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
-
+            song_chords = structure_chords(chords)
             #create the song object and save it to the db
             new_song = Song.objects.create(
                 title=title,
@@ -54,7 +54,7 @@ def create_song(request):
                 duration=duration, 
                 columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
                 chromogram=chroma_T.astype(float).tolist(),
-                prediction=chords.tolist()
+                prediction=song_chords
                 )
             new_song.save()
 
@@ -66,7 +66,7 @@ def create_song(request):
                 'genre':genre,
                 'tempo':tempo,
                 'duration':duration, 
-                'chords':chords.tolist(),
+                'chords':song_chords,
                 'result': 'success',
                 'message': 'Audio received',
             },status=200)

@@ -52,9 +52,7 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
         sr=sampling_rate,
         hop_length=hop_length
     )
-    print("BEAT INTO TIME: ", beat_into_time)
-    print("BEAT INTO TIME shape: ", beat_into_time.shape)
-    print("BEAT INTO TIME: ", index_of_the_beats.shape)
+ 
     #remove the extra line so the sizes matches
     #sliced_beat_into_time = 0.5 * (beat_into_time[:-1] + beat_into_time[1:])
     #add time to the chroma

@@ -48,14 +48,39 @@ def prediction_into_chords(key_prediction, index_of_the_beats, major_minor, time
         aggregate=chord_filter,
         pad=False
     )
-
-    
-    print(chords_beat)
-    
-    
-    #[0] 7, [1] none, [2] Major , [3] MINOR?
-
-    
+     
+    #[0] 7, [1] none, [2] Major , [3] MINOR
     return chords_beat
 
+def structure(interval,**kwargs):
+    bar=[]
+    last_chord= None
+    for chord in interval:
+        if chord != last_chord:
+            bar.append(chord)
+        last_chord = chord
+
+    chord_string = " ".join(bar)
+    return chord_string
+
+
+def structure_chords(chords_beat):
+    chords_array = np.array(chords_beat, dtype='<U8')
+    total_beats = len(chords_beat)
+    bars = np.arange(0, total_beats, 4)
+
+    chords_bar= librosa.util.sync(
+    data=chords_array,
+    idx= bars,
+    aggregate=structure,
+    pad=False
+    )
+    chords_bar_list = chords_bar.tolist()
+
+    joined_chords_bar = " | ".join(chords_bar_list)
+    final_chords_bar = "| " + joined_chords_bar.strip()
+
+    print("CHORDS_BEAT : ", chords_beat)
+    print("PRINT THE CHORDS",final_chords_bar)
+    return final_chords_bar
 
