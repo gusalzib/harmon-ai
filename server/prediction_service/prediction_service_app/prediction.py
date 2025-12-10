@@ -83,4 +83,3 @@ def structure_chords(chords_beat):
     print("CHORDS_BEAT : ", chords_beat)
     print("PRINT THE CHORDS",final_chords_bar)
     return final_chords_bar
-

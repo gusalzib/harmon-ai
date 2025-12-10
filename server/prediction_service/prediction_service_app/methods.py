@@ -6,12 +6,14 @@ import numpy as np
 # [C, C#, D, D#, E, F, F#, G, G#, A, A#, B]
 #Add timestamp (in seconds) as column 0, so you get the shape (n, 13)
 
-def create_chroma(y_harmonic, y_percussive, sampling_rate, jump_time):
+def create_chroma(y_harmonic, y_percussive, sampling_rate):
 
+    #this gives a 0.046 s between each frame, just like the McGill dataset
     sampling_rate=22050
     hop_length=1024
+
     # how far to "jump" in each step
-    hop_length = int(sampling_rate * jump_time)
+   # hop_length = int(sampling_rate * jump_time)
 
     #create the chroma by using the harmonic wave
     the_chroma = librosa.feature.chroma_cqt(

@@ -22,30 +22,36 @@ def create_song(request):
                     'message': 'No audio file provided',
                 }
                 return response
-            
+            print("got the Audio")
             title = request.POST.get("title")
             artist = request.POST.get("artist")
             genre = request.POST.get("genre")
         
             audio = request.FILES['audio']
-        
+            print("creating the waveform")
             #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(audio, sr=None)
+            waveform, sampling_rate = librosa.load(audio, sr=22050)
 
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
-            jump_time = 0.02 #this is good for tweaking the chroma
 
             #call the methods to extract info from audio
-            #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
-            chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
+            #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate)
+            print("creating the chroma")
+            chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate)
+            print("getting the duration")
+            print("TIMESTAMPS: ", timestamps)
             duration = fetch_duration(y_harmonic, sampling_rate)
+            print("getting the tempo")
             tempo = get_tempo(y_percussive, sampling_rate)
-            name = audio.name
+            print("predicting")
             key_prediction, major_minor = predict(chroma_T,model)
+            print("turn prediction into chords")
             chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
+            print("structure the chords")
             song_chords = structure_chords(chords)
             #create the song object and save it to the db
+            print("creates song object")
             new_song = Song.objects.create(
                 title=title,
                 artist=artist,
