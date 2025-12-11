@@ -42,5 +42,32 @@ app.use(Toast, {
     timeout: 3000,
     closeOnClick: true, // close the notification when the user click
     pauseonHover: true // pasue the timeout timer when the user hovers on it
-})
+});
+readGCSTokenFromURL()
 app.mount('#app')
+
+
+
+
+// get the access token returned by google before mounting the app
+function readGCSTokenFromURL() {
+    if (!window.location.hash) {
+        return;
+    }
+
+    const hash = window.location.hash.startsWith('#') ? window.location.hash.substring(1) : window.location.hash;
+    
+    console.log('GLOBAL HASH: ', hash);
+
+    const params = new URLSearchParams(hash);
+    const token = params.get('access_token');
+
+    if (token) {
+        console.log('GLOBAL GCS TOKEN: ', token);
+        localStorage.setItem('gcsAccessToken', token);
+    }
+    
+
+    //  we cleat the url so that the token is not visible in the address bar of the broswer
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+}
