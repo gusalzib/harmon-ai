@@ -6,12 +6,18 @@ import librosa
 import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
 from .prediction import predict, prediction_into_chords,structure_chords
+from .file_handler import separate_audio, delete_audio_2_stems, delete_audio_4_stems
 import tensorflow as tf
 from spleeter.separator import Separator
 from django import forms
 import os
-separator = Separator('spleeter:2stems')
 
+#this is the spleeter model
+separator = Separator('spleeter:4stems')
+#if you want to use 2 stems change the variable "stems" to 2
+stems = 4
+
+#this is our model
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
 @csrf_exempt
@@ -33,28 +39,13 @@ def create_song(request):
         
             audio = request.FILES['audio']
 
-            #save audio in a folder
-            temp_audio_folder = "./prediction_service_app/temp_audio"
-            temp_output_folder = "./prediction_service_app/temp_output"
-            
-            output_folder_name = os.path.splitext(audio.name)[0]
-            audio_file_path= os.path.join(temp_audio_folder, audio.name)
-            with open(audio_file_path, "wb+") as destination:
-                for chunk in audio.chunks():
-                    destination.write(chunk)
-
-            temp_output_folder = "./prediction_service_app/temp_output"
-            separator.separate_to_file(audio_file_path, temp_output_folder)
-           
-            audio_accompaniment_path = os.path.join(temp_output_folder,output_folder_name,"accompaniment.wav")
-            
-            
+            #save audio in a folder and separate the audio
+            audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
 
 
             print("creating the waveform")
             #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(audio_accompaniment_path, sr=22050)
-
+            waveform, sampling_rate = librosa.load(prosessed_audio, sr=22050)
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
 
@@ -77,6 +68,12 @@ def create_song(request):
             chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
             print("structure the chords")
             song_chords = structure_chords(chords)
+
+            if stems == 2:
+                print(delete_audio_2_stems(audio_file_path, output_folder_name,))
+            else:
+                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
+            
             #create the song object and save it to the db
             print("creates song object")
             new_song = Song.objects.create(
