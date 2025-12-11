@@ -45,6 +45,8 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate):
         sr=sampling_rate,
         hop_length=hop_length
     )
+    
+    
     #flip the columns and rows in the chroma
     #beat_chroma_T = beat_chroma.T
     chromagram_T= the_chroma.T
@@ -54,6 +56,7 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate):
         sr=sampling_rate,
         hop_length=hop_length
     )
+    
  
     #remove the extra line so the sizes matches
     #sliced_beat_into_time = 0.5 * (beat_into_time[:-1] + beat_into_time[1:])

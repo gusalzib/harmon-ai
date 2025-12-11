@@ -7,6 +7,10 @@ import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
 from .prediction import predict, prediction_into_chords,structure_chords
 import tensorflow as tf
+from spleeter.separator import Separator
+from django import forms
+import os
+separator = Separator('spleeter:2stems')
 
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
@@ -28,9 +32,23 @@ def create_song(request):
             genre = request.POST.get("genre")
         
             audio = request.FILES['audio']
+
+            #save audio in a folder
+            save_folder = "./prediction_service_app/temp_audio"
+            save_file = os.path.join(save_folder, audio.name)
+            with open(save_file, "wb+") as destination:
+                for chunk in audio.chunks():
+                    destination.write(chunk)
+
+
+            #Spilt the audio:
+            
+
+
+
             print("creating the waveform")
             #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(audio, sr=22050)
+            waveform, sampling_rate = librosa.load(save_file, sr=22050)
 
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
@@ -39,6 +57,10 @@ def create_song(request):
             #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate)
             print("creating the chroma")
             chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate)
+
+
+
+
             print("getting the duration")
             print("TIMESTAMPS: ", timestamps)
             duration = fetch_duration(y_harmonic, sampling_rate)

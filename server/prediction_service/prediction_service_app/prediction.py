@@ -66,13 +66,16 @@ def structure(interval,**kwargs):
 
 def structure_chords(chords_beat):
     chords_array = np.array(chords_beat, dtype='<U8')
+    chords_array = chords_array[1:]
+    #first_chord=chords_array[0]
+    #chords_array = np.insert(chords_array, 0,first_chord)
     total_beats = len(chords_beat)
     bars = np.arange(0, total_beats, 4)
 
     chords_bar= librosa.util.sync(
     data=chords_array,
     idx= bars,
-    aggregate=structure,
+    aggregate=chord_filter,
     pad=False
     )
     chords_bar_list = chords_bar.tolist()
