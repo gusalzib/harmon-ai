@@ -205,3 +205,37 @@ def check_status(request):
     except Exception as e:
         return JsonResponse(response, status=200)
 
+# Experimental dataset upload eldpoint
+
+def upload_dataset(request):
+    if request.method == 'POST':
+        uploaded_files = request.FILES.getlist('datasetFile')
+        
+        if not uploaded_files:
+            print('not files')
+            return JsonResponse({
+                'message': 'No files received'
+            }, status=400)
+        
+        file_list = []
+        total_size = 0
+
+        for file in uploaded_files:
+            file_name = file.name
+            file_size = file.size
+            total_size = total_size + file_size
+
+            file_list.append({
+                'name': file_name,
+                'size': file_size,
+                'content_type': file.content_type
+            })
+        total_size = total_size / (1024 / 1024)
+        return JsonResponse({
+            'message': f'Successfully received {len(uploaded_files)} files totalSize {total_size} MB',
+            'uploaded_file_names': [f['name'] for f in file_list]
+        }, status=200)
+    
+    return JsonResponse({
+        'message': 'Something went wrong'
+    }, status=500)

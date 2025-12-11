@@ -152,3 +152,6 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173"
 ]
+
+# overriding the default DATA_UPLOAD_MAX_NUMBER_FILES to allow for the dataset to be uploaded from frontend
+DATA_UPLOAD_MAX_NUMBER_FILES = 5000
