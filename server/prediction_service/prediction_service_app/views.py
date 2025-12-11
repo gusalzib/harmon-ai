@@ -34,21 +34,26 @@ def create_song(request):
             audio = request.FILES['audio']
 
             #save audio in a folder
-            save_folder = "./prediction_service_app/temp_audio"
-            save_file = os.path.join(save_folder, audio.name)
-            with open(save_file, "wb+") as destination:
+            temp_audio_folder = "./prediction_service_app/temp_audio"
+            temp_output_folder = "./prediction_service_app/temp_output"
+            
+            output_folder_name = os.path.splitext(audio.name)[0]
+            audio_file_path= os.path.join(temp_audio_folder, audio.name)
+            with open(audio_file_path, "wb+") as destination:
                 for chunk in audio.chunks():
                     destination.write(chunk)
 
-
-            #Spilt the audio:
+            temp_output_folder = "./prediction_service_app/temp_output"
+            separator.separate_to_file(audio_file_path, temp_output_folder)
+           
+            audio_accompaniment_path = os.path.join(temp_output_folder,output_folder_name,"accompaniment.wav")
             
-
+            
 
 
             print("creating the waveform")
             #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(save_file, sr=22050)
+            waveform, sampling_rate = librosa.load(audio_accompaniment_path, sr=22050)
 
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
