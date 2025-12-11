@@ -6,7 +6,7 @@
           <RouterLink to="/">{{ $t('nav.home') }}</RouterLink>
           <RouterLink v-show="this.authStore.isLoggedIn" to="/profile">{{ $t('nav.profile') }}</RouterLink>
           <RouterLink v-show="this.authStore.isLoggedIn && this.authStore.isSuperUser" to="/admin">{{ $t('nav.adminProfile') }}</RouterLink>
-          <RouterLink v-show="this.authStore.isLoggedIn && this.authStore.isSuperUser" to="/admin">{{ $t('nav.modelTraining') }}</RouterLink>
+          <RouterLink v-show="this.authStore.isLoggedIn && this.authStore.isSuperUser" to="/model-performance">{{ $t('nav.modelPerformance') }}</RouterLink>
           <RouterLink to="/about">{{ $t('nav.about') }}</RouterLink>
           <RouterLink v-show="!this.authStore.isLoggedIn" to="/login">{{ $t('nav.login') }}</RouterLink>
           <RouterLink v-show="!this.authStore.isLoggedIn" to="/signup">{{ $t('nav.signup') }}</RouterLink>

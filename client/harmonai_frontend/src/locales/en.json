@@ -13,7 +13,9 @@
         "apply": "Apply",
         "cancel": "Cancel",
         "finish": "Finish",
-        "copy": "Copy"
+        "copy": "Copy",
+        "comparebutton": "Compare",
+        "closeButton": "Close"
     },
     "nav": {
         "about": "About",
@@ -24,7 +26,9 @@
         "profile": "Profile",
         "statistics": "Statistics",
         "darktheme": "Dark theme",
-        "lighttheme": "Light theme"
+        "lighttheme": "Light theme",
+        "modelPerformance": "Model Performance Reports",
+        "adminProfile": "Profile"
     },
     "home": {
         "title": "Welcome to HarmonAI",
@@ -105,6 +109,15 @@
     "admin": {
         "model":{
             "startTrainingCycle": "Start a new training session",
+            "modelPerformanceReports": "Model Performance Reports",
+            "cannotCompareSameReport": "Cannot compare the report to itself",
+            "availableVerions": "Available Versions",
+            "comparisonActive": "Comparison Mode",
+            "reportFor": "Report for ",
+            "comparisonTo": "Compared to  ",
+            "version": "Version",
+            "accuracy": "Accuracy",
+            "date": "Date",
             "uploadData": "Upload a new dataset",
             "selectFileLabel": "Choose a CSV file for training: ",
             "fileSelected": "Choosen file: ",

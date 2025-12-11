@@ -13,7 +13,9 @@
         "cancel": "Avbryt",
         "finish": "Sluta",
         "searchButton": "Söka",
-        "uploadButton": "Ladda upp"
+        "uploadButton": "Ladda upp",
+        "comparebutton": "Jämför",
+        "closeButton": "Stäng"
     },
     "nav": {
         "about": "Om Oss",
@@ -24,7 +26,9 @@
         "profile": "Profil",
         "statistics": "Statistik",
         "darktheme": "Mörk tema",
-        "lighttheme": "Ljus tema"
+        "lighttheme": "Ljus tema",
+        "modelPerformance": "Modellprestandarapporter",
+        "adminProfile": "Profil"
     },
     "home": {
         "title": "Välkommen till HarmonAI",
@@ -94,6 +98,15 @@
         "model": {
             "startTrainingCycle": "Starta ny träningsomgång",
             "uploadData": "Ladda upp ny dataset",
+            "modelPerformanceReports": "Modellprestandarapporter",
+            "cannotCompareSameReport": "Kan inte jämföra rapporten med sig själv",
+            "availableVerions": "Tillgängliga versioner",
+            "comparisonActive": "Jämförelseläge",
+            "reportFor": "Rapport för",
+            "comparisonTo": "Jämfört med",
+            "version": "Version",
+            "accuracy": "Precision",
+            "date": "Datum",
             "selectFileLabel": "Välj CSV-fil för träning:",
             "fileSelected": "Vald fil",
             "fileSize": "Fil storlek: ",

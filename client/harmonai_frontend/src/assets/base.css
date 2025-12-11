@@ -67,6 +67,9 @@
   --color-gradient-background: linear-gradient(180deg,rgba(211, 188, 204, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
   --color-form-background: var(--palette-lavendar-veil);
   --color-background-image: var(--color-background-image-light);
+  --color-background-report-card: var(--palette-thistle);
+  --color-background-report-card-border: var(--palette-indigo-velvet-border);
+  --color-background-report-card-hover: var(--palette-lavendar-veil);
 
   /* border colors */
   --color-border: var(--palette-vintage-lavendar);
@@ -94,7 +97,8 @@
   --color-gradient-background: linear-gradient(180deg,rgba(14, 39, 60, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
   --color-form-background: var(--palette-indigo-velvet);
   --color-background-image: var(--color-background-image-dark);
-  
+  --color-background-report-card: var(--palette-deep-space-blue);
+  --color-background-report-card-hover: var(--palette-deep-space-blue-50);
   /* border colors */
   --color-border: var(--palette-deep-space-blue-test);
   --color-border-active: var(--palette-indigo-velvet-border);
