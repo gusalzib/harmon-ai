@@ -23,5 +23,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Expose port and define startup command
+# NOTE: The CMD launches a DEV SERVER, so unsuitable for production
 EXPOSE 8000
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
