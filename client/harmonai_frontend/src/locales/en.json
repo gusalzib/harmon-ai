@@ -119,7 +119,7 @@
             "accuracy": "Accuracy",
             "date": "Date",
             "uploadData": "Upload a new dataset",
-            "selectFileLabel": "Choose a CSV file for training: ",
+            "selectFileLabel": "Choose a dataset folder for training: ",
             "fileSelected": "Choosen file: ",
             "fileSize": "File size: ",
             "uploadingButton": "Uploading...",
@@ -128,7 +128,23 @@
             "uploadError": "Upload error",
             "uploadErrorGeneric": "Something went wrong.",
             "noFileError": "Please choose a file to upload",
-            "fileTypeError": "Only CSV files are allowed"
+            "fileTypeError": "Only CSV files are allowed",
+            "filesToGCS": " files to Google Cloud Storage!",
+            "noAccessToken": "No Access Token",
+            "connectGCS": "Connect Google Cloud Storage",
+            "gcsConnected": "Google Cloud Connected",
+            "gcsTokenActive": "Access token active",
+            "successfullyUploaded": "Successfully uploaded ",
+            "fileUploadedToGCSsuccessfully": "File Uploaded To GCS Successfully",
+            "fileUploadedToGCSFailed": "File upload failed",
+            "fileReadingError": "File reading error",
+            "creatingZippedFile": "Creating zipped file...",
+            "filesSelected": " files selected",
+            "folderSelected": "Folder selected: ",
+            "files": " files ",
+            "uploading": "Uploading ",
+            "directlyToGCS": " directly to Google Cloud Storage",
+            "datasetUploadedTo": "Dataset uploaded to "
         }
     }
 }

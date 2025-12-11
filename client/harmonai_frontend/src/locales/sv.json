@@ -107,7 +107,7 @@
             "version": "Version",
             "accuracy": "Precision",
             "date": "Datum",
-            "selectFileLabel": "Välj CSV-fil för träning:",
+            "selectFileLabel": "Välj filer för träning:",
             "fileSelected": "Vald fil",
             "fileSize": "Fil storlek: ",
             "uploadingButton": "Laddar upp",
@@ -116,7 +116,23 @@
             "uploadError": "Uppladdningsfel",
             "uploadErrorGeneric": "Ett oväntat fel uppstod under uppladdningen.",
             "noFileError": "Vänligen välj en fil att ladda upp.",
-            "fileTypeError": "Endast CSV-filer är tillåtna."
+            "fileTypeError": "Endast CSV-filer är tillåtna",
+            "filesToGCS": " filer till Google Cloud Storage!",
+            "noAccessToken": "Ingen åtkomsttoken",
+            "connectGCS": "Anslut Google Cloud Storage",
+            "gcsConnected": "Google Cloud ansluten",
+            "gcsTokenActive": "Åtkomsttoken aktiv",
+            "successfullyUploaded": "Uppladdning lyckades",
+            "fileUploadedToGCSsuccessfully": "Filen laddades upp till GCS utan problem",
+            "fileUploadedToGCSFailed": "Filuppladdningen misslyckades",
+            "fileReadingError": "Filinläsningsfel",
+            "creatingZippedFile": "Skapar zippad fil...",
+            "filesSelected": " filer valda",
+            "folderSelected": "Mapp vald:",
+            "files": " filer",
+            "uploading": "Laddar upp",
+            "directlyToGCS": " direkt till Google Cloud Storage",
+            "datasetUploadedTo": "Dataset uppladdat till"
         }
     }
 }
