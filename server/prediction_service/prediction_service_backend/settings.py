@@ -87,8 +87,8 @@ WSGI_APPLICATION = "prediction_service_backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django_mongodb_backend",
+        "HOST": "mongodb+srv://rebeckaakerblom_db_user:1KusL7oJpmahSb3g@fairbnb-cluster.on0xbl6.mongodb.net/prediction_service_db?retryWrites=true&w=majority&appName=fairbnb-Cluster",
         "NAME": "prediction_service_db",
-        "HOST": "mongodb+srv://rebeckaakerblom_db_user:1KusL7oJpmahSb3g@fairbnb-cluster.on0xbl6.mongodb.net/harmonai?retryWrites=true&w=majority&appName=fairbnb-Cluster",
     }
 }
 
