@@ -13,10 +13,10 @@ from django import forms
 import os
 
 #this is the spleeter model
-separator = Separator('spleeter:2stems')
-#there is two options for the model. use 2 stems or 4 stems.
+separator = Separator('spleeter:4stems')
+#there is two options for the spleeter model. use 2 stems or 4 stems.
 #update the variable "stems" depending what you choose
-stems = 2
+stems = 4
 
 #this is our model
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
@@ -70,10 +70,10 @@ def create_song(request):
             print("structure the chords")
             song_chords = structure_chords(chords)
 
-            if stems == 2:
-                print(delete_audio_2_stems(audio_file_path, output_folder_name,))
-            else:
-                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
+            # if stems == 2:
+            #     print(delete_audio_2_stems(audio_file_path, output_folder_name,))
+            # else:
+            #     print(delete_audio_4_stems(audio_file_path, output_folder_name,))
             
             #create the song object and save it to the db
             print("creates song object")
