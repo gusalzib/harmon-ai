@@ -38,9 +38,9 @@ minikube image load image-name:tag
 minikube image ls
 ```
 
-Applying a configuration:
+Get logs for a specific pod:
 ```
-minikube kubectl -- apply -f filename.yaml
+minikube kubectl -- logs -p users-app-deployement-557b5c56fd-wphrj
 ```
 
 
