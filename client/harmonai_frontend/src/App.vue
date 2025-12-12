@@ -116,4 +116,4 @@ export default {
   }
 }
 </script>
-<style src="src\assets\main.css"></style>
+<style src="@/assets/main.css"></style>
