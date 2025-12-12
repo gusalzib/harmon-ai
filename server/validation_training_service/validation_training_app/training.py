@@ -3,12 +3,10 @@ from dotenv import load_dotenv
 import pandas as pd 
 import numpy as np
 import tensorflow as tf
-import keras 
-from keras import layers, models, Input
-from keras.optimizers import Adam
+from tensorflow.keras import layers, models, Input, regularizers
+from tensorflow.keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import regularizers
-import sqlite3
+
 
 
 TIMEFRAME = 30
@@ -26,8 +24,8 @@ def build_model():
     output = layers.BatchNormalization()(output)
     output = layers.MaxPooling1D(pool_size=2)(output)
     output = layers.Dropout(0.4)(output)
-    output = layers.Bidirectional(layers.GRU(32, return_sequences=True, dropout=0.3, unroll=True))(output)
-    output = layers.Bidirectional(layers.GRU(64, return_sequences=False, dropout=0.3, unroll=True))(output)
+    output = layers.Bidirectional(layers.GRU(32, return_sequences=True, dropout=0.3))(output)
+    output = layers.Bidirectional(layers.GRU(64, return_sequences=False, dropout=0.3))(output)
     output = layers.Dropout(0.4)(output)
 
 
@@ -39,8 +37,9 @@ def build_model():
 
     model3x = models.Model(inputs=inputs, outputs = [key, quality])
     model3x.compile(optimizer=Adam(learning_rate=0.001),
-                  loss= 'sparse_categorical_crossentropy',
-                  metrics=['accuracy'],
+                  loss={'key': 'sparse_categorical_crossentropy',
+                        'quality': 'sparse_categorical_crossentropy'},
+                  metrics={'key': 'accuracy', 'quality': 'accuracy'},
                   )
     return model3x
 
@@ -61,35 +60,32 @@ def train_model(model, train_dataset, val_dataset):
     model.fit(
         train_dataset,
         validation_data=val_dataset,
-        epochs=10,
+        epochs=1,
         callbacks = [
             tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True), lr_scheduler
         ]
     )
 
 
-def evaluate_model(model, test_dataset):
-    model.evaluate(test_dataset)
-
-    return
-
-
-    
 def save_serving_model(model, path):
 
-    #wrapp model so that we can save it with preprocessing steps included
-    class ModelWrapper(tf.Module):
+    """dummy_input = tf.zeros((1, TIMEFRAME, 12))
+    model(dummy_input, training=False)"""
+
+    class ModelWrapper(tf.keras.Model):
 
         def __init__(self, keras_model, timeframe=30):
             super().__init__()
             self.keras_model = keras_model
             self.timeframe = timeframe
 
+            self._force_track_variables = keras_model.variables
+
         @tf.function(input_signature=[tf.TensorSpec(shape=[None, 12], dtype=tf.float32)])
 
         def __call__(self, features):
-            # 1. Create Padding (Repeat the first row 39 times)
-            # We take features[0], expand dims to (1, 24), and tile it
+            # 1. Create Padding (Repeat the first frame `timeframe - 1` times)
+            # We take features[0] and tile it.
             first_frame = tf.expand_dims(features[0], 0)
             padding = tf.tile(first_frame, [self.timeframe - 1, 1])
 
@@ -100,14 +96,11 @@ def save_serving_model(model, path):
             windows = tf.signal.frame(padded_features, frame_length=self.timeframe, frame_step=1, axis=0)
 
             # 4. Predict
-            predictions = self.keras_model(windows)
+            predictions = self.keras_model(windows, training=False)
 
             return {"key_probs": predictions[0], "quality_probs": predictions[1]}
    
 
-    model.optimizer = None
-    model.compiled_loss = None
-    model.compiled_metrics = None
     wrapped_model = ModelWrapper(model, timeframe=TIMEFRAME)
 
     tf.saved_model.save(
@@ -119,20 +112,33 @@ def save_serving_model(model, path):
 
 def save_model_for_tfma(model, save_path):
 
+    class tfma_report_model(tf.keras.Model):
 
-    @tf.function(input_signature=[tf.TensorSpec(shape=[None], dtype=tf.string)])
-    def TMFA_serving(tf_record):
-        features = {'features': tf.io.fixedLenFeature([TIMEFRAME * 12], out_type=tf.float32)}
+        def __init__(self, keras_model, timeframe=30):
+            super().__init__()
+            self.keras_model = keras_model
+            self.timeframe = timeframe
 
-        parsed_features = tf.io.parse_example(tf_record, features)
-
-        reshaped_input = tf.reshape(parsed_features['features'], [-1, TIMEFRAME, 12])
-
-        predictions = model(reshaped_input)
+            self._force_track_variables = keras_model.variables
 
 
-    model.save(
+        @tf.function(input_signature=[tf.TensorSpec(shape=[None], dtype=tf.string)])
+        def tfma_serving_fn(self,tf_record):
+            features = {'features': tf.io.FixedLenFeature([self.timeframe * 12], dtype=tf.float32)}
+
+            parsed_features = tf.io.parse_example(tf_record, features)
+
+            reshaped_input = tf.reshape(parsed_features['features'], [-1, self.timeframe, 12])
+
+            predictions = model(reshaped_input)
+            return {'key': predictions[0], 'quality': predictions[1]}
+        
+    tfma_model = tfma_report_model(model, timeframe=TIMEFRAME)
+
+
+    tf.saved_model.save(
+    tfma_model,
     save_path,
-    signatures={'serving_default': TMFA_serving}
+    signatures={'serving_default': tfma_model.tfma_serving_fn}
 )
                  

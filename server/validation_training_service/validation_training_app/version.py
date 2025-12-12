@@ -24,10 +24,12 @@ def version_model(bucket_name, model_name_prefix):
     list_prefix = f"{model_name_prefix}_v"
 
     # We use a delimiter to treat the bucket like a filesystem and find "directories"
-    blobs = storage_client.list_blobs(bucket_name, prefix=list_prefix, delimiter='/')
+    iterator = storage_client.list_blobs(bucket_name, prefix=list_prefix, delimiter='/')
 
-    # The API returns subdirectory-like prefixes in blobs.prefixes
-    prefixes = list(blobs.prefixes)
+    # To get prefixes, we must iterate through the pages of the iterator.
+    prefixes = set()
+    for page in iterator.pages:
+        prefixes.update(page.prefixes)
 
     if not prefixes:
         return 1

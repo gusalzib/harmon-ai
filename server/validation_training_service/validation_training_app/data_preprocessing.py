@@ -16,14 +16,15 @@ TIMEFRAME = 30
 BATCH_SIZE = 64
 STRIDE = 5
 
-def load_data():
+def load_data(path_to_data):
     """
     Downloads the database file from Google Cloud Storage, loads the data into a
     pandas DataFrame, and then cleans up the downloaded file.
     """
+    ####rename once we have upload and validation###
     bucket_name = "harmon_ai"
-    source_blob_name = "data/clean_data/training_data_v0.db"
-    destination_file_name = "/tmp/training_data_v0.db"
+    source_blob_name = "data/clean_data/training_data_v0.db" ###should be path_to_data
+    destination_file_name = "/tmp/training_data"
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
@@ -135,6 +136,22 @@ def create_test_train_validationset(dataset):
 
     return train_dataset, val_dataset, test_dataset
 
+KEY_MAP = {
+        0: "A",
+        1: "A#",
+        2: "B",
+        3: "C",
+        4: "C#",
+        5: "D",
+        6: "D#",
+        7: "E",
+        8: "F",
+        9: "F#",
+        10: "G",
+        11: "G#",
+        12: "N",
+        13: "X"
+    }
 
 def save_testdata_to_tfrecord(output_path,test_dataset):
     """
@@ -157,15 +174,18 @@ def save_testdata_to_tfrecord(output_path,test_dataset):
             key_label = int(y['key'].numpy())
             quality_label = int(y['quality'].numpy())
             
+            slice_key_str = KEY_MAP.get(key_label, str(key_label))
+            slice_quality_str = str(quality_label)
+
             # Create the serialized Example
             example = tf.train.Example(features=tf.train.Features(feature={
                 'features': tf.train.Feature(float_list=tf.train.FloatList(value=features_flat)),
                 'key_label': tf.train.Feature(int64_list=tf.train.Int64List(value=[key_label])),
                 'quality_label': tf.train.Feature(int64_list=tf.train.Int64List(value=[quality_label])),
                 # Slice key for filtering in the dashboard
-                'slice_key': tf.train.Feature(int64_list=tf.train.Int64List(value=[key_label])),
+                'slice_key': tf.train.Feature(bytes_list=tf.train.BytesList(value=[slice_key_str.encode('utf-8')])),
                 # Slice quality for filtering in the dashboard
-                'slice_quality': tf.train.Feature(int64_list=tf.train.Int64List(value=[quality_label]))
+                'slice_quality': tf.train.Feature(bytes_list=tf.train.BytesList(value=[slice_quality_str.encode('utf-8')]))
             }))
             
             writer.write(example.SerializeToString())
