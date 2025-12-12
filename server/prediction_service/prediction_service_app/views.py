@@ -184,3 +184,45 @@ def get_specific_song(request):
             },status=400)
         
     return response
+
+@csrf_exempt
+def get_artists_songs(request):
+    if request.method == "GET":
+        try:
+            data = json.loads(request.body)
+            searchArtist = data.get("artist")
+            songs_query= Song.objects.filter(artist=searchArtist)
+            if not songs_query.exists():
+                return JsonResponse({
+                    'result': 'error',
+                    'message': 'No songs found by this artist',
+                    },status=400)
+                
+            #turn result of filter int a song object
+            songs = list(songs_query.values(
+                "title",
+                "artist",
+                "genre",
+                "tempo",
+                "duration",
+                "prediction",
+            ))
+
+
+            response = JsonResponse({
+                "songs": songs,
+                'result': 'success',
+            }, status=200)
+            
+        except json.JSONDecodeError:
+            response = JsonResponse({
+                'result': 'error',
+                'message': 'Invalid JSON',
+            },status=400)
+    else:
+        response = JsonResponse({
+            'result': 'error',
+            'message': 'Invalid request method',
+            },status=400)
+        
+    return response
