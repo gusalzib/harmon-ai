@@ -56,7 +56,8 @@ export default {
                 }
             ],
             songs: [], // holds the list of songs
-            url: 'http://localhost:8000/api/songs',
+            baseURL: import.meta.env.VITE_API_URL,
+            url: `${baseURL}/api/songs`,
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
             activeSection: 'favorite_songs', //this controls which section in visible to the user at any time.

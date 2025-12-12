@@ -64,7 +64,7 @@ export default {
       artist: '',
       genre: '',
       error: '',
-      url: 'http://localhost:8000/api/create-song/',
+      url: `${import.meta.env.VITE_API_URL}/api/create-song/`,
       toast: null, // declare a toast variable to be used with toastification library for notifications
     }
   },

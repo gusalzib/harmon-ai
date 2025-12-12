@@ -33,7 +33,7 @@ export default {
                 password: '',
             },
             error: '',
-            url: 'http://localhost:8000/users/register',
+            url: `${import.meta.env.VITE_API_URL}/users/register`,
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to LOGIN page upon succesful SIGNUP
                 

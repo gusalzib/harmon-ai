@@ -36,15 +36,25 @@ export default {
 
   data() {
     return {
-      url: 'http://localhost:8000/users/logout',
-      statusURL: 'http://localhost:8000/users/check-status',
-      prefsURL: "http://localhost:8000/users/get-preferences",
+      //baseURL: import.meta.env.VITE_API_URL,
+      url: '',
+      statusURL: '',
+      prefsURL: '',
+      csrfURL: '',
       timeout: 1000,
       toast: null,
       authStore: useAuthStore()
     }
   },
   async mounted() {
+    // Get API URLs from env
+    const baseURL = import.meta.env.VITE_API_URL
+    console.log(`Base URL: ${baseURL}`);
+    this.url = `${baseURL}/users/logout`,
+    this.statusURL = `${baseURL}/users/check-status`,
+    this.prefsURL = `${baseURL}/users/get-preferences`,
+    this.csrfURL = `${baseURL}/users/set-csrf-cookie`,
+    
     this.toast = useToast(); // initiate a toast variable
     this.get_csrf() // Get CSRF token
 
@@ -71,7 +81,7 @@ export default {
     get_csrf() {
       try {
         // Get CSRF token from server. If cookie != X-CSRFToken value, bad news
-        axios.get("http://localhost:8000/users/set-csrf-cookie", {withCredentials: true})
+        axios.get(this.csrfURL, {withCredentials: true})
           .then(response => {
             if(response.status == 200)
               console.log("XSRF cookie set")
