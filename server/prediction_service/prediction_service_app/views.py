@@ -13,9 +13,10 @@ from django import forms
 import os
 
 #this is the spleeter model
-separator = Separator('spleeter:4stems')
-#if you want to use 2 stems change the variable "stems" to 2
-stems = 4
+separator = Separator('spleeter:2stems')
+#there is two options for the model. use 2 stems or 4 stems.
+#update the variable "stems" depending what you choose
+stems = 2
 
 #this is our model
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
@@ -120,9 +121,9 @@ def update_song(request):
         try:
             data = json.loads(request.body)
             searchTitle = data.get("title")
-            apdatedUser_rating = data.get("user_rating")
+            updatedUser_rating = data.get("user_rating")
             Song.objects.filter(title=searchTitle).update(
-                user_rating=apdatedUser_rating
+                user_rating=updatedUser_rating
             )
 
             response = JsonResponse({
@@ -144,3 +145,42 @@ def update_song(request):
     return response
 
 
+@csrf_exempt
+def get_specific_song(request):
+    if request.method == "GET":
+        try:
+            data = json.loads(request.body)
+            searchTitle = data.get("title")
+            song_query= Song.objects.filter(title=searchTitle)
+            if not song_query.exists():
+                return JsonResponse({
+                    'result': 'error',
+                    'message': 'Invalid request method',
+                    },status=400)
+                
+            #turn result of filter int a song object
+            song = song_query.first()
+
+
+            response = JsonResponse({
+                'title':song.title,
+                'artist':song.artist,
+                'genre':song.genre,
+                'tempo':song.tempo,
+                'duration':song.duration, 
+                'chords':song.prediction,
+                'result': 'success',
+            }, status=200)
+            
+        except json.JSONDecodeError:
+            response = JsonResponse({
+                'result': 'error',
+                'message': 'Invalid JSON',
+            },status=400)
+    else:
+        response = JsonResponse({
+            'result': 'error',
+            'message': 'Invalid request method',
+            },status=400)
+        
+    return response

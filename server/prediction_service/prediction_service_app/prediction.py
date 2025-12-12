@@ -5,7 +5,7 @@ import numpy as np
 import collections
 from collections import Counter
 
-N = 12
+
 MAJOR = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B", "N", "X"]
 MINOR = ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "Abm", "Am", "Bbm", "Bm", "N", "X"]
 N = 'N'
@@ -36,20 +36,22 @@ def chord_filter(interval, **kwargs):
     return strongest_chord
 
 def prediction_into_chords(key_prediction, index_of_the_beats, major_minor, timestamps):
+    #gets a prediction from the model and translates the output to chords
     prediction_with_quality=np.stack((key_prediction, major_minor), axis=1)
     condition = (prediction_with_quality[:,1] == 2)
     result_true = (np.array(MAJOR)[ prediction_with_quality[:,0]])
     result_false = ((np.array(MINOR)[ prediction_with_quality[:,0]]))
     quality_chords = np.where(condition, result_true, result_false)
 
+    #takes the intervals of frames between 2 beats and calculates which chord is the most common chord in this beat. 
     chords_beat= librosa.util.sync(
         data=quality_chords,
         idx=index_of_the_beats.astype(int),
-        aggregate=chord_filter,
+        aggregate=chord_filter, #uses chord_filter to calculate most common and remove 'N' values
         pad=False
     )
-     
-    #[0] 7, [1] none, [2] Major , [3] MINOR
+    
+    #the qualities of the chords [0] 7, [1] none, [2] Major , [3] MINOR
     return chords_beat
 
 def structure(interval,**kwargs):
@@ -66,16 +68,16 @@ def structure(interval,**kwargs):
 
 def structure_chords(chords_beat):
     chords_array = np.array(chords_beat, dtype='<U8')
-    chords_array = chords_array[1:]
-    #first_chord=chords_array[0]
-    #chords_array = np.insert(chords_array, 0,first_chord)
+    #chords_array = chords_array[1:]
+    first_chord=chords_array[0]
+    chords_array = np.insert(chords_array, 0,first_chord)
     total_beats = len(chords_beat)
     bars = np.arange(0, total_beats, 4)
 
     chords_bar= librosa.util.sync(
     data=chords_array,
     idx= bars,
-    aggregate=chord_filter,
+    aggregate=structure,
     pad=False
     )
     chords_bar_list = chords_bar.tolist()
