@@ -2,8 +2,8 @@
 
     <div class="login-form-container">
         <div class="login-form">
-            <label for="login_email"> {{ $t('labels.email') }} </label>
-            <input v-model="form.email" id="login_email" class="login_input" type="email" placeholder="email">
+            <label for="login_username"> {{ $t('labels.username') }} </label>
+            <input v-model="form.username" id="login_username" class="login_input" type="text" placeholder="Username">
             <br>
             <label for="login_password"> {{ $t('labels.password') }} </label>
             <input v-model="form.password" id="login_password" class="login_input" type="password" placeholder="password">
@@ -19,48 +19,52 @@
 <script>
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
+import { getCsrfToken } from "@/utils/csrfTokenUtils";
+import { useAuthStore } from "@/stores/auth"
 
 export default {
     name: 'login',
     data() {
         return {
             form: {
-                email: '',
-                password: '',
+                username: '',
+                password: ''
             },
             error: '',
-            url: 'http://localhost:8000/api/users/login',
+            url: 'http://localhost:8000/users/login',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to home page upon succesful login
-                
-            }
+            authStore: useAuthStore()
+        }
     },
     mounted() {
         this.toast = useToast(); // initiate a toast variable
-
     },
     methods: {
         async login() {
             try {
                 /* we send the login info as json to backend and await response */
-                const response = await axios.post(`${this.url}`, JSON.stringify(this.form))
+                const response = await axios.post(`${this.url}`, JSON.stringify(this.form), {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFToken": getCsrfToken()
+                    }
+                })
 
                 // if the login was successful, we automatically redirect the
                 // user to the home page
                 // timeout is set to 2 seconds as a default
-                if (response.status === 200) {
-
+                if (response.status === 201) {
                     // display notifications
                     this.toast && this.toast.success(this.$t('notification.loginSuccessful') || 'Login successful');
 
-                    /* this line is commented out for now because we do not have authentication yet
-                        it sets an item called 'token' and store the token received wuth the response */
-                    //localStorage.setItem('token', response.token)
+                    // check the user status 
+                    this.authStore.checkStatus()
 
                     // redirect the user to home page
-                        setTimeout(() => {
-                            window.location.replace('/')
-                        }, timeout);
+                    setTimeout(() => {
+                        this.$router.push('/'); // go to home
+                    }, this.timeout);
                 }
                         
             } catch (error) {
@@ -86,7 +90,7 @@ export default {
             } else {
                 temp.type = "password";
             }
-            }
-        },
+        }
     }
+}
 </script>

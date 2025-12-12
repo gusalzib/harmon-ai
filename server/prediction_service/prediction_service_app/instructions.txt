@@ -1,0 +1,19 @@
+1. Create the conda environment
+    conda create -n harmonai python=3.10
+    conda activate harmonai
+
+2. You might have problems with python being aliased:
+    If the command 'which python' is pointing outside your conda environment
+    for example: "python: aliased to usr/bin/python3"
+    unalias python
+    unalias pip
+
+3. Verify:
+    which python
+    (It should show: /opt/anaconda3/envs/harmonai/bin/python)
+
+4. Install all libraries:
+    pip install -r requirements.txt
+
+5. Start the server:
+    python manage.py runserver
