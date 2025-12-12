@@ -70,10 +70,10 @@ def create_song(request):
             print("structure the chords")
             song_chords = structure_chords(chords)
 
-            # if stems == 2:
-            #     print(delete_audio_2_stems(audio_file_path, output_folder_name,))
-            # else:
-            #     print(delete_audio_4_stems(audio_file_path, output_folder_name,))
+            if stems == 2:
+                print(delete_audio_2_stems(audio_file_path, output_folder_name,))
+            else:
+                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
             
             #create the song object and save it to the db
             print("creates song object")
