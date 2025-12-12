@@ -21,10 +21,6 @@ stems = 4
 #this is our model
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
-# [A, A#, B, C, C#, D, D#, E, F, F#, G, G#, none]
-
-model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-yo")
-
 @csrf_exempt
 def create_song(request):
     if request.method == "POST":
