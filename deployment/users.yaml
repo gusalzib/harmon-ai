@@ -30,7 +30,7 @@ spec:
           # Any code greater than or equal to 200 and less than 400 indicates success. 
           # Any other code indicates failure.
           httpGet:
-            path: users/is-db-connected
+            path: /users/is-db-connected
             port: 8000
           initialDelaySeconds: 20
           periodSeconds: 5
@@ -43,11 +43,10 @@ kind: Service
 metadata:
   name: users-service
 spec:
-  type: NodePort  # Only temporary. Should be internal only, at some stage
+  type: ClusterIP
   selector:
     app: users-app  # Docs use different selector
   ports:
   - protocol: TCP
     port: 8000        # Port of which this service is accessible
     targetPort: 8000  # Port of the pods belonging to the service
-    nodePort: 30100
