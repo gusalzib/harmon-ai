@@ -60,3 +60,6 @@ Confirm all is well. Should show IPv4 address after a minute of applying:
 If running in e.g. WSL2, use this to expose to Windows:
 ```minikube tunnel```
 ```URL for browser, example: http://locahost/users/is-db-connected```
+
+If that doesn't work the first time, then:
+```sudo minikube tunnel; minikube tunnel```

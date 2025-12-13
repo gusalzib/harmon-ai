@@ -1,0 +1,38 @@
+# If in need of "what is happening", refer to users.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-app-deployment
+  labels:
+    app: client-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client-app
+  template:
+    metadata:
+      labels:
+        app: client-app
+    spec:
+      containers:
+      - name: client-app
+        image: docker.io/library/harmonai-client:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        # Opting for no liveness probe
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  type: ClusterIP # Pretty sure this is default
+  selector:
+    app: client-app
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

@@ -47,8 +47,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     "corsheaders.middleware.CorsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -144,12 +144,19 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 # Allowed origins. Initially just vue dev server, should be extended later for deployment
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "http://localhost:80",
+    "http://localhost:8080",
+    "https://localhost"
 ]
 CORS_ALLOW_CREDENTIALS = True
+USE_X_FORWARDED_HOST = True
 
 # CSRF related configurations
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "http://localhost:80",
+    "http://localhost:8080",
+    "https://localhost"
 ]
 
