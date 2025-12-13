@@ -937,7 +937,14 @@ input[type=file]:hover{
   color: var(--color-text);
   border-radius: 8px;
   box-shadow: var(--light-shadow);
+  min-width: 400px;
+  height: 90%;
 
+}
+
+.report-panel iframe{
+  width: 100%;  
+  min-height: 80%;
 }
 
 .report-display-area.split-view{
@@ -965,8 +972,9 @@ input[type=file]:hover{
 }
 
 .report-html-content{
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 
