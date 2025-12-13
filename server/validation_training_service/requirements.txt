@@ -1,0 +1,17 @@
+# Django and related packages
+Django
+django-cors-headers
+django-mongodb-backend
+
+# ML/Data Science
+tensorflow
+tensorflow-model-analysis
+pandas
+numpy
+scikit-learn
+
+# Google Cloud
+google-cloud-storage
+
+# Environment variables
+python-dotenv
