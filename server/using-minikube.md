@@ -44,5 +44,19 @@ minikube kubectl -- logs -p users-app-deployement-557b5c56fd-wphrj
 ```
 
 
+# Gateway API
+Fuck the Gateway API
 
+# "Regular Ingress"
+- You must have an Ingress controller to satisfy an Ingress
+- Whole-ass minikube-specific nginx guide that is easy to follow: https://v1-33.docs.kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
 
+Apply ingress to make life good:
+```minikube kubectl -- apply -f deployment/nginx-ingress.yaml```
+
+Confirm all is well. Should show IPv4 address after a minute of applying:
+```minikube kubectl -- get ingress```
+
+If running in e.g. WSL2, use this to expose to Windows:
+```minikube tunnel```
+```URL for browser, example: http://locahost/users/is-db-connected```
