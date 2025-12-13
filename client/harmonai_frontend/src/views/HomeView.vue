@@ -48,6 +48,37 @@
       </div>
     </div>
   </div>
+  
+  <div class="favorite-songs-section" id="favorite-songs" v-if="this.predictionsIsMade">
+
+        <h3>{{ $t('song.predictedChords') }}</h3>
+
+        <ul class="song-list-container">
+          
+            <li class="song-card" >
+                <div class="song-details-header">
+                    <h4 class="song-name">{{ $t('home.songTitle') }} : {{ this.song.title }}</h4>
+                    <p class="song-artist">{{ $t('home.songArtist') }} : {{ this.song.artist }}</p>
+                    <p class="song-genre">{{ $t('home.songGenre') }} : {{ this.song.genre}}</p>
+                    <p class="song-BPM">{{ $t('home.songBPM') }} : {{ this.song.BPM}}</p>
+                    <p class="song-duration">{{ $t('home.songDuration') }} : {{ this.song.duration}}</p>
+                </div>
+
+                <div class="chord-display-box">
+                    <label class="chord-label" for="chord-list">{{ $t('song.chords') }}</label>
+                    <pre class="chord-list">{{ this.song.chord_list }}</pre>
+                </div>
+            </li>
+
+            
+        </ul>
+            
+
+    </div>
+
+
+
+
 </template>
 
 
@@ -66,6 +97,16 @@ export default {
       error: '',
       url: `${import.meta.env.VITE_API_URL}/api/create-song/`,
       toast: null, // declare a toast variable to be used with toastification library for notifications
+      predictionsIsMade: false,
+
+      song:{
+        title: "",
+        artist: "",
+        genre: "",
+        chord_list: [],
+        BPM: "",
+        duration:""
+      }
     }
   },
   mounted() {
@@ -125,6 +166,16 @@ export default {
         if (response.status === 200) {
           this.toast.clear(); // removes the permanenet loading notification we had created earlier
           this.toast.success(this.$t('notification.uploadSuccessful') || 'File uploaded successfully');
+
+          this.predictionsIsMade= true;
+          console.log("testing:", response.data.title);
+          this.song.title = response.data.title;
+          this.song.artist = response.data.artist;
+          this.song.genre = response.data.genre;
+          this.song.BPM = response.data.tempo;
+          this.song.duration = response.data.duration;
+          this.song.chord_list = response.data.chords;
+          console.log("Chords:", this.song.chord_list);
         }
 
 
