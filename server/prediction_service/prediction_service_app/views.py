@@ -1,4 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from django.http import JsonResponse
 import json
 from .models import Song
@@ -10,6 +11,7 @@ from .file_handler import separate_audio, delete_audio_2_stems, delete_audio_4_s
 import tensorflow as tf
 from spleeter.separator import Separator
 from django import forms
+from django.db import connections
 import os
 
 #this is the spleeter model
@@ -20,6 +22,16 @@ stems = 4
 
 #this is our model
 model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
+
+@require_GET
+@csrf_exempt
+def is_db_connected(request):
+    try:
+        db_connections = connections['default']
+        db_connections.cursor()
+        return JsonResponse({"message": "True"}, status=200)
+    except Exception as e:
+        return JsonResponse({"message": f"Error: {str(e)}"}, status=503)
 
 @csrf_exempt
 def create_song(request):
