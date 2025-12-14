@@ -1,9 +1,13 @@
-FROM python:3.9.6-slim
+FROM python:3.10.8-slim
 # FROM python:3.8.12-slim
 
 
 RUN mkdir /app
 WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install ffmpeg -y && \
+    rm -rf /var/lib/apt/lists/*
 
 # Prevents Python from writing pyc files to disk
 ENV PYTHONDONTWRITEBYTECODE=1
