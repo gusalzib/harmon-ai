@@ -72,14 +72,6 @@ export default {
             selectedReport: null,
             comparisonReport: null, 
             availableReports: [],
-            // availableReports: [
-            //     // these are just dummy reports
-            //     {version: '2.1', accuracy: 86.0, date: '2025-12-10', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
-            //     {version: '2.0', accuracy: 75.0, date: '2025-11-25', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
-            //     {version: '1.9', accuracy: 70.0, date: '2025-11-10', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
-            // ], 
-
-
         }
     },
     mounted() {

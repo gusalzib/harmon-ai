@@ -149,7 +149,9 @@
             "noReportsFound": "No reports found",
             "reportFetchingError": "Error fetching reports: ",
             "reportsLoaded": "Reports loaded successfully",
-            "name": "Model name"
+            "name": "Model name",
+            "validatingAndTraining": "Validating and training the model...",
+            "trainingFailed": "Training failed!"
         }
     }
 }

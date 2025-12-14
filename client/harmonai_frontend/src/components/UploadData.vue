@@ -60,7 +60,7 @@ import { useToast } from 'vue-toastification'
 // google cloud conntection variables
 const GCS_BUCKET_NAME = import.meta.env.VITE_GCS_BUCKET_NAME;
 const GCS_CLIENT_ID = import.meta.env.VITE_GCS_CLIENT_ID;
-const scope = import.meta.env.VITE_SCOPE;
+const scope = import.meta.env.VITE_GCS_SCOPE;
 const REDIRECT_URL = window.location.origin;
 
 export default {
@@ -77,6 +77,7 @@ export default {
             selectedFiles: [], // an array that saves selected files (folder)
 
             accessToken: null, // stores the access token we get from the google cloud 
+            url: "http://localhost:8000/admins/train/"
 
 
         }
@@ -219,6 +220,7 @@ export default {
 
                     // I needed to prefix the file name with the data/ so that the uploaded folders are sent to the data/ directory in the cloud
                     const prefixed_filename = `data/${file.name}`;
+                    this.fileName = file.name; 
                     try {
                         let response = await fetch(`https://storage.googleapis.com/upload/storage/v1/b/${GCS_BUCKET_NAME}/o?uploadType=media&name=${encodeURIComponent(prefixed_filename)}`,
                             {
@@ -285,7 +287,29 @@ export default {
                 this.fileName = '';
                 this.fileSize = 0;
                 this.$refs.fileInput.value = ''; // clears the file selection element
-                
+
+                try {
+                    // trigger model training
+                    const notifyBackend = await axios.post(this.url, this.fileName)
+
+                    this.toast.info(this.$t('admin.model.validatingAndTraining'), { timeout: false });
+                    
+                    if (notifyBackend.status === 200) {
+                        
+                        this.toast.clear();
+                        this.toast.success(this.$t('admin.model.serverNotified'));
+                    } else {
+                        this.toast.clear();
+                        this.toast.error(this.$t('admin.model.trainingFailed'))
+                    }
+                } catch (error) {
+                    this.toast.clear();
+                    this.toast.error(this.$t('admin.model.trainingFailed'))
+                    console.error(error.message);
+                    
+                }
+
+
 
             } catch (error) {
                 this.toast.clear();
