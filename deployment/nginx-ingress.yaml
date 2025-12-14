@@ -21,3 +21,10 @@ spec:
             name: users-service
             port:
               number: 8000
+      - path: /api/
+        pathType: Prefix # This one I'm copying blindly
+        backend:
+          service:
+            name: prediction-service
+            port:
+              number: 8000
