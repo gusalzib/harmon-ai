@@ -8,7 +8,6 @@ WORKDIR /app
 
 # Pre-sanity checks
 RUN python3 --version
-RUN 
 
 # Prevents Python from writing pyc files to disk
 ENV PYTHONDONTWRITEBYTECODE=1
