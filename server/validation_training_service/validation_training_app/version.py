@@ -6,19 +6,25 @@ def version_clean_data(bucket_name, data_name_prefix):
     returns what verison to save the clean sql dataset as
 
     """
+    #
     storage_client = storage.Client()
+    # eg the clean_data_v part of the file name
     list_prefix = f"{data_name_prefix}_v"
+    # iterate all the files that contains the prefix
     iterator = storage_client.list_blobs(bucket_name, prefix=list_prefix, delimiter='/')
 
     max_version = 0
+    # Regex to find the version number (e.g., the '2' in 'clean_data_v2/')
     version_regex = re.compile(r'_v(\d+)(?:[./]|$)')
-
+    # Iterate through the pages/pagnation of the iterator
     for page in iterator.pages:
         for blob in page:
+            # find version of the files in GCS
             match = version_regex.search(blob.name)
             if match:
+                #compare the int of the current max_version with found match
                 max_version = max(max_version, int(match.group(1)))
-
+    #return the new version number
     return max_version + 1
 
 

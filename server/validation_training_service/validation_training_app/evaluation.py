@@ -8,10 +8,7 @@ import re
 
 def generate_report(model_dir, tf_record_path):
     
-    # --- CHANGE 1: SIMPLIFIED CONFIGURATION ---
-    # We removed the verbose 'binarize' blocks. 
-    # The table will now only show Accuracy and Example Count.
-    # Detailed per-class errors are handled by the Confusion Matrix plot.
+   # eval config determines the format of the report 
     eval_config = text_format.Parse("""
       model_specs {
         signature_name: "serving_default"
@@ -49,6 +46,7 @@ def generate_report(model_dir, tf_record_path):
       }
     """, tfma.EvalConfig())
 
+    # Run the model analysis
     eval_result = tfma.run_model_analysis(
         eval_shared_model=tfma.default_eval_shared_model(
             eval_saved_model_path=model_dir,
@@ -95,15 +93,13 @@ def generate_report(model_dir, tf_record_path):
 
     # --- REGEX PATCHES ---
     # used Gen ai to troubleshoot html widget error 
-    
-    # Patch 1: FIX THE CRASH
     html_content = re.sub(
         r'html-manager@[\^]?[\d\.]+\/dist\/',
         'html-manager@0.20.0/dist/',
         html_content
     )
 
-    # Patch 2: FIX THE 404
+    # FIX THE 404
     tfma_js_url = f"https://unpkg.com/tensorflow_model_analysis@{tfma.__version__}/dist/tensorflow_model_analysis"
     
     html_content = html_content.replace(

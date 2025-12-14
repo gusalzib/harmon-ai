@@ -48,7 +48,7 @@ def build_model():
 def train_model(model, train_dataset, val_dataset):
     
      
-
+    #callback to reduce learning rate if val loss is not decreasing
     lr_scheduler = tf.keras.callbacks.ReduceLROnPlateau(
         monitor='val_loss', 
         factor=0.2,       # Reduce LR by 5x (multiply by 0.2)
@@ -56,7 +56,7 @@ def train_model(model, train_dataset, val_dataset):
         min_lr=0.00001,   # Don't go below this
         verbose=1
     )
-
+    # train the model and save the weights where the val_loss was lowest
     model.fit(
         train_dataset,
         validation_data=val_dataset,
@@ -68,9 +68,11 @@ def train_model(model, train_dataset, val_dataset):
 
 
 def save_serving_model(model, path):
+    """"
+    save a model that is ready for the prediction services to use
+    bake in a function to structure the input so that it works with the format the model was trained on
 
-    """dummy_input = tf.zeros((1, TIMEFRAME, 12))
-    model(dummy_input, training=False)"""
+    """
 
     class ModelWrapper(tf.keras.Model):
 
@@ -111,6 +113,10 @@ def save_serving_model(model, path):
 
 
 def save_model_for_tfma(model, save_path):
+    """
+        save a model that is capable of predicting with the input of a tf.record
+        
+    """
 
     class tfma_report_model(tf.keras.Model):
 
