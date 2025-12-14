@@ -64,8 +64,6 @@ def fetch_reports(request):
         reports = get_all_reports(BUCKET_NAME,path)
         print(reports)
 
-        get_zip(BUCKET_NAME, "data/dataset_2025-12-11-21-10-43.zip")
-
         return JsonResponse({"reports":reports})
 
         
