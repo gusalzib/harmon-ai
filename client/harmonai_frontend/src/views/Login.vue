@@ -31,7 +31,7 @@ export default {
                 password: ''
             },
             error: '',
-            url: 'http://localhost:8000/users/login',
+            url: 'http://localhost:8001/users/login',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to home page upon succesful login
             authStore: useAuthStore()

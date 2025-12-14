@@ -852,7 +852,133 @@ input[type=file]:hover{
     width: 65%;
   }
 }
-/* ###########################################################    ###########################################################*/
+/* ###########################################################  MODEL PERFORMANCE PAGE  ###########################################################*/
+.model-performance-section{
+  padding: 20px;
+  max-width: 90%;
+  margin: auto;
+  color: var(--color-text);
+}
+
+/* .model-performance-section h4, .model-performance-section h3{
+  color: var(--color-text);
+} */
+
+.reports-container{
+  display: flex;
+  gap: 25px;
+  
+
+}
+
+.report-list-panel{
+  flex: 0 0 300px;
+  padding: 15px;
+  background-color: var(--palette-indigo-valvet-border);
+  border-radius: 8px;
+  box-shadow: var(--heavy-shadow);
+}
+
+.report-list-grid{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+
+}
+
+.report-card{
+  padding: 15px;
+  border: 1px solid var(--color-background);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--color-background-report-card);
+}
+
+.report-card:hover{
+  background-color:  var(--color-background-report-card-hover);
+  color: var(--color-text);
+
+}
+
+.report-card.selected{
+  border: 2px solid var(--color-background-report-card-border);
+  background-color:  var(--color-background-report-card-hover);
+
+}
+
+.report-card.compared{
+  border: 2px solid #f31212;
+  border-color: #fef5e7;
+
+}
+
+.compare-btn{
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #1abc9c;
+  color: var(--color-text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* the right slide display */
+.report-display-area{
+  flex-grow: 1; /*take up the remaining space*/
+  position: relative;
+
+}
+
+.report-panel{
+  padding: 20px;
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  border-radius: 8px;
+  box-shadow: var(--light-shadow);
+  min-width: 400px;
+  height: 90%;
+
+}
+
+.report-panel iframe{
+  width: 100%;  
+  min-height: 80%;
+}
+
+.report-display-area.split-view{
+  display: grid;
+  grid-template-columns: 1fr 1fr; /*we creat two equal columns*/
+  gap: 20px;
+}
+
+.report-display-area.split-view .report-panel{
+  grid-column: span 1;
+
+}
+
+.close-report-btn{
+  position: absolute;
+  top: -40px;
+  right: 0px;
+  z-index: 10;
+  background: var(--standard-btn);
+  color: var(--color-text);
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.report-html-content{
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+
+
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 /* ###########################################################    ###########################################################*/

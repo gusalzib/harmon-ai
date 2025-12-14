@@ -56,7 +56,7 @@ export default {
                 }
             ],
             songs: [], // holds the list of songs
-            url: 'http://localhost:8000/api/users',
+            url: 'http://localhost:8001/api/users',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
             activeSection: 'history', //this controls which section in visible to the user at any time.

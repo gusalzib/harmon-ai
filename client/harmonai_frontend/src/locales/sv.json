@@ -13,7 +13,9 @@
         "cancel": "Avbryt",
         "finish": "Sluta",
         "searchButton": "Söka",
-        "uploadButton": "Ladda upp"
+        "uploadButton": "Ladda upp",
+        "comparebutton": "Jämför",
+        "closeButton": "Stäng"
     },
     "nav": {
         "about": "Om Oss",
@@ -24,7 +26,9 @@
         "profile": "Profil",
         "statistics": "Statistik",
         "darktheme": "Mörk tema",
-        "lighttheme": "Ljus tema"
+        "lighttheme": "Ljus tema",
+        "modelPerformance": "Modellprestandarapporter",
+        "adminProfile": "Profil"
     },
     "home": {
         "title": "Välkommen till HarmonAI",
@@ -90,8 +94,54 @@
         "chords": "Chords",
         "yourFavoriteSongs": "Dina favoritlåtar"
     },
-    "history": {
-        "yourSongsHistory": "Din låthistorik",
-        "noHistory": "Du har ingen historik ännu. Ladda upp dina låtar här "
+    "admin": {
+        "model": {
+            "startTrainingCycle": "Starta ny träningsomgång",
+            "uploadData": "Ladda upp ny dataset",
+            "modelPerformanceReports": "Modellprestandarapporter",
+            "cannotCompareSameReport": "Kan inte jämföra rapporten med sig själv",
+            "availableVerions": "Tillgängliga versioner",
+            "comparisonActive": "Jämförelseläge",
+            "reportFor": "Rapport för",
+            "comparisonTo": "Jämfört med",
+            "version": "Version",
+            "accuracy": "Precision",
+            "date": "Datum",
+            "selectFileLabel": "Välj filer för träning:",
+            "fileSelected": "Vald fil",
+            "fileSize": "Fil storlek: ",
+            "uploadingButton": "Laddar upp",
+            "uploadingInfo": "Laddar upp data och påbörjar validering...",
+            "uploadSuccess": "Uppladdning klar!",
+            "uploadError": "Uppladdningsfel",
+            "uploadErrorGeneric": "Ett oväntat fel uppstod under uppladdningen.",
+            "noFileError": "Vänligen välj en fil att ladda upp.",
+            "fileTypeError": "Endast CSV-filer är tillåtna",
+            "filesToGCS": " filer till Google Cloud Storage!",
+            "noAccessToken": "Ingen åtkomsttoken",
+            "connectGCS": "Anslut Google Cloud Storage",
+            "gcsConnected": "Google Cloud ansluten",
+            "gcsTokenActive": "Åtkomsttoken aktiv",
+            "successfullyUploaded": "Uppladdning lyckades",
+            "fileUploadedToGCSsuccessfully": "Filen laddades upp till GCS utan problem",
+            "fileUploadedToGCSFailed": "Filuppladdningen misslyckades",
+            "fileReadingError": "Filinläsningsfel",
+            "creatingZippedFile": "Skapar zippad fil...",
+            "filesSelected": " filer valda",
+            "folderSelected": "Mapp vald:",
+            "files": " filer",
+            "uploading": "Laddar upp",
+            "directlyToGCS": " direkt till Google Cloud Storage",
+            "datasetUploadedTo": "Dataset uppladdat till",
+            "fetchingReports": "Hämtar rapporter...",
+            "noReportsFound": "Inga rapporter hittades",
+            "reportFetchingError": "Fel vid hämtning av rapporter: ",
+            "reportsLoaded": "Rapporter laddades",
+            "name": "Modellnamn",
+            "validatingAndTraining": "Validerar och tränar modellen...",
+            "trainingFailed": "Träningen misslyckades!",
+            "retrainingDone": "Omträning klar!",
+            "yourModelHasFinishedRetraining": "Din modell har avslutat omträning på det senaste datasetet"
+        }
     }
 }

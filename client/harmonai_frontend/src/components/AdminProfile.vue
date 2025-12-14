@@ -1,5 +1,5 @@
 <template>
-    <div class="profile" id="edit-profile" v-if="activeSection === 'profile'">
+    <div class="profile" id="edit-profile" v-if="activeSection === 'adminProfile'">
         <h3>{{ $t('profile.editProfile') }}</h3>
             <br>
             <label>{{ $t('labels.email') }}</label>
@@ -8,7 +8,7 @@
             <button id="update-button" class="submit-button" v-on:click="updateUserEmail()" type="button">{{ $t('profile.updateInfo') }}</button>
     </div>
     <hr>
-    <div class="change-password-section" v-if="activeSection === 'profile'">
+    <div class="change-password-section" v-if="activeSection === 'adminProfile'">
         <h3>{{ $t('profile.editPassword') }}</h3>
             <label>{{ $t('labels.changePassword') }}</label>
             <input v-model="passwordForm.oldPassword" type="password" id="old_password" class="password" :placeholder="$t('profile.yourOldPasswordPlaceholder')" required/>
@@ -39,7 +39,7 @@ export default {
             passwordURL: 'http://localhost:8001/users/change-password',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
-            activeSection: 'profile', //this controls which section in visible to the user at any time. I set it to the profile page as default
+            activeSection: 'adminProfile', //this controls which section in visible to the user at any time. I set it to the profile page as default
             passwordForm: {
                 oldPassword: '',
                 newPassword: ''
