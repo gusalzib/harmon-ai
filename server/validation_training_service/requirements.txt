@@ -1,0 +1,19 @@
+# Django and related packages
+Django
+django-cors-headers
+django-mongodb-backend
+
+# ML/Data Science
+tf_keras==2.17.0
+tensorflow==2.17.1
+tensorflow-model-analysis==0.48.0
+pandas
+numpy
+scikit-learn
+
+# Google Cloud
+google-cloud-storage
+
+#other
+python-dotenv
+ipywidgets==7.8.5
