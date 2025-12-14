@@ -16,7 +16,7 @@ export default {
     data() {
         return {
 
-            url: 'http://localhost:8000/admin/model-training',
+            url: 'http://localhost:8001/admin/model-training',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
             activeSection: 'modelTraining', //this controls which section in visible to the user at any time.

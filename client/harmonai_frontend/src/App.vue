@@ -38,9 +38,9 @@ export default {
 
   data() {
     return {
-      url: 'http://localhost:8000/users/logout',
-      statusURL: 'http://localhost:8000/users/check-status',
-      prefsURL: "http://localhost:8000/users/get-preferences",
+      url: 'http://localhost:8001/users/logout',
+      statusURL: 'http://localhost:8001/users/check-status',
+      prefsURL: "http://localhost:8001/users/get-preferences",
       timeout: 1000,
       toast: null,
       authStore: useAuthStore()
@@ -73,7 +73,7 @@ export default {
     get_csrf() {
       try {
         // Get CSRF token from server. If cookie != X-CSRFToken value, bad news
-        axios.get("http://localhost:8000/users/set-csrf-cookie", {withCredentials: true})
+        axios.get("http://localhost:8001/users/set-csrf-cookie", {withCredentials: true})
           .then(response => {
             if(response.status == 200)
               console.log("XSRF cookie set")

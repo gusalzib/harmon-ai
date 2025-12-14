@@ -144,7 +144,12 @@
             "files": " files ",
             "uploading": "Uploading ",
             "directlyToGCS": " directly to Google Cloud Storage",
-            "datasetUploadedTo": "Dataset uploaded to "
+            "datasetUploadedTo": "Dataset uploaded to ",
+            "fetchingReports": "Fetching reports...",
+            "noReportsFound": "No reports found",
+            "reportFetchingError": "Error fetching reports: ",
+            "reportsLoaded": "Reports loaded successfully",
+            "name": "Model name"
         }
     }
 }

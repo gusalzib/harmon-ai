@@ -132,7 +132,12 @@
             "files": " filer",
             "uploading": "Laddar upp",
             "directlyToGCS": " direkt till Google Cloud Storage",
-            "datasetUploadedTo": "Dataset uppladdat till"
+            "datasetUploadedTo": "Dataset uppladdat till",
+            "fetchingReports": "Hämtar rapporter...",
+            "noReportsFound": "Inga rapporter hittades",
+            "reportFetchingError": "Fel vid hämtning av rapporter: ",
+            "reportsLoaded": "Rapporter laddades",
+            "name": "Modellnamn"
         }
     }
 }

@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async checkStatus() {
       // Ask for session validity from server
-      const statusUrl = "http://localhost:8000/users/check-status"
+      const statusUrl = "http://localhost:8001/users/check-status"
       await axios.get(statusUrl, {
         withCredentials: true,
         headers: {

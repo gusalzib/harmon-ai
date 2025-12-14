@@ -64,7 +64,7 @@ export default {
       artist: '',
       genre: '',
       error: '',
-      url: 'http://localhost:8000/api/create-song/',
+      url: 'http://localhost:8001/api/create-song/',
       toast: null, // declare a toast variable to be used with toastification library for notifications
     }
   },

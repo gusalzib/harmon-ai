@@ -19,9 +19,10 @@
                       'compared' is similar to selected, this class marks the report card used for cmparsion. if the user has chosen a second report for side-by-side
                       comparison, this class signlas which report is playing the comparedTo role.  -->
 
+                    <h5>{{ $t('admin.model.name') }}: {{ report.name }}</h5>
                     <h5>{{ $t('admin.model.version') }}: V{{ report.version }}</h5>
-                    <p>{{ $t('admin.model.accuracy') }}: <strong>{{ report.accuracy }}%</strong></p>
-                    <p>{{ $t('admin.model.date') }}: {{ report.date }}</p>
+                    
+
 
                     <!-- since the parent div hax @click="selectReport" we add @click.stop here to make sure that the button click only triggers setComparisonReport() and not
                           selectReport(). 
@@ -41,12 +42,12 @@
 
                 <div class="report-panel primary-report">
                     <h4>{{ $t('admin.model.reportFor') }} V{{ this.selectedReport.version }}</h4>
-                     <iframe :src="this.selectedReport.reportURL" frameborder="0"></iframe>
+                     <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
                 </div>
 
                 <div class="report-panel comparison-report" v-if="this.comparisonReport">
                     <h4>{{ $t('admin.model.comparisonTo') }} V{{ this.comparisonReport.version }}</h4>
-                    <iframe :src="this.comparisonReport.reportURL" frameborder="0"></iframe>
+                    <iframe :src="this.comparisonReport.url" frameborder="0"></iframe>
                 </div>
             </div>
         </div>
@@ -64,30 +65,55 @@ export default {
     data() {
         return {
 
-            url: 'http://localhost:8000/admin/model-performance',
+            url: 'http://localhost:8000/admins/report',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
 
             selectedReport: null,
             comparisonReport: null, 
-            availableReports: [
-                // these are just dummy reports
-                {version: '2.1', accuracy: 86.0, date: '2025-12-10', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
-                {version: '2.0', accuracy: 75.0, date: '2025-11-25', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
-                {version: '1.9', accuracy: 70.0, date: '2025-11-10', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
-            ], 
+            availableReports: [],
+            // availableReports: [
+            //     // these are just dummy reports
+            //     {version: '2.1', accuracy: 86.0, date: '2025-12-10', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
+            //     {version: '2.0', accuracy: 75.0, date: '2025-11-25', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
+            //     {version: '1.9', accuracy: 70.0, date: '2025-11-10', reportURL: 'https://storage.googleapis.com/harmon_ai/models/reports/HarmonAi_v1_report.html'},
+            // ], 
 
 
         }
     },
     mounted() {
         this.toast = useToast(); // initiate a toast variable
-
+        this.fetchReportList();
 
     },
     methods: {
-        fetchReportList() {
-            
+        async fetchReportList() {
+            this.toast.info(this.$t('admin.model.fetchingReports'), { timeout: false });
+
+            try {
+
+                const response = await axios.get(this.url)
+
+                const reportData = response.data.reports;
+
+                if (reportData && reportData.length > 0) {
+                    this.availableReports = reportData;
+
+
+                    this.toast.clear();
+                    this.toast.success(this.$t('admin.model.reportsLoaded'));
+                } else {
+                    this.toast.clear();
+                    this.toast.warning(this.$t('admin.model.noReportsFound'));
+                }
+
+            } catch (error) {
+                this.toast.clear();
+                const errorMessage = error.response?.data?.message || error.message;
+                this.toast.error(`${this.$t('admin.model.reportFetchingError')} ${errorMessage}`);
+                console.error('Report fetch error: ', error)
+            }
         },
         // add a second report to the primary report for comparison in a split-view layout
         setComparisonReport(report) {

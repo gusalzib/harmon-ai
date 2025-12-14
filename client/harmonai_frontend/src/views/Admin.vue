@@ -45,7 +45,7 @@ export default {
                 password: '',
             },
             error: '',
-            url: 'http://localhost:8000/api/admin',
+            url: 'http://localhost:8001/api/admin',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
             activeSection: 'adminProfile', //this controls which section in visible to the user at any time. I set it to the profile page as default
