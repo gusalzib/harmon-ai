@@ -151,7 +151,9 @@
             "reportsLoaded": "Reports loaded successfully",
             "name": "Model name",
             "validatingAndTraining": "Validating and training the model...",
-            "trainingFailed": "Training failed!"
+            "trainingFailed": "Training failed!",
+            "retrainingDone": "Retraining done!",
+            "yourModelHasFinishedRetraining": "Your model has finished re-training on the latset dataset"
         }
     }
 }

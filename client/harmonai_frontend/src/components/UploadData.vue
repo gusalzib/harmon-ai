@@ -293,11 +293,13 @@ export default {
                     const notifyBackend = await axios.post(this.url, this.fileName)
 
                     this.toast.info(this.$t('admin.model.validatingAndTraining'), { timeout: false });
-                    
+
+                    // we get the 200 when the training is finised
                     if (notifyBackend.status === 200) {
                         
                         this.toast.clear();
                         this.toast.success(this.$t('admin.model.serverNotified'));
+                        this.createPushNotification(this.$('admin.model.retrainingDone'), this.$t('admin.model.yourModelHasFinishedRetraining'))
                     } else {
                         this.toast.clear();
                         this.toast.error(this.$t('admin.model.trainingFailed'))
@@ -321,6 +323,30 @@ export default {
                 this.isUploading = false;
             }
         },
+
+        createPushNotification(title, body) {
+            if (Notification.permission === "granted") {
+
+                new Notification(title, {
+                    body: body,
+                    icon: '/icons/favicon.ico',
+                    tag: 'model-traning-notification'
+                });
+            } else if (Notification.permission !== "denied") {
+                // if the permission is not already denied
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+
+                        new Notification(title, {
+                            body: body,
+                            icon: '/icons/favicon.ico',
+                            tag: 'model-traning-notification'
+                        });
+                    }
+                })
+                
+            }
+        }
     }
 }
 </script>

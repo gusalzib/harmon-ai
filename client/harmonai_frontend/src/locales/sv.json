@@ -139,7 +139,9 @@
             "reportsLoaded": "Rapporter laddades",
             "name": "Modellnamn",
             "validatingAndTraining": "Validerar och tränar modellen...",
-            "trainingFailed": "Träningen misslyckades!"
+            "trainingFailed": "Träningen misslyckades!",
+            "retrainingDone": "Omträning klar!",
+            "yourModelHasFinishedRetraining": "Din modell har avslutat omträning på det senaste datasetet"
         }
     }
 }
