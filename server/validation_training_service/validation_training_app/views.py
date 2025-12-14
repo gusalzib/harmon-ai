@@ -60,10 +60,11 @@ def test_train_model(request):
 @csrf_exempt
 def fetch_reports(request):
     if request.method == 'GET':
+        # path of reports
         path = BASE_MODEL_PATH +"/"+ BASE_REPORT_PATH
+        # get all reports
         reports = get_all_reports(BUCKET_NAME,path)
-        print(reports)
-
+        # return reports
         return JsonResponse({"reports":reports})
 
         

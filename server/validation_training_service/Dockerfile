@@ -21,6 +21,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy the current directory contents into the container at /app
 COPY . /app/
 
+# Add env
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/HarmonAi_storage.json
+
 # Expose port 8000
 EXPOSE 8000
 

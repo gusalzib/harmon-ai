@@ -3,6 +3,11 @@
 import os
 import sys
 
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
+import logging
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+
 
 def main():
     """Run administrative tasks."""

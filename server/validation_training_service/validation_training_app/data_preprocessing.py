@@ -30,13 +30,16 @@ def load_data():#should be given path as imput
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(source_blob_name)
 
+    # download the clean sql dataset
     blob.download_to_filename(destination_file_name)
-
+    # connect to the sqlite dataset 
     conn = sqlite3.connect(destination_file_name)
     try:
         dataset = pd.read_sql("SELECT * FROM training_data_v0", conn)
     finally:
+        # Close the connection
         conn.close()
+        # remove the sql dataset since we now have it as a pandas dataframe
         os.remove(destination_file_name)
 
     return dataset
@@ -57,7 +60,7 @@ def merge_chroma_bins(df):
 
     #normalize the dataset so that it resembels output from librosa audioprocessing
     max_vals = np.max(merged_val, axis=1, keepdims=True)
-    normalized_values = merged_val / (max_vals + 1e-9)
+    normalized_values = merged_val / (max_vals + 1e-9) # add a tiny number to avoid dividing by zero
     return pd.DataFrame(normalized_values, index=df.index)
 
 def create_timeseries_dataset(dataset, sequence_length, stride,shuffle=False, is_y_data=False):
@@ -72,6 +75,7 @@ def create_timeseries_dataset(dataset, sequence_length, stride,shuffle=False, is
         # For target data (y), we shift it to align with the end of the input sequence.
         dataset = dataset[TIMEFRAME - 1:]
 
+    #since the dataset becomes TIMEFRAME times bigger storing it as a reagular dataframe becomes to big
     dataset = tf.keras.utils.timeseries_dataset_from_array(
         data=dataset,
         targets=None,
@@ -83,11 +87,17 @@ def create_timeseries_dataset(dataset, sequence_length, stride,shuffle=False, is
     )
     return dataset
 
+
 def y_mapping_reshaped(x, y_key, y_qual):
     # Squeeze removes the time dimension from Y since it's just 1 step now
     return x, {'key': tf.squeeze(y_key, axis=1), 'quality': tf.squeeze(y_qual, axis=1)}
 
+#
 def zip_and_map(x,key,quality):
+    """
+    Combines feature, key, and quality datasets into a single dataset formatted for
+    the multi-output Keras model. Applies reshaping and prefetching.
+    """
     dataset =tf.data.Dataset.zip((x, key, quality))
     dataset_mapped = dataset.map(y_mapping_reshaped, num_parallel_calls=tf.data.AUTOTUNE).prefetch(tf.data.AUTOTUNE)
     return dataset_mapped
@@ -95,12 +105,14 @@ def zip_and_map(x,key,quality):
 
 
 def create_test_train_validationset(dataset):
-
+    # divide the dataset into training and test data 80/20 split
     n_samples = len(dataset)
     train_end = int(0.80 * n_samples)
+    #drop "ground-truth" for the x data
     x_data = dataset.drop(columns=['key','quality','timestamp'])
     key_data = dataset['key']
     quality_data = dataset['quality']
+    #normalize and make the chroma more like the mcgill dataset
     x_data = merge_chroma_bins(x_data)
 
     train_x = x_data[:train_end]
@@ -111,13 +123,14 @@ def create_test_train_validationset(dataset):
     test_key = key_data[train_end:]
     test_quality = quality_data[train_end:]
 
-    #split training data into training and validation data
+    #split training data into training and validation data 75/15
     x_train, x_val, key_train, key_val, y_quality_train, y_quality_val = train_test_split(train_x, 
     train_key, 
     train_quality, 
     test_size=0.15, 
     shuffle=False)
 
+    #create timeseries datasets eg datasets wtih sliding windows
     x_train= create_timeseries_dataset(x_train, TIMEFRAME, STRIDE, shuffle=True)
     x_val = create_timeseries_dataset(x_val, TIMEFRAME, STRIDE, shuffle=False)
     x_test = create_timeseries_dataset(test_x, TIMEFRAME, STRIDE, shuffle=False)
@@ -167,10 +180,10 @@ def save_testdata_to_tfrecord(output_path,test_dataset):
         for x, y in test_dataset.unbatch():
             
             # Flatten the window: (30, 12) -> (360,)
-            # We must convert to list for the Protobuf format
+            # We must convert to list for it to work with the Protobuf format
             features_flat = tf.reshape(x, [-1]).numpy().tolist()
             
-            # Extract scalar labels from your dictionary
+            # Extract 
             key_label = int(y['key'].numpy())
             quality_label = int(y['quality'].numpy())
             
