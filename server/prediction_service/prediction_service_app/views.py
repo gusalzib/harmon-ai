@@ -58,6 +58,7 @@ def create_song(request):
             audio = request.FILES['audio']
 
             #save audio in a folder and separate the audio
+            print("Splitting the audio")
             audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
 
 
