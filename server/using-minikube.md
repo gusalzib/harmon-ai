@@ -43,6 +43,17 @@ Get logs for a specific pod:
 minikube kubectl -- logs -p users-app-deployement-557b5c56fd-wphrj
 ```
 
+## Image Requirements
+**List of valid image tags**
+*If you don't use these imagetags with minikube, the images won't be used*
+- harmonai-client:latest
+- users-proj:latest
+    - Requires .env with DB_CONNECTION_STRING
+- prediction-proj:latest
+- training-proj:latest
+    - Requires HarmonAi_storage.json containing Google Application Credentials (ask Viktor)
+
+Should be able to run each image locally with `docker run --rm -p <port>:<port> name:tag`
 
 # Gateway API
 Fuck the Gateway API
