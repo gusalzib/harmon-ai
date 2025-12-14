@@ -1,5 +1,6 @@
 from django import forms
 import os
+from google.cloud import storage
 
 #save audio in a folder
 
@@ -63,3 +64,30 @@ def delete_audio_4_stems(audio_file_path, output_folder_name):
     os.rmdir(output_folder_path)
 
     return "audio deleted" 
+
+def download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME):
+    model_path = f"{BASE_MODEL_PATH}/{MODEL_NAME}/serving"
+    local_dir = f"/tmp/{MODEL_NAME}"
+
+    os.makedirs(local_dir, exist_ok=True)
+
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+
+    found_any = False
+    for blob in bucket.list_blobs(prefix=model_path):
+        if blob.name.endswith("/"):
+            continue
+        found_any = True
+
+        rel_path = blob.name[len(model_path):].lstrip("/")
+        dst_path = os.path.join(local_dir, rel_path)
+
+        os.makedirs(os.path.dirname(dst_path), exist_ok=True)
+        blob.download_to_filename(dst_path)
+
+    if not found_any:
+        raise RuntimeError(f"No files found in google cloud at : {BUCKET_NAME}/{model_path}")
+
+    return local_dir
+

@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,7 +90,7 @@ WSGI_APPLICATION = "prediction_service_backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django_mongodb_backend",
-        "HOST": "mongodb+srv://rebeckaakerblom_db_user:1KusL7oJpmahSb3g@fairbnb-cluster.on0xbl6.mongodb.net/prediction_service_db?retryWrites=true&w=majority&appName=fairbnb-Cluster",
+        "HOST": os.environ.get("MONGODB_URI"),
         "NAME": "prediction_service_db",
     }
 }
