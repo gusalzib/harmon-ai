@@ -9,7 +9,7 @@ tones_normalized_equiv = {
     "Fb": "E",
     "Gb": "F#",
     "Ab": "G#",
-    "Bb": "A#"
+    "Bb": "A#",
     # Maybe Sharp notes too for future data updates
 }
 
@@ -30,14 +30,8 @@ chord_map = {
     "B": 14,
 }
 
-quality_map = {
-    "N": 1,
-    "X": 2,
-    "maj": 3,
-    "min": 4,
-    "7": 5,
-    "maj7": 6
-}
+quality_map = {"N": 1, "X": 2, "maj": 3, "min": 4, "7": 5, "maj7": 6}
+
 
 def count_folders(path):
     num_of_folders = 0
@@ -47,7 +41,9 @@ def count_folders(path):
 
     return num_of_folders
 
+
 ### Verification
+
 
 def verify_count(path, count):
     total = 0
@@ -69,11 +65,13 @@ def verify_count(path, count):
             else:
                 incorrect += 1
             total += 1
-    
+
     print(f"Subfolders with {count} files: {correct}/{total}")
+
 
 def grab_all(data_path):
     return os.listdir(data_path)
+
 
 # Load data from directory
 # With specified .lab file (majmin, full, etc)
@@ -84,6 +82,7 @@ def load_sets_paths(path, load_alg=grab_all):
         sets[i] = os.path.join(path, sets[i])
 
     return sets
+
 
 def main_lmao():
     # Paths

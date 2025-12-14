@@ -19,68 +19,98 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  
+  --palette-vintage-lavendar: #A167A5;
+  --palette-thistle: #D3BCCC;
+  --palette-thistle-30: rgba(211, 188, 204, 0.3);
+  --palette-deep-space-blue: #0E273C;
+  --palette-deep-space-blue-50: rgba(14, 39, 60, 0.5);
+  --palette-deep-space-blue-test: #a1d5ff;
+  --palette-indigo-velvet: #4A306D;
+  --palette-indigo-velvet-border: #862ff8;
+  --palette-lavendar-veil: #E8D7F1;
+
+  --section-separator: 150px;
+
+  /* musical background img (this xml string was AI Generated) */
+  /* gemini prompt: mathematically generate an svg background image with semi-transparent musical instruments scattered around it */
+  /* --- LIGHT THEME SVG PATTERN (Original, with Light Colors) --- */
+  --svg-musical-pattern-light: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3e%3cdefs%3e%3cg id='guitar' fill='none' stroke-width='10'%3e%3cpath d='M100 0 C 150 50, 150 150, 100 200 C 50 150, 50 50, 100 0 Z' fill='%23A167A5' /%3e%3crect x='90' y='-50' width='20' height='100' fill='%234A306D' /%3e%3c/g%3e%3cg id='trumpet' fill='%23D3BCCC' stroke='%23A167A5' stroke-width='5'%3e%3cpath d='M0 0 L 50 20 C 60 5, 80 5, 90 20 C 100 35, 100 45, 90 60 L 0 60 Z' fill='%23D3BCCC' stroke='none' /%3e%3ccircle cx='50' cy='150' r='10' fill='%23A167A5' stroke='none' /%3e%3ccircle cx='80' cy='150' r='10' fill='%23A167A5' stroke='none' /%3e%3cline x1='90' y1='100' x2='10' y2='10' stroke='%234A306D' stroke-width='8' /%3e%3c/g%3e%3cg id='keyboard' fill='%234A306D' stroke='%23000000' stroke-width='2'%3e%3crect x='0' y='0' width='30' height='100' fill='%23ffffff' stroke='%234A306D' /%3e%3crect x='32' y='0' width='30' height='100' fill='%23ffffff' stroke='%234A306D' /%3e%3crect x='64' y='0' width='30' height='100' fill='%23ffffff' stroke='%234A306D' /%3e%3crect x='20' y='0' width='10' height='60' fill='%23000000' /%3e%3crect x='52' y='0' width='10' height='60' fill='%23000000' /%3e%3c/g%3e%3c/defs%3e%3cuse href='%23guitar' transform='translate(50, 50) scale(0.6) rotate(15)' opacity='0.12' fill='%23A167A5'/%3e%3cuse href='%23trumpet' transform='translate(750, 400) scale(0.9) rotate(-30)' opacity='0.12' /%3e%3cuse href='%23keyboard' transform='translate(120, 850) scale(1.5)' opacity='0.05' /%3e%3cuse href='%23keyboard' transform='translate(350, 350) scale(1.5)' opacity='0.05' /%3e%3cuse href='%23keyboard' transform='translate(480, 555) scale(1.5)' opacity='0.09' /%3e%3cuse href='%23guitar' transform='translate(100, 800) scale(0.4) rotate(180)' opacity='0.15' /%3e%3cuse href='%23trumpet' transform='translate(900, 100) scale(0.5) rotate(90)' opacity='0.10' /%3e%3cuse href='%23keyboard' transform='translate(200, 300) scale(2.0, 0.8) rotate(45)' opacity='0.09' /%3e%3c/svg%3e");
+
+  /* --- DARK THEME SVG PATTERN (Inverted Colors: Light background colors swapped for dark colors) --- */
+  --svg-musical-pattern-dark: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3e%3cdefs%3e%3cg id='guitar' fill='none' stroke-width='10'%3e%3cpath d='M100 0 C 150 50, 150 150, 100 200 C 50 150, 50 50, 100 0 Z' fill='%23705072' /%3e%3crect x='90' y='-50' width='20' height='100' fill='%2391809d' /%3e%3c/g%3e%3cg id='trumpet' fill='%234A306D' stroke='%23705072' stroke-width='5'%3e%3cpath d='M0 0 L 50 20 C 60 5, 80 5, 90 20 C 100 35, 100 45, 90 60 L 0 60 Z' fill='%234A306D' stroke='none' /%3e%3ccircle cx='50' cy='150' r='10' fill='%23705072' stroke='none' /%3e%3ccircle cx='80' cy='150' r='10' fill='%23705072' stroke='none' /%3e%3cline x1='90' y1='100' x2='10' y2='10' stroke='%2391809d' stroke-width='8' /%3e%3c/g%3e%3cg id='keyboard' fill='%234A306D' stroke='%0a0809' stroke-width='2'%3e%3crect x='0' y='0' width='30' height='100' fill='%234A306D' stroke='%2391809d' /%3e%3crect x='32' y='0' width='30' height='100' fill='%234A306D' stroke='%2391809d' /%3e%3crect x='64' y='0' width='30' height='100' fill='%234A306D' stroke='%2391809d' /%3e%3crect x='20' y='0' width='10' height='60' fill='%23D3BCCC' /%3e%3crect x='52' y='0' width='10' height='60' fill='%23D3BCCC' /%3e%3c/g%3e%3c/defs%3e%3cuse href='%23guitar' transform='translate(50, 50) scale(0.6) rotate(15)' opacity='0.15' fill='%23705072'/%3e%3cuse href='%23trumpet' transform='translate(750, 400) scale(0.9) rotate(-30)' opacity='0.15' /%3e%3cuse href='%23keyboard' transform='translate(120, 850) scale(1.5)' opacity='0.08' /%3e%3cuse href='%23keyboard' transform='translate(350, 350) scale(1.5)' opacity='0.08' /%3e%3cuse href='%23keyboard' transform='translate(480, 555) scale(1.5)' opacity='0.12' /%3e%3cuse href='%23guitar' transform='translate(100, 800) scale(0.4) rotate(180)' opacity='0.18' /%3e%3cuse href='%23trumpet' transform='translate(900, 100) scale(0.5) rotate(90)' opacity='0.13' /%3e%3cuse href='%23keyboard' transform='translate(200, 300) scale(2.0, 0.8) rotate(45)' opacity='0.12' /%3e%3c/svg%3e");
+
+  /* Default background image is the light pattern */
+  --svg-musical-pattern: var(--svg-musical-pattern-light);
+
+  /*Shadows */
+  --light-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  --medium-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  --heavy-shadow:rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+
+  
+  /* gradient images  */
+  --color-background-image-dark: radial-gradient( circle farthest-corner at -5.6% -6.8%,  rgba(103,49,145,1) 37.3%, rgba(50,0,129,1) 73.5% );
+  --color-background-image-light: radial-gradient( circle farthest-corner at 10% 20%,  rgba(214,137,248,1) 0%, rgba(246,228,193,1) 90.1% ); ;
 }
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-white);
+  /* backround colors */
+  --page-background: var(--svg-musical-pattern);
+  --color-background: var(--vt-c-divider-light-2);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
+  --color-navbar-background: var(--palette-thistle);
+  --color-user-account-background: var(--palette-thistle-50);
+  --color-gradient-background: linear-gradient(180deg,rgba(211, 188, 204, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
+  --color-form-background: var(--palette-lavendar-veil);
+  --color-background-image: var(--color-background-image-light);
+  --color-background-report-card: var(--palette-thistle);
+  --color-background-report-card-border: var(--palette-indigo-velvet-border);
+  --color-background-report-card-hover: var(--palette-lavendar-veil);
 
-  --color-border: var(--vt-c-divider-light-2);
+  /* border colors */
+  --color-border: var(--palette-vintage-lavendar);
   --color-border-hover: var(--vt-c-divider-light-1);
+  --color-border-active: var(--palette-indigo-velvet);
 
+  /* text colors */
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
 
-  --section-gap: 160px;
+  /* accent colors */
+  --color-nav-link-active: var(--palette-vintage-lavendar);
+  --color-sidebar-hover: var(--palette-deep-space-blue-test)
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+.dark-theme{
+/* backround colors */
+  --page-background: var(--svg-musical-pattern-dark);
+  --color-background: var(--vt-c-black);
+  --color-background-soft: var(--vt-c-black-soft);
+  --color-background-mute: var(--vt-c-black-mute);
+  --color-navbar-background: var(--palette-deep-space-blue);
+  --color-user-account-background: var(--palette-deep-space-blue-50);
+  --color-gradient-background: linear-gradient(180deg,rgba(14, 39, 60, 1) 0%, rgba(134, 47, 248, 0.5) 100%);
+  --color-form-background: var(--palette-indigo-velvet);
+  --color-background-image: var(--color-background-image-dark);
+  --color-background-report-card: var(--palette-deep-space-blue);
+  --color-background-report-card-hover: var(--palette-deep-space-blue-50);
+  /* border colors */
+  --color-border: var(--palette-deep-space-blue-test);
+  --color-border-active: var(--palette-indigo-velvet-border);
+  /* --color-border-hover: var(--vt-c-divider-dark-1); */
+  --color-border-hover: var(--palette-vintage-lavendar);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+/* text colors */
+  --color-heading: var(--vt-c-text-dark-1);
+  --color-text: var(--vt-c-text-dark-1);
+  --color-text-active-tab: var(--vt-c-text-dark-2);
 
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
-}
-
-body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* accent colors */
+  --color-nav-link-box: var(--palette-vintage-lavendar);
+  
 }

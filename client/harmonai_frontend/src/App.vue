@@ -1,85 +1,121 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="nav-bar">
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+        <div class="nav-links">
+          <RouterLink to="/">{{ $t('nav.home') }}</RouterLink>
+          <RouterLink v-show="this.authStore.isLoggedIn && !this.authStore.isSuperUser" to="/profile">{{ $t('nav.profile') }}</RouterLink>
+          <RouterLink v-show="this.authStore.isLoggedIn && this.authStore.isSuperUser" to="/admin">{{ $t('nav.adminProfile') }}</RouterLink>
+          <RouterLink v-show="this.authStore.isLoggedIn && this.authStore.isSuperUser" to="/model-performance">{{ $t('nav.modelPerformance') }}</RouterLink>
+          <RouterLink to="/about">{{ $t('nav.about') }}</RouterLink>
+          <RouterLink v-show="!this.authStore.isLoggedIn" to="/login">{{ $t('nav.login') }}</RouterLink>
+          <RouterLink v-show="!this.authStore.isLoggedIn" to="/signup">{{ $t('nav.signup') }}</RouterLink>
+          <button v-show="this.authStore.isLoggedIn" class="standard-btn" @click="logout">{{ $t('nav.logout') }}</button>
+          <ThemeToggle />
+        </div>
+        <LanguageSwitcher />
+    </header>
+  </div>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
 
   <RouterView />
 </template>
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import ThemeToggle from '@/components/ThemeToggle.vue'
+import LanguageSwitcher from './components/LanguageSwitcher.vue';
+import { getCsrfToken } from './utils/csrfTokenUtils';
+import axios from 'axios';
+import { useToast } from 'vue-toastification'
+import { useAuthStore } from "@/stores/auth"
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+export default {
+  name: 'App',
+  components: {
+    LanguageSwitcher,
+    ThemeToggle,
+  },
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+  data() {
+    return {
+      url: 'http://localhost:8001/users/logout',
+      statusURL: 'http://localhost:8001/users/check-status',
+      prefsURL: "http://localhost:8001/users/get-preferences",
+      timeout: 1000,
+      toast: null,
+      authStore: useAuthStore()
+    }
+  },
+  async mounted() {
+    this.toast = useToast(); // initiate a toast variable
+    this.get_csrf() // Get CSRF token
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+    // Check session validity
+    await this.authStore.checkStatus()
+    await this.loadPrefs()
+  },
+  methods: {
+    async loadPrefs() {
+      console.log(`Is logged in? ${this.authStore.isLoggedIn}. Is superuser? ${this.authStore.isSuperUser}`)
+      if(this.authStore.isLoggedIn == true) {
+        const response = await axios.get(this.prefsURL, {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": getCsrfToken()
+          }
+        });
+        console.log(`Prefs: ${JSON.stringify(response.data)}`)
+      }
+      else {
+        console.log("Not logged in")
+      }
+    },
+    get_csrf() {
+      try {
+        // Get CSRF token from server. If cookie != X-CSRFToken value, bad news
+        axios.get("http://localhost:8001/users/set-csrf-cookie", {withCredentials: true})
+          .then(response => {
+            if(response.status == 200)
+              console.log("XSRF cookie set")
+            else
+              console.log("Failed setting XSRF cookie")
+          })
+      }
+      catch(e) {
+        console.log("sorry lmao")
+      }
+    },
+    async logout() {      
+      try {
+        const response = await axios.post(`${this.url}`, 'logout',{
+          withCredentials: true,
+          headers: {  
+            "X-CSRFToken": getCsrfToken()
+          }
+        })
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
+        this.authStore.checkStatus()
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
+        // if the logout was successful, we automatically redirect the
+        // user to the login page
+        // timeout is set to 2 seconds as a default
+        if (response.status === 200) {
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
+          // display notifications
+          this.toast && this.toast.success(this.$t('notification.logoutSuccessful') || 'Logout successful');
+          // redirect the user to home page
+          setTimeout(() => {
+            this.$router.push('/login'); // go to login
+          }, this.timeout);
+        }
 
-nav a:first-of-type {
-  border: 0;
-}
+      } catch (error) {
+        // we show a localized notification and if we fail to get that, we have the fallback english string
+        this.toast && this.toast.error(this.$t('notification.logoutFailed') || 'Logout Failed')
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+      }
+    }
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
-</style>
+</script>
+<style src="src\assets\main.css"></style>

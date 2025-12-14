@@ -9,3 +9,20 @@ resources/
 #----- 
 server/.DS_Store
 .DS_Store
+#----- music used for notebook ------------
+music_for_chroma/
+
+#--------
+
+# Python bytecode and temporary files
+__pycache__/
+*.pyc
+*.pyo
+*~
+*.log
+
+
+env-name/
+env-310/
+migrations/
+secrets/
