@@ -1,6 +1,27 @@
 from google.cloud import storage
 import re
 
+def version_clean_data(bucket_name, data_name_prefix):
+    """
+    returns what verison to save the clean sql dataset as
+
+    """
+    storage_client = storage.Client()
+    list_prefix = f"{data_name_prefix}_v"
+    iterator = storage_client.list_blobs(bucket_name, prefix=list_prefix, delimiter='/')
+
+    max_version = 0
+    version_regex = re.compile(r'_v(\d+)(?:[./]|$)')
+
+    for page in iterator.pages:
+        for blob in page:
+            match = version_regex.search(blob.name)
+            if match:
+                max_version = max(max_version, int(match.group(1)))
+
+    return max_version + 1
+
+
 def version_model(bucket_name, model_name_prefix):
     """
     Checks a GCS bucket for models with a given prefix and determines the next version number.

@@ -1,5 +1,7 @@
 from google.cloud import storage
 import re
+import os
+import zipfile
 
 def upload_blob_from_string(bucket_name, string_data, destination_blob_name, content_type='text/html'):
     """Uploads a string to the bucket.
@@ -18,6 +20,21 @@ def upload_blob_from_string(bucket_name, string_data, destination_blob_name, con
 
     print(f"String data uploaded to {destination_blob_name}.")
 
+ 
+def upload_blob_from_file(bucket_name, source_file_name, destination_blob_name):
+    """Uploads a file to the bucket.
+    Args:
+        bucket_name (str): The name of the GCS bucket.
+        source_file_name (str): The path to the local file.
+        destination_blob_name (str): The destination path within the bucket.
+    """
+
+    storage = storage.client()
+    bucket = storage.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    blob.upload_from_filename(source_file_name)
+    
 
 def get_all_reports(bucket_name,path_to_reports):
 
@@ -38,3 +55,21 @@ def get_all_reports(bucket_name,path_to_reports):
             "name": "HarmonAi_v"+str(version)
         })
     return reports
+
+
+def get_zip(bucket_name, source_blob_name, destination_file_name="temp/dataset.zip"):
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+
+    if os.path.dirname(destination_file_name):
+        os.makedirs(os.path.dirname(destination_file_name), exist_ok=True)
+
+    blob.download_to_filename(destination_file_name)
+
+    extract_path = os.path.splitext(destination_file_name)[0]
+    with zipfile.ZipFile(destination_file_name, 'r') as zip_ref:
+        zip_ref.extractall(extract_path)
+    
+    

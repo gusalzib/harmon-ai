@@ -16,14 +16,14 @@ TIMEFRAME = 30
 BATCH_SIZE = 64
 STRIDE = 5
 
-def load_data(path_to_data):
+def load_data():#should be given path as imput
     """
     Downloads the database file from Google Cloud Storage, loads the data into a
     pandas DataFrame, and then cleans up the downloaded file.
     """
     ####rename once we have upload and validation###
     bucket_name = "harmon_ai"
-    source_blob_name = "data/clean_data/training_data_v0.db" ###should be path_to_data
+    source_blob_name = "data/clean_data/training_data_v0.db" ###should be path_to_data, we could store the sql in a temp file or get it from GCS
     destination_file_name = "/tmp/training_data"
 
     storage_client = storage.Client()
