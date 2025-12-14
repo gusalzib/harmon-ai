@@ -84,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_backend',
         'HOST': os.environ["DB_CONNECTION_STRING"],
-        'NAME': 'harmonai',
+        'NAME': 'users_service_db',
     },
 }
 
