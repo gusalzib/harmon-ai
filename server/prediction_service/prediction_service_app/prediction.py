@@ -9,6 +9,7 @@ from collections import Counter
 MAJOR = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B", "N", "X"]
 MINOR = ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "Abm", "Am", "Bbm", "Bm", "N", "X"]
 N = 'N'
+X = 'X'
 
 
 def predict(chroma_T, model):
@@ -32,6 +33,8 @@ def chord_filter(interval, **kwargs):
             strongest_chord= counts[1][0]
     else:
         strongest_chord = counts[0][0]
+    
+    
     
     return strongest_chord
 
@@ -67,24 +70,27 @@ def structure(interval,**kwargs):
 
 
 def structure_chords(chords_beat):
-    chords_array = np.array(chords_beat, dtype='<U8')
-    #chords_array = chords_array[1:]
-    first_chord=chords_array[0]
-    chords_array = np.insert(chords_array, 0,first_chord)
-    total_beats = len(chords_beat)
-    bars = np.arange(0, total_beats, 4)
+    if len(chords_beat) == 0:
+        final_chords_bar = "| "
+    else:
+        chords_array = np.array(chords_beat, dtype='<U8')
+        #chords_array = chords_array[1:]
+        first_chord=chords_array[0]
+        chords_array = np.insert(chords_array, 0,first_chord)
+        total_beats = len(chords_beat)
+        bars = np.arange(0, total_beats, 4)
 
-    chords_bar= librosa.util.sync(
-    data=chords_array,
-    idx= bars,
-    aggregate=structure,
-    pad=False
-    )
-    chords_bar_list = chords_bar.tolist()
+        chords_bar= librosa.util.sync(
+        data=chords_array,
+        idx= bars,
+        aggregate=structure,
+        pad=False
+        )
+        chords_bar_list = chords_bar.tolist()
 
-    joined_chords_bar = " | ".join(chords_bar_list)
-    final_chords_bar = "| " + joined_chords_bar.strip()
+        joined_chords_bar = " | ".join(chords_bar_list)
+        final_chords_bar = "| " + joined_chords_bar.strip()
 
-    print("CHORDS_BEAT : ", chords_beat)
-    print("PRINT THE CHORDS",final_chords_bar)
+        print("CHORDS_BEAT : ", chords_beat)
+        print("PRINT THE CHORDS",final_chords_bar)
     return final_chords_bar
