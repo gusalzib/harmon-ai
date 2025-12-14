@@ -4,13 +4,27 @@ import json
 from .models import Song
 import librosa
 import numpy as np
-from .methods import create_chroma, fetch_duration, get_tempo
-from .prediction import predict, prediction_into_chords,structure_chords
-from .file_handler import separate_audio, delete_audio_2_stems, delete_audio_4_stems
-import tensorflow as tf
-from spleeter.separator import Separator
 from django import forms
 import os
+import tensorflow as tf
+from dotenv import load_dotenv
+load_dotenv()
+
+from spleeter.separator import Separator #The Spleeter model
+
+from .methods import create_chroma, fetch_duration, get_tempo
+from .prediction import predict, prediction_into_chords,structure_chords
+from .file_handler import separate_audio, delete_audio_2_stems, delete_audio_4_stems,download_model_from_google
+
+
+BUCKET_NAME = "harmon_ai"
+BASE_MODEL_PATH = "models" # GCS "folder"
+MODEL_NAME = os.environ.get("MODEL_NAME")
+if not MODEL_NAME:
+    raise RuntimeError("MODEL_NAME variable is not set")
+
+
+local_dir = download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME)
 
 #this is the spleeter model
 separator = Separator('spleeter:4stems')
@@ -19,7 +33,10 @@ separator = Separator('spleeter:4stems')
 stems = 4
 
 #this is our model
-model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
+model = tf.saved_model.load(local_dir)
+
+#the old way of loading our model when it was saved in repo
+#model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
 @csrf_exempt
 def create_song(request):
@@ -56,8 +73,6 @@ def create_song(request):
             chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate)
 
 
-
-
             print("getting the duration")
             print("TIMESTAMPS: ", timestamps)
             duration = fetch_duration(y_harmonic, sampling_rate)
@@ -89,8 +104,7 @@ def create_song(request):
                 )
             new_song.save()
 
-        
-
+    
             response = JsonResponse({
                 'title':title,
                 'artist':artist,
