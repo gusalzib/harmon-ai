@@ -47,6 +47,8 @@
         "songTitle": "Song title",
         "songArtist": "Song artist",
         "songGenre": "Song genre",
+        "songBPM": "BPM",
+        "songDuration": "Duration",
         "songGenrePlaceholder": "Enter the genre of your song",
         "songTitlePlaceholder": "Enter the title of your song",
         "songArtistPlaceholder": "Enter the artist of your song"
@@ -100,7 +102,8 @@
     "song":{
         "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
         "chords": "Chords",
-        "yourFavoriteSongs": "Your Favorite Songs"
+        "yourFavoriteSongs": "Your Favorite Songs",
+        "predictedChords": "Your predicted song chords:"
     },
     "history": {
         "yourSongsHistory": "Your Song History",

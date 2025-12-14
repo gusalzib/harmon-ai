@@ -5,7 +5,21 @@ from .models import Song
 import librosa
 import numpy as np
 from .methods import create_chroma, fetch_duration, get_tempo
+from .prediction import predict, prediction_into_chords,structure_chords
+from .file_handler import separate_audio, delete_audio_2_stems, delete_audio_4_stems
+import tensorflow as tf
+from spleeter.separator import Separator
+from django import forms
+import os
 
+#this is the spleeter model
+separator = Separator('spleeter:4stems')
+#there is two options for the spleeter model. use 2 stems or 4 stems.
+#update the variable "stems" depending what you choose
+stems = 4
+
+#this is our model
+model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
 @csrf_exempt
 def create_song(request):
@@ -19,27 +33,50 @@ def create_song(request):
                     'message': 'No audio file provided',
                 }
                 return response
-            
+            print("got the Audio")
             title = request.POST.get("title")
             artist = request.POST.get("artist")
             genre = request.POST.get("genre")
         
             audio = request.FILES['audio']
-        
-            #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(audio, sr=None)
 
+            #save audio in a folder and separate the audio
+            audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
+
+
+            print("creating the waveform")
+            #extract the samplingrate and create the waveform of the audio
+            waveform, sampling_rate = librosa.load(prosessed_audio, sr=22050)
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
-            jump_time = 0.05 #this is good for tweaking the chroma
 
             #call the methods to extract info from audio
-            chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate,jump_time)
-            duration = fetch_duration(y_harmonic, sampling_rate)
-            tempo = get_tempo(y_percussive, sampling_rate)
-            name = audio.name
+            #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate)
+            print("creating the chroma")
+            chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate)
 
+
+
+
+            print("getting the duration")
+            print("TIMESTAMPS: ", timestamps)
+            duration = fetch_duration(y_harmonic, sampling_rate)
+            print("getting the tempo")
+            tempo = get_tempo(y_percussive, sampling_rate)
+            print("predicting")
+            key_prediction, major_minor = predict(chroma_T,model)
+            print("turn prediction into chords")
+            chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
+            print("structure the chords")
+            song_chords = structure_chords(chords)
+
+            if stems == 2:
+                print(delete_audio_2_stems(audio_file_path, output_folder_name,))
+            else:
+                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
+            
             #create the song object and save it to the db
+            print("creates song object")
             new_song = Song.objects.create(
                 title=title,
                 artist=artist,
@@ -47,11 +84,20 @@ def create_song(request):
                 tempo=tempo,
                 duration=duration, 
                 columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-                chromogram=chromagram.astype(float).tolist()
+                chromogram=chroma_T.astype(float).tolist(),
+                prediction=song_chords
                 )
             new_song.save()
 
+        
+
             response = JsonResponse({
+                'title':title,
+                'artist':artist,
+                'genre':genre,
+                'tempo':tempo,
+                'duration':duration, 
+                'chords':song_chords,
                 'result': 'success',
                 'message': 'Audio received',
             },status=200)
@@ -75,9 +121,9 @@ def update_song(request):
         try:
             data = json.loads(request.body)
             searchTitle = data.get("title")
-            apdatedUser_rating = data.get("user_rating")
+            updatedUser_rating = data.get("user_rating")
             Song.objects.filter(title=searchTitle).update(
-                user_rating=apdatedUser_rating
+                user_rating=updatedUser_rating
             )
 
             response = JsonResponse({
@@ -99,3 +145,125 @@ def update_song(request):
     return response
 
 
+@csrf_exempt
+def get_specific_song(request):
+    if request.method == "GET":
+        try:
+            data = json.loads(request.body)
+            searchTitle = data.get("title")
+            song_query= Song.objects.filter(title=searchTitle)
+            if not song_query.exists():
+                return JsonResponse({
+                    'result': 'error',
+                    'message': 'Invalid request method',
+                    },status=400)
+                
+            #turn result of filter int a song object
+            song = song_query.first()
+
+
+            response = JsonResponse({
+                'title':song.title,
+                'artist':song.artist,
+                'genre':song.genre,
+                'tempo':song.tempo,
+                'duration':song.duration, 
+                'chords':song.prediction,
+                'result': 'success',
+            }, status=200)
+            
+        except json.JSONDecodeError:
+            response = JsonResponse({
+                'result': 'error',
+                'message': 'Invalid JSON',
+            },status=400)
+    else:
+        response = JsonResponse({
+            'result': 'error',
+            'message': 'Invalid request method',
+            },status=400)
+        
+    return response
+
+@csrf_exempt
+def get_artists_songs(request):
+    if request.method == "GET":
+        try:
+            data = json.loads(request.body)
+            searchArtist = data.get("artist")
+            songs_query= Song.objects.filter(artist=searchArtist)
+            if not songs_query.exists():
+                return JsonResponse({
+                    'result': 'error',
+                    'message': 'No songs found by this artist',
+                    },status=400)
+                
+            #turn result of filter int a song object
+            songs = list(songs_query.values(
+                "title",
+                "artist",
+                "genre",
+                "tempo",
+                "duration",
+                "prediction",
+            ))
+
+            response = JsonResponse({
+                "songs": songs,
+                'result': 'success',
+            }, status=200)
+            
+        except json.JSONDecodeError:
+            response = JsonResponse({
+                'result': 'error',
+                'message': 'Invalid JSON',
+            },status=400)
+    else:
+        response = JsonResponse({
+            'result': 'error',
+            'message': 'Invalid request method',
+            },status=400)
+        
+    return response
+
+@csrf_exempt
+def get_songs_from_genre(request):
+    if request.method == "GET":
+        try:
+            data = json.loads(request.body)
+            searchGenre = data.get("genre")
+            songs_query= Song.objects.filter(genre=searchGenre)
+            if not songs_query.exists():
+                return JsonResponse({
+                    'result': 'error',
+                    'message': 'No songs found in this genre',
+                    },status=400)
+                
+            #turn result of filter int a song object
+            songs = list(songs_query.values(
+                "title",
+                "artist",
+                "genre",
+                "tempo",
+                "duration",
+                "prediction",
+            ))
+
+            response = JsonResponse({
+                "songs": songs,
+                'result': 'success',
+            }, status=200)
+            
+        except json.JSONDecodeError:
+            response = JsonResponse({
+                'result': 'error',
+                'message': 'Invalid JSON',
+            },status=400)
+    else:
+        response = JsonResponse({
+            'result': 'error',
+            'message': 'Invalid request method',
+            },status=400)
+        
+    return response
+    
