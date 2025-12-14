@@ -15,16 +15,23 @@ spec:
             port:
               number: 8080
       - path: /users/
-        pathType: Prefix # This one I'm copying blindly
+        pathType: Prefix
         backend:
           service:
             name: users-service
             port:
               number: 8000
       - path: /api/
-        pathType: Prefix # This one I'm copying blindly
+        pathType: Prefix
         backend:
           service:
             name: prediction-service
+            port:
+              number: 8000
+      - path: /admins/
+        pathType: Prefix
+        backend:
+          service:
+            name: training-service
             port:
               number: 8000
