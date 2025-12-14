@@ -13,9 +13,10 @@ db.sqlite3
 venv/
 env/
 django-env/
-
+temp/
 # Static files
 static/
+
 
 # Media files
 media/

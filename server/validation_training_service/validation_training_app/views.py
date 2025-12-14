@@ -5,7 +5,7 @@ from .data_preprocessing import load_data, create_test_train_validationset, save
 from .training import build_model, train_model, save_serving_model, save_model_for_tfma
 from .evaluation import generate_report
 from .version import version_model
-from .gcs_utils import upload_blob_from_string, get_all_reports
+from .gcs_utils import upload_blob_from_string, get_all_reports, get_zip
 
 
  # --- Configuration ---
@@ -30,7 +30,8 @@ def test_train_model(request):
         gcs_tfrecord_path = f"gs://{BUCKET_NAME}/{BASE_MODEL_PATH}/{versioned_model_name}/test_data.tfrecord"
         gcs_report_path = f"{BASE_MODEL_PATH}/{BASE_REPORT_PATH}/{versioned_model_name}_report.html"
 
-        # 2. Load and preprocess data
+        # 2. Load and preprocess data 
+        ##change load data to use sql path as parameter
         dataset = load_data()
         train_dataset, val_dataset, test_dataset = create_test_train_validationset(dataset)
 
@@ -62,5 +63,9 @@ def fetch_reports(request):
         path = BASE_MODEL_PATH +"/"+ BASE_REPORT_PATH
         reports = get_all_reports(BUCKET_NAME,path)
         print(reports)
+
+        get_zip(BUCKET_NAME, "data/dataset_2025-12-11-21-10-43.zip")
+
         return JsonResponse({"reports":reports})
-   
+
+        

@@ -4,8 +4,9 @@ django-cors-headers
 django-mongodb-backend
 
 # ML/Data Science
-tensorflow
-tensorflow-model-analysis
+tf_keras==2.17.0
+tensorflow==2.17.1
+tensorflow-model-analysis==0.48.0
 pandas
 numpy
 scikit-learn
@@ -13,5 +14,6 @@ scikit-learn
 # Google Cloud
 google-cloud-storage
 
-# Environment variables
+#other
 python-dotenv
+ipywidgets==7.8.5
