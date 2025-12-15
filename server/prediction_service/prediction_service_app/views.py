@@ -186,11 +186,11 @@ def get_songs(request):
             searchTitle =request.GET.get("title")
 
             if searchGenre:
-                songs_query= Song.objects.filter(genre=searchGenre)
+                songs_query= Song.objects.filter(genre__iexact=searchGenre)
             elif searchArtist:
-                songs_query= Song.objects.filter(artist=searchArtist)
+                songs_query= Song.objects.filter(artist__iexact=searchArtist)
             elif searchTitle:
-                songs_query= Song.objects.filter(title=searchTitle)
+                songs_query= Song.objects.filter(title__iexact=searchTitle)
         
             if not songs_query.exists():
                 return JsonResponse({
