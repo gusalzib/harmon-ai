@@ -158,7 +158,7 @@ export default {
         
       }
       try{
-        const response = await axios.get(`http://localhost:8002/api/get_songs/?${kind}=${search}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/get_songs/?${kind}=${search}`);
 
         if (response.status === 200) {
           this.songs = response.data.songs; 
