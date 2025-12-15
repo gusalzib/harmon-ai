@@ -298,7 +298,7 @@ export default {
                         
                         this.toast.clear();
                         this.toast.success(this.$t('admin.model.serverNotified'));
-                        this.createPushNotification(this.$('admin.model.retrainingDone'), this.$t('admin.model.yourModelHasFinishedRetraining'))
+                        this.createPushNotification(this.$t('admin.model.retrainingDone'), this.$t('admin.model.yourModelHasFinishedRetraining'))
                     } else {
                         this.toast.clear();
                         this.toast.error(this.$t('admin.model.trainingFailed'))
