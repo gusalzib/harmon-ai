@@ -177,7 +177,7 @@ def get_songs(request):
                 songs_query= Song.objects.filter(artist=searchArtist)
             elif searchTitle:
                 songs_query= Song.objects.filter(title=searchTitle)
-
+        
             if not songs_query.exists():
                 return JsonResponse({
                     'result': 'error',

@@ -131,46 +131,33 @@ export default {
   },
   methods: {
     async searchQuery(queryType) {
-      
+      var search = "";
+      var kind = "";
       if (queryType === 'title') {
-        const response = await axios.get(`http://localhost:8002/api/get_songs/?title=${this.title}`);
-
-        if (response.status === 200) {
-          this.songs = response.data; 
-
-          console.log('Retrieved songs', this.songs);
-          
-        } else {
-          this.toast.warning(this.$t('home.noResultsFound'));
-        }
-        
+        search = this.title;
+        kind = 'title';
       }
-      if (queryType === 'artist') {
-        const response = await axios.get(`http://localhost:8002/api/get_songs/?artist=${this.artist}`);
-
-        if (response.status === 200) {
-          this.songs = response.data; 
-
-          console.log('Retrieved songs', this.songs);
-          
-        } else {
-          this.toast.warning(this.$t('home.noResultsFound'));
-        }
-        
+      if (queryType === 'artist'){
+        search = this.artist;
+        kind = 'artist';
       }
       if (queryType === 'genre') {
-        const response = await axios.get(`http://localhost:8002/api/get_songs/?genre=${this.genre}`);
-
-        if (response.status === 200) {
-          this.songs = response.data; 
-
-          console.log('Retrieved songs', this.songs);
-          
-        } else {
-          this.toast.warning(this.$t('home.noResultsFound'));
-        }
+        search = this.genre;
+        kind = 'genre';
         
       }
+      const response = await axios.get(`http://localhost:8002/api/get_songs/?${kind}=${search}`);
+
+      if (response.status === 200) {
+        this.songs = response.data; 
+
+        console.log('Retrieved songs', this.songs);
+        
+      } else {
+        this.toast.warning(this.$t('home.noResultsFound'));
+      }
+        
+      
     },
     handleFileUpload() {
       this.audioFile = event.target.files[0];
