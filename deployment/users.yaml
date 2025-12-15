@@ -10,7 +10,7 @@ metadata:
     app: users-app
 spec: 
   # Create two replicas of [pod templates?] whose labels match users-app
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: users-app

@@ -10,7 +10,7 @@ metadata:
     app: training-app
 spec: 
   # Create two replicas of [pod templates?] whose labels match training-app
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: training-app
