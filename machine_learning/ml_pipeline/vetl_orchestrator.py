@@ -60,7 +60,7 @@ def vetl_orchestrator(path=DEFAULT_MCGILL_PATH, val_threshold=0.65):
             valid_songs.append(element)
     
     if total_submitted > 0: 
-        validity = ( valid / total_submitted ) * 100
+        validity = valid / total_submitted
         percentage_val = validity * 100
 
         if validity >= val_threshold:
