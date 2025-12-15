@@ -133,7 +133,7 @@ export default {
     async searchQuery(queryType) {
       
       if (queryType === 'title') {
-        const response = await axios.get(`http://localhost:8002/api/get_specific_song/?title=${this.title}`);
+        const response = await axios.get(`http://localhost:8002/api/get_songs/?title=${this.title}`);
 
         if (response.status === 200) {
           this.songs = response.data; 
@@ -146,7 +146,7 @@ export default {
         
       }
       if (queryType === 'artist') {
-        const response = await axios.get(`http://localhost:8002/api/get_artists_songs/?artist=${this.artist}`);
+        const response = await axios.get(`http://localhost:8002/api/get_songs/?artist=${this.artist}`);
 
         if (response.status === 200) {
           this.songs = response.data; 
@@ -159,7 +159,7 @@ export default {
         
       }
       if (queryType === 'genre') {
-        const response = await axios.get(`http://localhost:8002/api/get_songs_from_genre/?genre=${this.genre}`);
+        const response = await axios.get(`http://localhost:8002/api/get_songs/?genre=${this.genre}`);
 
         if (response.status === 200) {
           this.songs = response.data; 

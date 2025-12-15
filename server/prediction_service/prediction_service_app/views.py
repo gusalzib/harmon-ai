@@ -162,105 +162,22 @@ def update_song(request):
     return response
 
 
-@csrf_exempt
-def get_specific_song(request):
-    if request.method == "GET":
-        try:
-            
-            searchTitle =request.GET.get("title")
-            song_query= Song.objects.filter(title=searchTitle)
-            if not song_query.exists():
-                return JsonResponse({
-                    'result': 'error',
-                    'message': 'Song not found',
-                    },status=404)
-                
-            #turn result of filter int a song object
-            #song = song_query.first()
-            songs = list(song_query.values(
-                "title",
-                "artist",
-                "genre",
-                "tempo",
-                "duration",
-                "prediction",
-            ))
-
-
-            # response = JsonResponse({
-            #     'title':song.title,
-            #     'artist':song.artist,
-            #     'genre':song.genre,
-            #     'tempo':song.tempo,
-            #     'duration':song.duration, 
-            #     'chords':song.prediction,
-            #     'result': 'success',
-            # }, status=200)
-            response = JsonResponse({
-                "songs": songs,
-                'result': 'success',
-            }, status=200)
-            
-        except json.JSONDecodeError as e:
-            logger.error("JSON decode error: %s", e)
-            response = JsonResponse({
-                'result': 'error',
-                'message': 'Invalid JSON',
-            },status=400)
-    else:
-        response = JsonResponse({
-            'result': 'error',
-            'message': 'Invalid request method',
-            },status=400)
-        
-    return response
 
 @csrf_exempt
-def get_artists_songs(request):
-    if request.method == "GET":
-        try:
-            searchArtist = request.GET.get("artist")
-            songs_query= Song.objects.filter(artist=searchArtist)
-            if not songs_query.exists():
-                return JsonResponse({
-                    'result': 'error',
-                    'message': 'No songs found by this artist',
-                    },status=400)
-                
-            #turn result of filter int a song object
-            songs = list(songs_query.values(
-                "title",
-                "artist",
-                "genre",
-                "tempo",
-                "duration",
-                "prediction",
-            ))
-
-            response = JsonResponse({
-                "songs": songs,
-                'result': 'success',
-            }, status=200)
-            
-        except json.JSONDecodeError:
-            response = JsonResponse({
-                'result': 'error',
-                'message': 'Invalid JSON',
-            },status=400)
-    else:
-        response = JsonResponse({
-            'result': 'error',
-            'message': 'Invalid request method',
-            },status=400)
-        
-    return response
-
-@csrf_exempt
-def get_songs_from_genre(request):
+def get_songs(request):
     if request.method == "GET":
         try:
             searchGenre = request.GET.get("genre")
-            songs_query= Song.objects.filter(genre=searchGenre)
+            searchArtist = request.GET.get("artist")
+            searchTitle =request.GET.get("title")
+
+            if searchGenre:
+                songs_query= Song.objects.filter(genre=searchGenre)
+            elif searchArtist:
+                songs_query= Song.objects.filter(artist=searchArtist)
+            elif searchTitle:
+                songs_query= Song.objects.filter(title=searchTitle)
+
             if not songs_query.exists():
                 return JsonResponse({
                     'result': 'error',
