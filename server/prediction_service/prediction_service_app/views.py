@@ -9,6 +9,8 @@ import os
 import tensorflow as tf
 from dotenv import load_dotenv
 load_dotenv()
+import logging 
+logger = logging.getLogger(__name__)
 
 from spleeter.separator import Separator #The Spleeter model
 
@@ -164,30 +166,43 @@ def update_song(request):
 def get_specific_song(request):
     if request.method == "GET":
         try:
-            data = json.loads(request.body)
-            searchTitle = data.get("title")
+            
+            searchTitle =request.GET.get("title")
             song_query= Song.objects.filter(title=searchTitle)
             if not song_query.exists():
                 return JsonResponse({
                     'result': 'error',
-                    'message': 'Invalid request method',
-                    },status=400)
+                    'message': 'Song not found',
+                    },status=404)
                 
             #turn result of filter int a song object
-            song = song_query.first()
+            #song = song_query.first()
+            songs = list(song_query.values(
+                "title",
+                "artist",
+                "genre",
+                "tempo",
+                "duration",
+                "prediction",
+            ))
 
 
+            # response = JsonResponse({
+            #     'title':song.title,
+            #     'artist':song.artist,
+            #     'genre':song.genre,
+            #     'tempo':song.tempo,
+            #     'duration':song.duration, 
+            #     'chords':song.prediction,
+            #     'result': 'success',
+            # }, status=200)
             response = JsonResponse({
-                'title':song.title,
-                'artist':song.artist,
-                'genre':song.genre,
-                'tempo':song.tempo,
-                'duration':song.duration, 
-                'chords':song.prediction,
+                "songs": songs,
                 'result': 'success',
             }, status=200)
             
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as e:
+            logger.error("JSON decode error: %s", e)
             response = JsonResponse({
                 'result': 'error',
                 'message': 'Invalid JSON',
@@ -204,8 +219,7 @@ def get_specific_song(request):
 def get_artists_songs(request):
     if request.method == "GET":
         try:
-            data = json.loads(request.body)
-            searchArtist = data.get("artist")
+            searchArtist = request.GET.get("artist")
             songs_query= Song.objects.filter(artist=searchArtist)
             if not songs_query.exists():
                 return JsonResponse({
@@ -245,8 +259,7 @@ def get_artists_songs(request):
 def get_songs_from_genre(request):
     if request.method == "GET":
         try:
-            data = json.loads(request.body)
-            searchGenre = data.get("genre")
+            searchGenre = request.GET.get("genre")
             songs_query= Song.objects.filter(genre=searchGenre)
             if not songs_query.exists():
                 return JsonResponse({
