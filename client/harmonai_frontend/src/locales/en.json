@@ -15,7 +15,10 @@
         "finish": "Finish",
         "copy": "Copy",
         "comparebutton": "Compare",
-        "closeButton": "Close"
+        "closeButton": "Close",
+        "searchBoxTitle": "Title",
+        "searchBoxArtist": "Artist",
+        "searchBoxGenre": "Genre"
     },
     "nav": {
         "about": "About",
@@ -38,9 +41,13 @@
         "signup": "Sign Up",
         "signupBtn": "Create Account",
         "findChordsHeading": "Find your chords",
-        "searchPlaceholder": "Song name",
+        "searchPlaceholderTitle": "Song name",
+        "searchPlaceholderArtist": "Artist name",
+        "searchPlaceholderGenre": "Genre",
         "uploadLabel": "Or upload an mp3 file",
-        "searchLabel": "Search in our song collection",
+        "searchLabelTitle": "Search for a song name",
+        "searchLabelArtist": "Search for an artist",
+        "searchLabelGenre": "Search for a genre",
         "warning": "Please make sure you have the rights to the file you upload",
         "purposeOfTheApp": "Discover the Chords in Any Song You Want",
         "purposeOfTheAppExplanation1": "HarmonAI analyzez the audio features of a song, such as chromagrams, to instantly generate highly accurate chord predictions. No more manual transcriptions! \n You can save your favorite songs and go back to them whenever you wish in your song history, here ",
