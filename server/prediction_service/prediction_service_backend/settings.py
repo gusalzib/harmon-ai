@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-65t1(dlq5$is@@11@*uyozk#**!2^e4jra^bhle951+y$zgk)o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -57,12 +57,18 @@ MIDDLEWARE = [
     
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+# CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:80",
+    "http://localhost:8080",
+    "https://localhost"
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+USE_X_FORWARDED_HOST = True
 
 ROOT_URLCONF = "prediction_service_backend.urls"
 

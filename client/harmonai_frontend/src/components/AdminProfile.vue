@@ -34,9 +34,9 @@ export default {
             form: {
                 email: '',
             },
-            url: 'http://localhost:8001/users/profile',
-            emailURL: 'http://localhost:8001/users/edit-profile',
-            passwordURL: 'http://localhost:8001/users/change-password',
+            url: '',
+            emailURL: '',
+            passwordURL: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
             activeSection: 'adminProfile', //this controls which section in visible to the user at any time. I set it to the profile page as default
@@ -44,11 +44,14 @@ export default {
                 oldPassword: '',
                 newPassword: ''
             }
-
-
+            
+            
         }
     },
     mounted() {
+        this.url = `${import.meta.env.VITE_API_URL}/users/profile`
+        this.emailURL = `${import.meta.env.VITE_API_URL}/users/edit-profile`
+        this.passwordURL = `${import.meta.env.VITE_API_URL}/users/change-password`
         this.toast = useToast(); // initiate a toast variable
         this.getUserInfo() // we get the user info as soon as the page is loaded
     },

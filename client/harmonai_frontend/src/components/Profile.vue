@@ -34,9 +34,10 @@ export default {
             form: {
                 email: '',
             },
-            url: 'http://localhost:8001/users/profile',
-            emailURL: 'http://localhost:8001/users/edit-profile',
-            passwordURL: 'http://localhost:8001/users/change-password',
+            baseURL: '',
+            url: '',
+            emailURL: '',
+            passwordURL: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
             activeSection: 'profile', //this controls which section in visible to the user at any time. I set it to the profile page as default
@@ -49,6 +50,11 @@ export default {
         }
     },
     mounted() {
+        this.baseURL = import.meta.env.VITE_API_URL,
+        this.url = `${this.baseURL}/users/profile`,
+        this.emailURL = `${this.baseURL}/users/edit-profile`,
+        this.passwordURL = `${this.baseURL}/users/change-password`,
+
         this.toast = useToast(); // initiate a toast variable
         this.getUserInfo() // we get the user info as soon as the page is loaded
     },

@@ -65,7 +65,7 @@ export default {
     data() {
         return {
 
-            url: 'http://localhost:8000/admins/report',
+            url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
 
@@ -75,6 +75,7 @@ export default {
         }
     },
     mounted() {
+        this.url = `${import.meta.env.VITE_API_URL}/admins/report/`
         this.toast = useToast(); // initiate a toast variable
         this.fetchReportList();
 

@@ -1,0 +1,10 @@
+
+# ConfigMap used for storing non-sensitive information
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: system-config
+data:
+  # Comma-separate these badboys, maybe, if you feel like it, but parse it explicitly in the settings.py
+  cors-allowed-origins: http://localhost:5173
+  csrf-trusted-origins: http://localhost:5173

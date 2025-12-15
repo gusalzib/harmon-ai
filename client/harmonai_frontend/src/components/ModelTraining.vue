@@ -16,15 +16,16 @@ export default {
     data() {
         return {
 
-            url: 'http://localhost:8001/admin/model-training',
+            url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
             activeSection: 'modelTraining', //this controls which section in visible to the user at any time.
-
-
+            
+            
         }
     },
     mounted() {
+        this.url = `${import.meta.env.VITE_API_URL}/admin/model-training`,
         this.toast = useToast(); // initiate a toast variable
 
 
