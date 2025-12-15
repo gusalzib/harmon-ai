@@ -12,7 +12,7 @@
         "apply": "Tillämpa",
         "cancel": "Avbryt",
         "finish": "Sluta",
-        "searchButton": "Söka",
+        "searchButton": "Sök",
         "uploadButton": "Ladda upp",
         "comparebutton": "Jämför",
         "closeButton": "Stäng",
@@ -34,6 +34,7 @@
         "adminProfile": "Profil"
     },
     "home": {
+        "noResultsFound": "Vi hittade inte det du sökte",
         "title": "Välkommen till HarmonAI",
         "subtitle": "h",
         "getStarted": "Kom igång",

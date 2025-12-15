@@ -30,20 +30,27 @@
 
       <div class="search-form" v-if="this.activeView === 'title'">
         <label for="song-search">{{ $t('home.searchLabelTitle') }}</label>
-        <input type="text" id="song-search" v-model="this.title" :placeholder="$t('home.searchPlaceholderTitle')">
+        <input type="text" id="song-search" v-model="this.searchTitle" :placeholder="$t('home.searchPlaceholderTitle')">
         <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
       </div>
       <div class="search-form" v-if="this.activeView === 'artist'">
         <label for="song-search">{{ $t('home.searchLabelArtist') }}</label>
-        <input type="text" id="song-search" v-model="this.artist" :placeholder="$t('home.searchPlaceholderArtist')">
+        <input type="text" id="song-search" v-model="this.searchArtist" :placeholder="$t('home.searchPlaceholderArtist')">
         <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
       </div>
       <div class="search-form" v-if="this.activeView === 'genre'">
         <label for="song-search">{{ $t('home.searchLabelGenre') }}</label>
-        <input type="text" id="song-search" v-model="this.genre" :placeholder="$t('home.searchPlaceholderGenre')">
+        <input type="text" id="song-search" v-model="this.searchGenre" :placeholder="$t('home.searchPlaceholderGenre')">
         <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
       </div>
-
+      <div class="search-result-display">
+        <div class="song-details-header" v-for="song in this.songs" :key="song.title">
+          <h4 class="song-name">{{ song.title }}</h4>
+          <h4 class="song-artist">{{ song.artist }}</h4>
+          <h4 class="song-genre">{{ song.genre }}</h4>
+          <p class="chord-list">{{ song.prediction }}</p>
+        </div>
+      </div>
       <hr>
 
       <div class="upload-form">
@@ -107,11 +114,14 @@ export default {
   data() {
     return {
       audioFile: null, // holds the selecte audio file
+      searchTitle: '',
+      searchArtist: '',
+      searchGenre: '',
       title: '',
       artist: '',
       genre: '',
       error: '',
-      url: 'http://localhost:8000/api/create-song/',
+      url: 'http://localhost:8002/api/create-song/',
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
       activeView: 'title', // default search field is title
@@ -120,7 +130,7 @@ export default {
         title: "",
         artist: "",
         genre: "",
-        chord_list: [],
+        prediction: [],
         BPM: "",
         duration:""
       }
@@ -134,30 +144,34 @@ export default {
       var search = "";
       var kind = "";
       if (queryType === 'title') {
-        search = this.title;
+        search = this.searchTitle;
         kind = 'title';
       }
       if (queryType === 'artist'){
-        search = this.artist;
+        search = this.searchArtist;
         kind = 'artist';
       }
       if (queryType === 'genre') {
-        search = this.genre;
+        search = this.searchGenre;
         kind = 'genre';
         
       }
-      const response = await axios.get(`http://localhost:8002/api/get_songs/?${kind}=${search}`);
+      try{
+        const response = await axios.get(`http://localhost:8002/api/get_songs/?${kind}=${search}`);
 
-      if (response.status === 200) {
-        this.songs = response.data; 
+        if (response.status === 200) {
+          this.songs = response.data.songs; 
 
-        console.log('Retrieved songs', this.songs);
-        
-      } else {
-        this.toast.warning(this.$t('home.noResultsFound'));
-      }
-        
-      
+          console.log('Retrieved songs', this.songs);
+          
+        } 
+      }catch(error){
+        if (error.response?.status === 404) {
+          this.toast.warning(this.$t('home.noResultsFound'));
+        }else{
+          this.toast.error(this.$t('notification.somethingWentWrong'))
+        }
+      }  
     },
     handleFileUpload() {
       this.audioFile = event.target.files[0];

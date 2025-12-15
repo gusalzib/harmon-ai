@@ -182,7 +182,7 @@ def get_songs(request):
                 return JsonResponse({
                     'result': 'error',
                     'message': 'No songs found in this genre',
-                    },status=400)
+                    },status=404)
                 
             #turn result of filter int a song object
             songs = list(songs_query.values(
