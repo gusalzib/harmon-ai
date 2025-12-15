@@ -1,0 +1,52 @@
+# Notes:
+# Same may be used for prediction service, 
+# only need to change name, image and only maaaybe containerport?
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-app-deployment
+  labels:
+    app: users-app
+spec: 
+  # Create two replicas of [pod templates?] whose labels match users-app
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-app
+  # Defining pod template
+  template:
+    metadata:
+      labels:
+        app: users-app
+    spec:
+      containers:
+      - name: users-app
+        image: docker.io/library/users-proj:latest
+        imagePullPolicy: Never  # Don't pull, only use klubernetes-local images (minikube image load <name>:<tag>)
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          # Any code greater than or equal to 200 and less than 400 indicates success. 
+          # Any other code indicates failure.
+          httpGet:
+            path: /users/is-db-connected
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 5
+---
+# Service bit
+# Forward request to the appropriate pods
+# Docs: https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  type: ClusterIP
+  selector:
+    app: users-app  # Docs use different selector
+  ports:
+  - protocol: TCP
+    port: 8000        # Port of which this service is accessible
+    targetPort: 8000  # Port of the pods belonging to the service

@@ -56,7 +56,8 @@ export default {
                 }
             ],
             songs: [], // holds the list of songs
-            url: 'http://localhost:8001/api/songs',
+            baseURL: '',
+            url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
             activeSection: 'favorite_songs', //this controls which section in visible to the user at any time.
@@ -65,6 +66,8 @@ export default {
         }
     },
     mounted() {
+        this.baseURL = import.meta.env.VITE_API_URL,
+        this.url = `${this.baseURL}/api/songs`,
         this.toast = useToast(); // initiate a toast variable
 
         // since the songs service is not online yet, we do not want to fetch the songs on page load because that just causes errors

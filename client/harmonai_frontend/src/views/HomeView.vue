@@ -137,6 +137,7 @@ export default {
     }
   },
   mounted() {
+    this.url = `${import.meta.env.VITE_API_URL}/api/create-song/`,
     this.toast = useToast(); // initiate a toast variable
   },
   methods: {

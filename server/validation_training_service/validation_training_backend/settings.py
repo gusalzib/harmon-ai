@@ -88,13 +88,13 @@ WSGI_APPLICATION = "validation_training_backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django_mongodb_backend",
-        "NAME": "prediction_service_db",
-        "HOST": "mongodb+srv://rebeckaakerblom_db_user:1KusL7oJpmahSb3g@fairbnb-cluster.on0xbl6.mongodb.net/harmonai?retryWrites=true&w=majority&appName=fairbnb-Cluster",
-    }
-}
+#DATABASES = {
+#    "default": {
+#        "ENGINE": "django_mongodb_backend",
+#        "NAME": "prediction_service_db",
+#        "HOST": "mongodb+srv://rebeckaakerblom_db_user:1KusL7oJpmahSb3g@fairbnb-cluster.on0xbl6.mongodb.net/harmonai?retryWrites=true&w=majority&appName=fairbnb-Cluster",
+#    }
+#}
 
 
 # Password validation
@@ -136,4 +136,4 @@ STATIC_URL = "static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+#DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

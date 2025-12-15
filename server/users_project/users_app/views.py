@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from users_app.models import Profile, Preferences
 from django.contrib.auth import authenticate, login, logout
+from django.db import connections
 import json
 
 # Create your views here.
@@ -16,9 +17,23 @@ import json
 # ]
 def index(request):
     return JsonResponse({
-        "message": "hey xD"
+        "message": "True"
     }, status=200)
 
+### WELLNESS CHECKS ###
+@require_GET
+@csrf_exempt
+def is_db_connected(request):
+    try:
+        db_connections = connections['default']
+        db_connections.cursor()
+        return JsonResponse({"message": "True"}, status=200)
+    except Exception as e:
+        return JsonResponse({"message": f"Error: {str(e)}"}, status=503)
+
+
+
+### USER FEATURES ENDPOINTS ###
 @ensure_csrf_cookie
 def set_csrf_cookie(request):
     return JsonResponse({"message": "cookie 4 u"})

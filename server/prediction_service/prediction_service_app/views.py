@@ -1,10 +1,12 @@
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from django.http import JsonResponse
 import json
 from .models import Song
 import librosa
 import numpy as np
 from django import forms
+from django.db import connections
 import os
 import tensorflow as tf
 from dotenv import load_dotenv
@@ -39,6 +41,16 @@ model = tf.saved_model.load(local_dir)
 
 #the old way of loading our model when it was saved in repo
 #model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
+
+@require_GET
+@csrf_exempt
+def is_db_connected(request):
+    try:
+        db_connections = connections['default']
+        db_connections.cursor()
+        return JsonResponse({"message": "True"}, status=200)
+    except Exception as e:
+        return JsonResponse({"message": f"Error: {str(e)}"}, status=503)
 
 @csrf_exempt
 def create_song(request):
@@ -95,17 +107,17 @@ def create_song(request):
             
             #create the song object and save it to the db
             print("creates song object")
-            new_song = Song.objects.create(
-                title=title,
-                artist=artist,
-                genre=genre,
-                tempo=tempo,
-                duration=duration, 
-                columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-                chromogram=chroma_T.astype(float).tolist(),
-                prediction=song_chords
-                )
-            new_song.save()
+            #new_song = Song.objects.create(
+            #    title=title,
+            #    artist=artist,
+            #    genre=genre,
+            #    tempo=tempo,
+            #    duration=duration, 
+            #    columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
+            #    #chromogram=chroma_T.astype(float).tolist(),
+            #    prediction=song_chords
+            #    )
+            #new_song.save()
 
     
             response = JsonResponse({
@@ -124,6 +136,8 @@ def create_song(request):
                 'result': 'error',
                 'message': 'Invalid JSON',
             },status=400)
+        except Exception as e:
+            response = JsonResponse({'message': f"Exception: {str(e)}"}, status=500)
     else:
         response = JsonResponse({
             'result': 'error',
