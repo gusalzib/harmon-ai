@@ -21,5 +21,6 @@ __pycache__/
 
 
 env-name/
+env-310/
 migrations/
 secrets/

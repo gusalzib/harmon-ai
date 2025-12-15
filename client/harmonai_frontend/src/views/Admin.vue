@@ -3,40 +3,40 @@
         <div class="account-sidebar">
             <div class="account-sidebar-menu">
                 <h2>{{ $t('sidebar.menu') }}</h2>
-                <a id="sidebar-links" @click.native="setActive('profile')">{{ $t('sidebar.profile') }}</a>
-                <a id="sidebar-links" @click.native="setActive('history')">{{ $t('sidebar.history') }}</a>
-                <a id="sidebar-links" @click.native="setActive('favorite_songs')">{{ $t('sidebar.favorite_songs') }}</a>
+                <a id="sidebar-links" @click.native="setActive('adminProfile')">{{ $t('sidebar.profile') }}</a>
+                <a id="sidebar-links" @click.native="setActive('modelTraining')">{{ $t('sidebar.modelTraining') }}</a>
+                <a id="sidebar-links" @click.native="setActive('dataUpload')">{{ $t('sidebar.dataUpload') }}</a>
             </div>
         </div>
         <div class="profile-container">
-            <div v-if="activeSection === 'profile'">
-                <Profile/>
+            <div v-if="activeSection === 'adminProfile'">
+                <AdminProfile />
             </div>
 
-            <div v-else-if="activeSection === 'history'">
-                <History/>
+            <div v-else-if="activeSection === 'modelTraining'">
+                <ModelTraining />
             </div>
 
-            <div v-else-if="activeSection === 'favorite_songs'">
-                <FavoriteSongs/>
+            <div v-else-if="activeSection === 'dataUpload'">
+                <UploadData />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import FavoriteSongs from '@/components/FavoriteSongs.vue';
-import Profile from '@/components/Profile.vue';
-import History from '@/components/History.vue';
+import AdminProfile from '@/components/AdminProfile.vue';
+import ModelTraining from '@/components/ModelTraining.vue';
+import UploadData from '@/components/UploadData.vue';
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 
 export default {
-    name: 'UserAccount',
+    name: 'Admin',
     components: {
-        Profile,
-        FavoriteSongs,
-        History
+        AdminProfile,
+        ModelTraining,
+        UploadData
     },
     data() {
         return {
@@ -48,13 +48,13 @@ export default {
             url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
-            activeSection: 'profile', //this controls which section in visible to the user at any time. I set it to the profile page as default
+            activeSection: 'adminProfile', //this controls which section in visible to the user at any time. I set it to the profile page as default
 
 
         }
     },
     mounted() {
-        this.url = `${import.meta.env.VITE_API_URL}/api/users`
+        this.url = `${import.meta.env.VITE_API_URL}/api/admin`
         this.toast = useToast(); // initiate a toast variable
 
     },

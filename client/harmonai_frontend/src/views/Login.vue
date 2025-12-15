@@ -31,13 +31,14 @@ export default {
                 password: ''
             },
             error: '',
-            url: `${import.meta.env.VITE_API_URL}/users/login`,
+            url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to home page upon succesful login
             authStore: useAuthStore()
         }
     },
     mounted() {
+        this.url = `${import.meta.env.VITE_API_URL}/users/login`,
         this.toast = useToast(); // initiate a toast variable
     },
     methods: {

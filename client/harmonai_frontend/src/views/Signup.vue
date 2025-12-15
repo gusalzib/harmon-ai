@@ -33,13 +33,14 @@ export default {
                 password: '',
             },
             error: '',
-            url: `${import.meta.env.VITE_API_URL}/users/register`,
+            url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, // the amount of time to wait before directing the user to LOGIN page upon succesful SIGNUP
-                
-            }
+            
+        }
     },
     mounted() {
+        this.url = `${import.meta.env.VITE_API_URL}/users/register`,
         this.toast = useToast(); // initiate a toast variable
 
     },
