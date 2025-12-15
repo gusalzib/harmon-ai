@@ -24,4 +24,4 @@ COPY . /app/
 # Expose port and define startup command
 # NOTE: The CMD launches a DEV SERVER, so unsuitable for production
 EXPOSE 8000
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--log-level", "debug", "--bind", "0.0.0.0:8000", "users_project.wsgi"]

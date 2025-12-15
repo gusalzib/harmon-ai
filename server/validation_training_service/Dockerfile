@@ -27,4 +27,4 @@ ENV GOOGLE_APPLICATION_CREDENTIALS=/app/HarmonAi_storage.json
 # Expose port 8000
 EXPOSE 8000
 
-CMD ["python3", "manage.py","runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--log-level", "debug", "--bind", "0.0.0.0:8000", "validation_training_backend.wsgi"]
