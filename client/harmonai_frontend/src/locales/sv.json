@@ -12,10 +12,13 @@
         "apply": "Tillämpa",
         "cancel": "Avbryt",
         "finish": "Sluta",
-        "searchButton": "Söka",
+        "searchButton": "Sök",
         "uploadButton": "Ladda upp",
         "comparebutton": "Jämför",
-        "closeButton": "Stäng"
+        "closeButton": "Stäng",
+        "searchBoxTitle": "Titel",
+        "searchBoxArtist": "Artist",
+        "searchBoxGenre": "Genre"
     },
     "nav": {
         "about": "Om Oss",
@@ -31,6 +34,7 @@
         "adminProfile": "Profil"
     },
     "home": {
+        "noResultsFound": "Vi hittade inte det du sökte",
         "title": "Välkommen till HarmonAI",
         "subtitle": "h",
         "getStarted": "Kom igång",
@@ -38,6 +42,12 @@
         "signup": "Skapa nytt konto",
         "signupBtn": "Skapa konto",
         "findChordsHeading": "Hitta dina ackord",
+        "searchPlaceholderTitle": "Titel",
+        "searchPlaceholderArtist": "Artist",
+        "searchPlaceholderGenre": "Genre",
+        "searchLabelTitle": "Sök efter titel",
+        "searchLabelArtist": "Sök efter artist",
+        "searchLabelGenre": "Sök efter genre",
         "searchPlaceholder": "Låtnamn",
         "uploadLabel": "Eller ladda upp en MP3-fil",
         "searchLabel": "Sök i vårt låtbibliotek",

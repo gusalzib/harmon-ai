@@ -11,6 +11,8 @@ import os
 import tensorflow as tf
 from dotenv import load_dotenv
 load_dotenv()
+import logging 
+logger = logging.getLogger(__name__)
 
 from spleeter.separator import Separator #The Spleeter model
 
@@ -105,17 +107,16 @@ def create_song(request):
             
             #create the song object and save it to the db
             print("creates song object")
-            #new_song = Song.objects.create(
-            #    title=title,
-            #    artist=artist,
-            #    genre=genre,
-            #    tempo=tempo,
-            #    duration=duration, 
-            #    columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-            #    #chromogram=chroma_T.astype(float).tolist(),
-            #    prediction=song_chords
-            #    )
-            #new_song.save()
+            new_song = Song.objects.create(
+                title=title,
+                artist=artist,
+                genre=genre,
+                tempo=tempo,
+                duration=duration, 
+                columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
+                chromogram=chroma_T.astype(float).tolist(),
+                prediction=song_chords
+                )
 
     
             response = JsonResponse({
@@ -174,99 +175,27 @@ def update_song(request):
     return response
 
 
+
 @csrf_exempt
-def get_specific_song(request):
+def get_songs(request):
     if request.method == "GET":
         try:
-            data = json.loads(request.body)
-            searchTitle = data.get("title")
-            song_query= Song.objects.filter(title=searchTitle)
-            if not song_query.exists():
-                return JsonResponse({
-                    'result': 'error',
-                    'message': 'Invalid request method',
-                    },status=400)
-                
-            #turn result of filter int a song object
-            song = song_query.first()
+            searchGenre = request.GET.get("genre")
+            searchArtist = request.GET.get("artist")
+            searchTitle =request.GET.get("title")
 
-
-            response = JsonResponse({
-                'title':song.title,
-                'artist':song.artist,
-                'genre':song.genre,
-                'tempo':song.tempo,
-                'duration':song.duration, 
-                'chords':song.prediction,
-                'result': 'success',
-            }, status=200)
-            
-        except json.JSONDecodeError:
-            response = JsonResponse({
-                'result': 'error',
-                'message': 'Invalid JSON',
-            },status=400)
-    else:
-        response = JsonResponse({
-            'result': 'error',
-            'message': 'Invalid request method',
-            },status=400)
+            if searchGenre:
+                songs_query= Song.objects.filter(genre__iexact=searchGenre)
+            elif searchArtist:
+                songs_query= Song.objects.filter(artist__iexact=searchArtist)
+            elif searchTitle:
+                songs_query= Song.objects.filter(title__iexact=searchTitle)
         
-    return response
-
-@csrf_exempt
-def get_artists_songs(request):
-    if request.method == "GET":
-        try:
-            data = json.loads(request.body)
-            searchArtist = data.get("artist")
-            songs_query= Song.objects.filter(artist=searchArtist)
-            if not songs_query.exists():
-                return JsonResponse({
-                    'result': 'error',
-                    'message': 'No songs found by this artist',
-                    },status=400)
-                
-            #turn result of filter int a song object
-            songs = list(songs_query.values(
-                "title",
-                "artist",
-                "genre",
-                "tempo",
-                "duration",
-                "prediction",
-            ))
-
-            response = JsonResponse({
-                "songs": songs,
-                'result': 'success',
-            }, status=200)
-            
-        except json.JSONDecodeError:
-            response = JsonResponse({
-                'result': 'error',
-                'message': 'Invalid JSON',
-            },status=400)
-    else:
-        response = JsonResponse({
-            'result': 'error',
-            'message': 'Invalid request method',
-            },status=400)
-        
-    return response
-
-@csrf_exempt
-def get_songs_from_genre(request):
-    if request.method == "GET":
-        try:
-            data = json.loads(request.body)
-            searchGenre = data.get("genre")
-            songs_query= Song.objects.filter(genre=searchGenre)
             if not songs_query.exists():
                 return JsonResponse({
                     'result': 'error',
                     'message': 'No songs found in this genre',
-                    },status=400)
+                    },status=404)
                 
             #turn result of filter int a song object
             songs = list(songs_query.values(
