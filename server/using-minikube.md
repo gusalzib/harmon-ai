@@ -32,6 +32,11 @@ Super duper awareness command (after the dump, open file and Ctrl + F "reason"):
 minikube kubectl -- cluster-info dump > log-dump.txt
 ```
 
+Alternative to `minikube tunnel`:
+```
+minikube service nginx-ingress --url
+```
+
 "Giving an image" to minikube, and checking available images:
 ```
 minikube image load image-name:tag
@@ -54,6 +59,11 @@ minikube kubectl -- logs -p users-app-deployement-557b5c56fd-wphrj
     - Requires HarmonAi_storage.json containing Google Application Credentials (ask Viktor)
 
 Should be able to run each image locally with `docker run --rm -p <port>:<port> name:tag`
+
+To rebuild all SERVICE images in one go, make sure you're in `/team3/server`:
+```
+minikube image build -t users-proj:latest users_project;minikube image build -t training-proj:latest validation_training_service;minikube image build -t prediction-proj:latest prediction_service
+```
 
 # Gateway API
 Fuck the Gateway API
