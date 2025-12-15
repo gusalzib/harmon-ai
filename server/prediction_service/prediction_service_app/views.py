@@ -107,17 +107,16 @@ def create_song(request):
             
             #create the song object and save it to the db
             print("creates song object")
-            #new_song = Song.objects.create(
-            #    title=title,
-            #    artist=artist,
-            #    genre=genre,
-            #    tempo=tempo,
-            #    duration=duration, 
-            #    columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-            #    #chromogram=chroma_T.astype(float).tolist(),
-            #    prediction=song_chords
-            #    )
-            #new_song.save()
+            new_song = Song.objects.create(
+                title=title,
+                artist=artist,
+                genre=genre,
+                tempo=tempo,
+                duration=duration, 
+                columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
+                chromogram=chroma_T.astype(float).tolist(),
+                prediction=song_chords
+                )
 
     
             response = JsonResponse({
