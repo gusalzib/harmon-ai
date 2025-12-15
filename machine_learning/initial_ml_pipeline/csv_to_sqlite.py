@@ -24,7 +24,7 @@ def validate_db_match(csv_p, sqlite_p):
 # Please place the cleaned_data.csv in the same directory as this file to process directly 
 # sql db will be generated in the same directory
 csv_path = 'cleaned_data.csv'
-sqlite_path = 'cleaned_data.db'
+sqlite_path = 'cleaned_data.db' # "cleaned_data_v{version}.db"
 chunksize = 1000
 chunk_count = 0
 
