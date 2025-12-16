@@ -5,16 +5,13 @@
 .idea/
 resources/
 
-<<<<<<< HEAD
 
 #----- 
 server/.DS_Store
 .DS_Store
-=======
 #----- Personal notes ---------
 personal-notes/
 
->>>>>>> origin/main
 #----- music used for notebook ------------
 music_for_chroma/
 

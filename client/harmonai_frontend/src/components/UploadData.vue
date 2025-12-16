@@ -273,7 +273,7 @@ export default {
 
             try {
                 const zipFile = await this.zipDataset();
-
+                const uploadedFileName = zipFile.name;
                 const uploadLink = await this.uploadToGCS(zipFile);
 
                 this.toast.clear();
@@ -289,7 +289,8 @@ export default {
 
                 try {
                     // trigger model training
-                    const notifyBackend = await axios.post(this.url, this.fileName)
+                    
+                    const notifyBackend = await axios.post(this.url, {dataset_name: uploadedFileName})
 
                     this.toast.info(this.$t('admin.model.validatingAndTraining'), { timeout: false });
 
