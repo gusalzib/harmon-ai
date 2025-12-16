@@ -22,12 +22,35 @@
     <div class="search-upload-section">
       <h2>{{ $t('home.findChordsHeading') }}</h2>
 
-      <div class="search-form">
-        <label for="song-search">{{ $t('home.searchLabel') }}</label>
-        <input type="text" id="song-search" :placeholder="$t('home.searchPlaceholder')">
-        <button class="btn search-btn">{{ $t('buttons.searchButton') }}</button>
+      <div class="search-field-switcher">
+        <button :class="['view-tab standard-btn', {active: this.activeView === 'title'}]" @click="this.activeView = 'title'">{{ $t('buttons.searchBoxTitle') }}</button>
+        <button :class="['view-tab standard-btn', {active: this.activeView === 'artist'}]" @click="this.activeView = 'artist'">{{ $t('buttons.searchBoxArtist') }}</button>
+        <button :class="['view-tab standard-btn', {active: this.activeView === 'genre'}]" @click="this.activeView = 'genre'">{{ $t('buttons.searchBoxGenre') }}</button>
       </div>
 
+      <div class="search-form" v-if="this.activeView === 'title'">
+        <label for="song-search">{{ $t('home.searchLabelTitle') }}</label>
+        <input type="text" id="song-search" v-model="this.searchTitle" :placeholder="$t('home.searchPlaceholderTitle')">
+        <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
+      </div>
+      <div class="search-form" v-if="this.activeView === 'artist'">
+        <label for="song-search">{{ $t('home.searchLabelArtist') }}</label>
+        <input type="text" id="song-search" v-model="this.searchArtist" :placeholder="$t('home.searchPlaceholderArtist')">
+        <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
+      </div>
+      <div class="search-form" v-if="this.activeView === 'genre'">
+        <label for="song-search">{{ $t('home.searchLabelGenre') }}</label>
+        <input type="text" id="song-search" v-model="this.searchGenre" :placeholder="$t('home.searchPlaceholderGenre')">
+        <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
+      </div>
+      <div class="search-result-display">
+        <div class="song-details-header" v-for="song in this.songs" :key="song.title">
+          <h4 class="song-name">{{ song.title }}</h4>
+          <h4 class="song-artist">{{ song.artist }}</h4>
+          <h4 class="song-genre">{{ song.genre }}</h4>
+          <p class="chord-list">{{ song.prediction }}</p>
+        </div>
+      </div>
       <hr>
 
       <div class="upload-form">
@@ -91,28 +114,66 @@ export default {
   data() {
     return {
       audioFile: null, // holds the selecte audio file
+      searchTitle: '',
+      searchArtist: '',
+      searchGenre: '',
       title: '',
       artist: '',
       genre: '',
       error: '',
-      url: 'http://localhost:8000/api/create-song/',
+      url: 'http://localhost:8002/api/create-song/',
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
-
+      activeView: 'title', // default search field is title
+      songs: [], // stores result of searchQuery
       song:{
         title: "",
         artist: "",
         genre: "",
-        chord_list: [],
+        prediction: [],
         BPM: "",
         duration:""
       }
     }
   },
   mounted() {
+    this.url = `${import.meta.env.VITE_API_URL}/api/create-song/`,
     this.toast = useToast(); // initiate a toast variable
   },
   methods: {
+    async searchQuery(queryType) {
+      var search = "";
+      var kind = "";
+      if (queryType === 'title') {
+        search = this.searchTitle;
+        kind = 'title';
+      }
+      if (queryType === 'artist'){
+        search = this.searchArtist;
+        kind = 'artist';
+      }
+      if (queryType === 'genre') {
+        search = this.searchGenre;
+        kind = 'genre';
+        
+      }
+      try{
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/get_songs/?${kind}=${search}`);
+
+        if (response.status === 200) {
+          this.songs = response.data.songs; 
+
+          console.log('Retrieved songs', this.songs);
+          
+        } 
+      }catch(error){
+        if (error.response?.status === 404) {
+          this.toast.warning(this.$t('home.noResultsFound'));
+        }else{
+          this.toast.error(this.$t('notification.somethingWentWrong'))
+        }
+      }  
+    },
     handleFileUpload() {
       this.audioFile = event.target.files[0];
       this.toast.info('File selected: ' + this.audioFile.name)

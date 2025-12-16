@@ -1,0 +1,44 @@
+# Notes:
+# Same may be used for prediction service, 
+# only need to change name, image and only maaaybe containerport?
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training-app-deployment
+  labels:
+    app: training-app
+spec: 
+  # Create two replicas of [pod templates?] whose labels match training-app
+  replicas: 1
+  selector:
+    matchLabels:
+      app: training-app
+  # Defining pod template
+  template:
+    metadata:
+      labels:
+        app: training-app
+    spec:
+      containers:
+      - name: training-app
+        image: docker.io/library/training-proj:latest
+        imagePullPolicy: Never  # Don't pull, only use klubernetes-local images (minikube image load <name>:<tag>)
+        ports:
+        - containerPort: 8000
+---
+# Service bit
+# Forward request to the appropriate pods
+# Docs: https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: training-service
+spec:
+  type: ClusterIP
+  selector:
+    app: training-app  # Docs use different selector
+  ports:
+  - protocol: TCP
+    port: 8000        # Port of which this service is accessible
+    targetPort: 8000  # Port of the pods belonging to the service

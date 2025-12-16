@@ -9,6 +9,7 @@ django-cors-headers==4.9.0
 django-mongodb-backend==5.2.3
 dnspython==2.8.0
 dotenv==0.9.9
+gunicorn==23.0.0
 idna==3.11
 joblib==1.5.2
 lazy_loader==0.4

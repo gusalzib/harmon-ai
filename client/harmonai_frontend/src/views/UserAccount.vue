@@ -45,7 +45,7 @@ export default {
                 password: '',
             },
             error: '',
-            url: 'http://localhost:8001/api/users',
+            url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000, 
             activeSection: 'profile', //this controls which section in visible to the user at any time. I set it to the profile page as default
@@ -54,6 +54,7 @@ export default {
         }
     },
     mounted() {
+        this.url = `${import.meta.env.VITE_API_URL}/api/users`
         this.toast = useToast(); // initiate a toast variable
 
     },

@@ -14,6 +14,7 @@ pandas.api.types
 
 # Google Cloud
 google-cloud-storage
+gunicorn==23.0.0
 
 #other
 python-dotenv
