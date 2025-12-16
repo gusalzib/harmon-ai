@@ -10,7 +10,7 @@ tensorflow-model-analysis==0.48.0
 pandas
 numpy
 scikit-learn
-pandas.api.types
+#pandas.api.types
 
 # Google Cloud
 google-cloud-storage

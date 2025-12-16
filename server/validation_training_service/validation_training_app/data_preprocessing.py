@@ -16,35 +16,29 @@ TIMEFRAME = 30
 BATCH_SIZE = 64
 STRIDE = 5
 
-def load_data(db_path):#should be given path as imput
+def load_data(db_path):
     """
-    Downloads the database file from Google Cloud Storage, loads the data into a
-    pandas DataFrame, and then cleans up the downloaded file.
+    Loads the data from the local sqlite database into a pandas DataFrame, 
+    and then cleans up the file.
     """
-    ####rename once we have upload and validation###
-    """
-    bucket_name = "harmon_ai"
-    source_blob_name = "data/clean_data/training_data_v0.db" ###should be path_to_data, we could store the sql in a temp file or get it from GCS
-    destination_file_name = "/tmp/training_data"
-    
-    """
-
-    """  storage_client = storage.Client()
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(source_blob_name)"""
-
-    # download the clean sql dataset
-    # blob.download_to_filename(destination_file_name)
     # connect to the sqlite dataset 
-    db_full_path = "temp" +"/"+ db_path
-    conn = sqlite3.connect(db_full_path)
+    conn = sqlite3.connect(db_path)
     try:
-        dataset = pd.read_sql("SELECT * FROM training_data_v0", conn)
+        # Find the table name dynamically as it includes the version
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'training_data_v%';")
+        result = cursor.fetchone()
+        if result:
+            table_name = result[0]
+            dataset = pd.read_sql(f"SELECT * FROM {table_name}", conn)
+        else:
+            raise ValueError("No training data table found in database")
     finally:
         # Close the connection
         conn.close()
         # remove the sql dataset since we now have it as a pandas dataframe
-        os.remove(db_path)
+        if os.path.exists(db_path):
+            os.remove(db_path)
 
     return dataset
 

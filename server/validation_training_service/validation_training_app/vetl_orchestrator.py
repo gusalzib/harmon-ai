@@ -93,10 +93,7 @@ def vetl_orchestrator(dataset_version,path=DEFAULT_MCGILL_PATH, val_threshold=0.
                 # ============= Generating the SQLite database ==================
                 print("\nGenerating SQLite database from combined data. . .")
                 try:
-                    from sqlite_dataset_builder import build_sqlite_from_dataset
-                    
-                    # Build the path to combined data
-                    combined_path = os.path.join(project_root, "resources", "The-McGill-Billboard", "combined")
+                    from .sqlite_dataset_builder import build_sqlite_from_dataset
                     
                     # Get parent directory of combined 
                     combined_parent = os.path.dirname(combined_path)
@@ -120,8 +117,8 @@ def vetl_orchestrator(dataset_version,path=DEFAULT_MCGILL_PATH, val_threshold=0.
                         'merge_count': actual_count
                     }
                     
-                except Exception:
-                    print(f"Error encountered while generating database")
+                except Exception as e:
+                    print(f"Error encountered while generating database: {e}")
                     return None
             else:
                 print(f"Merge validation failed")

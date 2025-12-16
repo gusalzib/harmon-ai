@@ -2,7 +2,7 @@
 
 import os
 import pandas as pd
-from pandas.api.types import is_numeric_dtype
+#from pandas.api.types import is_numeric_dtype
 from tqdm import tqdm 
 
 def validate_corresponding(song_dir, chroma_dir, majmin_dir):
