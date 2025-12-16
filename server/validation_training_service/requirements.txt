@@ -10,6 +10,7 @@ tensorflow-model-analysis==0.48.0
 pandas
 numpy
 scikit-learn
+pandas.api.types
 
 # Google Cloud
 google-cloud-storage
@@ -17,3 +18,4 @@ google-cloud-storage
 #other
 python-dotenv
 ipywidgets==7.8.5
+tqdm

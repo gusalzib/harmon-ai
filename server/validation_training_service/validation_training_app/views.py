@@ -4,8 +4,9 @@ import os
 from .data_preprocessing import load_data, create_test_train_validationset, save_testdata_to_tfrecord
 from .training import build_model, train_model, save_serving_model, save_model_for_tfma
 from .evaluation import generate_report
-from .version import version_model
-from .gcs_utils import upload_blob_from_string, get_all_reports, get_zip
+from .version import version_model, version_clean_data
+from .gcs_utils import upload_blob_from_string, get_all_reports, get_zip, upload_blob_from_file
+from .vetl_orchestrator import vetl_orchestrator
 
 
  # --- Configuration ---
@@ -13,6 +14,9 @@ BUCKET_NAME = "harmon_ai"
 MODEL_NAME = "HarmonAi"
 BASE_MODEL_PATH = "models" # GCS "folder"
 BASE_REPORT_PATH = "reports" # GCS "folder"
+BASE_CLEAN_DATA_PATH = "data/clean_data" # GCS "folder"
+
+
 
 
 
@@ -20,6 +24,14 @@ BASE_REPORT_PATH = "reports" # GCS "folder"
 @csrf_exempt
 def test_train_model(request):
     if request.method == 'POST':
+
+        dataset_name = request.body.decode('utf-8')
+        dataset_path = get_zip(BUCKET_NAME, dataset_name)
+        dataset_version = version_clean_data(BUCKET_NAME, dataset_name)
+
+        _,_,db_path,_, = vetl_orchestrator(dataset_version,dataset_path)
+        upload_blob_from_file(BUCKET_NAME, db_path,{BASE_CLEAN_DATA_PATH}/{db_path})
+
         # 1. Get the next model version
         next_version = version_model(BUCKET_NAME, f"{BASE_MODEL_PATH}/{MODEL_NAME}")
         versioned_model_name = f"{MODEL_NAME}_v{next_version}"
@@ -32,7 +44,7 @@ def test_train_model(request):
 
         # 2. Load and preprocess data 
         ##change load data to use sql path as parameter
-        dataset = load_data()
+        dataset = load_data(db_path)
         train_dataset, val_dataset, test_dataset = create_test_train_validationset(dataset)
 
         # 3. Train the model

@@ -16,31 +16,35 @@ TIMEFRAME = 30
 BATCH_SIZE = 64
 STRIDE = 5
 
-def load_data():#should be given path as imput
+def load_data(db_path):#should be given path as imput
     """
     Downloads the database file from Google Cloud Storage, loads the data into a
     pandas DataFrame, and then cleans up the downloaded file.
     """
     ####rename once we have upload and validation###
+    """
     bucket_name = "harmon_ai"
     source_blob_name = "data/clean_data/training_data_v0.db" ###should be path_to_data, we could store the sql in a temp file or get it from GCS
     destination_file_name = "/tmp/training_data"
+    
+    """
 
-    storage_client = storage.Client()
+    """  storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(source_blob_name)
+    blob = bucket.blob(source_blob_name)"""
 
     # download the clean sql dataset
-    blob.download_to_filename(destination_file_name)
+    # blob.download_to_filename(destination_file_name)
     # connect to the sqlite dataset 
-    conn = sqlite3.connect(destination_file_name)
+    db_full_path = "temp" +"/"+ db_path
+    conn = sqlite3.connect(db_full_path)
     try:
         dataset = pd.read_sql("SELECT * FROM training_data_v0", conn)
     finally:
         # Close the connection
         conn.close()
         # remove the sql dataset since we now have it as a pandas dataframe
-        os.remove(destination_file_name)
+        os.remove(db_path)
 
     return dataset
 
