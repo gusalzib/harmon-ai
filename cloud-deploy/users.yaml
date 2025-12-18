@@ -25,7 +25,7 @@ spec:
         image: USER_IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
-        - name: MONGODB_URL  # The variable name your Python/Node code expects
+        - name: DB_CONNECTION_STRING # The variable name your Python/Node code expects
           valueFrom:
             secretKeyRef:
               name: system-secrets
