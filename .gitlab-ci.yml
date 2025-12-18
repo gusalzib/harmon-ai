@@ -12,7 +12,9 @@ default:
 
 .authorise: &authorise
   before_script:
-    - apt-get update && apt-get install -y docker.io
+    - apt-get update && apt-get install -y curl
+    - curl -fsSL https://get.docker.com | sh
+
     - gcloud auth activate-service-account --key-file=$GCP_SERVICE_KEY
     - gcloud config set project $GCP_PROJECT_ID
     - gcloud auth configure-docker europe-north2-docker.pkg.dev
