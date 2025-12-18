@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: client-app
-        image: IMAGE_PLACEHOLDER
+        image: CLIENT_IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

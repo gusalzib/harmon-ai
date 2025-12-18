@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: users-app
-        image: IMAGE_PLACEHOLDER
+        image: USER_IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
         - name: MONGODB_URL  # The variable name your Python/Node code expects

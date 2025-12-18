@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: prediction-app
-        image: IMAGE_PLACEHOLDER
+        image: PREDICTION_IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
         - name: MONGODB_URL

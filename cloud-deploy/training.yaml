@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: training-app
-        image: IMAGE_PLACEHOLDER
+        image: TRAINING_IMAGE_PLACEHOLDER
         imagePullPolicy: Always  # Don't pull, only use klubernetes-local images (minikube image load <name>:<tag>)
         ports:
         - containerPort: 8000
