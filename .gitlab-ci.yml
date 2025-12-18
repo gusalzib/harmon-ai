@@ -1,0 +1,70 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+.authorise: @authorise
+  before_script:
+    - echo "$GCP_SERVICE_KEY" > gcloud-service-key.json
+    - gcloud auth activate-service-account --key-file=gcloud-service-key.json
+    - gcloud config set project $GCP_PROJECT_ID
+    - gcloud auth configure-docker europe-north2-docker.pkg.dev
+  
+build_images:
+  stage: build
+  image: google/cloud-sdk:latest
+  services:
+    - docker:dind
+  <<: *authorise
+
+script:
+  
+  - docker build -t $GAR_REPO/user-proj:$CI_COMMIT_SHORT_SHA ./server/users_project
+  - docker push $GAR_REPO/user-proj:$CI_COMMIT_SHORT_SHA
+
+  
+  - docker build -t $GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA ./server/prediction_service
+  - docker push $GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA
+
+    
+  - docker build -t $GAR_REPO/training-proj:$CI_COMMIT_SHORT_SHA ./server/validation_training_service
+  - docker push $GAR_REPO/training-proj:$CI_COMMIT_SHORT_SHA
+
+  - docker build -t $GAR_REPO/client-proj:$CI_COMMIT_SHORT_SHA ./client/harmonai_frontend
+  - docker push $GAR_REPO/client-proj:$CI_COMMIT_SHORT_SHA
+
+deploy_images:
+  stage: deploy
+  image: google/cloud-sdk:latest
+  <<: *authorise
+
+script:
+
+  - gcloud container clusters get-credentials $GCP_CLUSTER_NAME --region $GCP_REGION --project $GCP_PROJECT_ID
+
+  - kubectl create secret generic system-secres \
+    --from-literal=mongo-users="$MONGO_URL_USERS" \
+    --from-literal=mongo-prediction="$MONGO_URL_PREDICTION"
+    --dry-run=client -o yaml | kubectl apply -f -
+
+  - sed -i "s|image: .*users-proj.*|image: $GAR_REPO/users-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/users.yaml
+  - sed -i "s|image: .*prediction-proj.*|image: $GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/prediction.yaml
+  - sed -i "s|image: .*training-proj.*|image: $GAR_REPO/training-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/training.yaml
+  - sed -i "s|image: .*harmonai-client.*|image: $GAR_REPO/harmonai-client:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/client.yaml
+
+    
+  - kubectl apply -f cloud-deploy/config.yaml
+  - kubectl apply -f cloud-deploy/users.yaml
+  - kubectl apply -f cloud-deploy/prediction.yaml
+  - kubectl apply -f cloud-deploy/training.yaml
+  - kubectl apply -f cloud-deploy/client.yaml
+  - kubectl apply -f cloud-deploy/nginx-ingress.yaml
+
+  
+  - kubectl rollout restart deployment/users-app-deployment
+  - kubectl rollout restart deployment/prediction-app-deployment
+  - kubectl rollout restart deployment/training-app-deployment
+  - kubectl rollout restart deployment/client-app-deployment

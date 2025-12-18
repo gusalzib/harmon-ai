@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prediction-app-deployment
+  labels:
+    app: prediction-app
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      app: prediction-app
+  # Defining pod template
+  template:
+    metadata:
+      labels:
+        app: prediction-app
+    spec:
+      containers:
+      - name: prediction-app
+        image: europe-north2-docker.pkg.dev/psychic-linker-480722-j9/harmonai/prediction-proj:latest
+        imagePullPolicy: Always
+        env:
+        - name: MONGODB_URL
+          valueFrom:
+            secretKeyRef:
+              name: system-secrets
+              key: mongo-prediction
+        ports:
+        - containerPort: 8000
+        #readinessProbe:
+        #  # Any code greater than or equal to 200 and less than 400 indicates success. 
+        #  # Any other code indicates failure.
+        #  httpGet:
+        #    path: /api/is-db-connected/
+        #    port: 8000
+        #  initialDelaySeconds: 20
+        #  periodSeconds: 5
+
+---
+# Service bit
+# Forward request to the appropriate pods
+# Docs: https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: prediction-service
+spec:
+  type: ClusterIP
+  selector:
+    app: prediction-app  # Docs use different selector
+  ports:
+  - protocol: TCP
+    port: 8000        # Port of which this service is accessible
+    targetPort: 8000  # Port of the pods belonging to the service

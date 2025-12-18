@@ -12,7 +12,7 @@ import tensorflow as tf
 from dotenv import load_dotenv
 load_dotenv()
 
-from spleeter.separator import Separator #The Spleeter model
+#from spleeter.separator import Separator #The Spleeter model
 
 from .methods import create_chroma, fetch_duration, get_tempo
 from .prediction import predict, prediction_into_chords,structure_chords
@@ -29,7 +29,7 @@ if not MODEL_NAME:
 local_dir = download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME)
 
 #this is the spleeter model
-separator = Separator('spleeter:4stems')
+#separator = Separator('spleeter:4stems')
 #there is two options for the spleeter model. use 2 stems or 4 stems.
 #update the variable "stems" depending what you choose
 stems = 4
@@ -71,12 +71,12 @@ def create_song(request):
 
             #save audio in a folder and separate the audio
             print("Splitting the audio")
-            audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
+            #audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
 
 
             print("creating the waveform")
             #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(prosessed_audio, sr=22050)
+            waveform, sampling_rate = librosa.load(audio, sr=22050)
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
 
@@ -98,10 +98,10 @@ def create_song(request):
             print("structure the chords")
             song_chords = structure_chords(chords)
 
-            if stems == 2:
+            """if stems == 2:
                 print(delete_audio_2_stems(audio_file_path, output_folder_name,))
             else:
-                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
+                print(delete_audio_4_stems(audio_file_path, output_folder_name,))"""
             
             #create the song object and save it to the db
             print("creates song object")

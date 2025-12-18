@@ -95,7 +95,7 @@ export default {
       artist: '',
       genre: '',
       error: '',
-      url: '',
+      url: `${baseUrl}/api/create-song/`,
       toast: null, // declare a toast variable to be used with toastification library for notifications
       predictionsIsMade: false,
       
@@ -110,7 +110,7 @@ export default {
     }
   },
   mounted() {
-    this.url = `${import.meta.env.VITE_API_URL}/api/create-song/`,
+    //this.url = `${import.meta.env.VITE_API_URL}/api/create-song/`,
     this.toast = useToast(); // initiate a toast variable
   },
   methods: {
