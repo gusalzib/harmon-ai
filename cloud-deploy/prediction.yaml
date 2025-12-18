@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: prediction-app
-        image: europe-north2-docker.pkg.dev/psychic-linker-480722-j9/harmonai/prediction-proj:latest
+        image: IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
         - name: MONGODB_URL

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: client-app
-        image: europe-north2-docker.pkg.dev/psychic-linker-480722-j9/harmonai/client-proj:latest
+        image: IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

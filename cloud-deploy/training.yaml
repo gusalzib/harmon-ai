@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: training-app
-        image: europe-north2-docker.pkg.dev/psychic-linker-480722-j9/harmonai/training-proj:latest
+        image: IMAGE_PLACEHOLDER
         imagePullPolicy: Always  # Don't pull, only use klubernetes-local images (minikube image load <name>:<tag>)
         ports:
         - containerPort: 8000

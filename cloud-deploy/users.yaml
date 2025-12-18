@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: users-app
-        image: europe-north2-docker.pkg.dev/psychic-linker-480722-j9/harmonai/users-proj:latest
+        image: IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
         - name: MONGODB_URL  # The variable name your Python/Node code expects
