@@ -50,7 +50,7 @@ export default {
         }
     },
     mounted() {
-        this.baseURL = import.meta.env.VITE_API_URL,
+        this.baseURL = import.meta.env.VITE_API_USERS_URL,
         this.url = `${this.baseURL}/users/profile`,
         this.emailURL = `${this.baseURL}/users/edit-profile`,
         this.passwordURL = `${this.baseURL}/users/change-password`,

@@ -77,11 +77,13 @@ export default {
             selectedFiles: [], // an array that saves selected files (folder)
 
             accessToken: null, // stores the access token we get from the google cloud 
-            url: ""
+            url: "",
+            validationURL: '',
         }
     },
     mounted() {
-        this.url = `${import.meta.env.VITE_API_URL}/admins/train/`
+        this.url = `${import.meta.env.VITE_API_USERS_URL}/admins/train/`
+        this.validationURL = `${import.meta.env.VITE_API_URL}/admins/train/`
         this.toast = useToast(); // initiate a toast variable
 
         /**
@@ -290,7 +292,7 @@ export default {
                 try {
                     // trigger model training
                     
-                    const notifyBackend = await axios.post(this.url, {dataset_name: uploadedFileName})
+                    const notifyBackend = await axios.post(this.validationURL, {dataset_name: uploadedFileName})
 
                     this.toast.info(this.$t('admin.model.validatingAndTraining'), { timeout: false });
 

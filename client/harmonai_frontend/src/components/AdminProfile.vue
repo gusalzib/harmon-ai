@@ -49,9 +49,9 @@ export default {
         }
     },
     mounted() {
-        this.url = `${import.meta.env.VITE_API_URL}/users/profile`
-        this.emailURL = `${import.meta.env.VITE_API_URL}/users/edit-profile`
-        this.passwordURL = `${import.meta.env.VITE_API_URL}/users/change-password`
+        this.url = `${import.meta.env.VITE_API_USERS_URL}/users/profile`
+        this.emailURL = `${import.meta.env.VITE_API_USERS_URL}/users/edit-profile`
+        this.passwordURL = `${import.meta.env.VITE_API_USERS_URL}/users/change-password`
         this.toast = useToast(); // initiate a toast variable
         this.getUserInfo() // we get the user info as soon as the page is loaded
     },
