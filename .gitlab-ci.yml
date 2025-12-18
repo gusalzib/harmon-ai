@@ -51,7 +51,7 @@ deploy_images:
 
   - gcloud container clusters get-credentials $GCP_CLUSTER_NAME --region $GCP_REGION --project $GCP_PROJECT_ID
 
-  - kubectl create secret generic system-secrets --from-literal=mongo-users="$MONGO_URL_USERS" --from-literal=mongo-prediction="$MONGO_URL_PREDICTION" -o yaml | kubectl apply -f -
+  - kubectl create secret generic system-secrets --from-literal=mongo-users="$MONGO_URL_USERS" --from-literal=mongo-prediction="$MONGO_URL_PREDICTION" --dry-run=client -o yaml | kubectl apply -f -
 
   - 'sed -i "s|USER_IMAGE_PLACEHOLDER|$GAR_REPO/user-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/users.yaml'
   - 'sed -i "s|PREDICTION_IMAGE_PLACEHOLDER|$GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/prediction.yaml'
