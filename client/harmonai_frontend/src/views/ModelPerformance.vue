@@ -75,7 +75,7 @@ export default {
         }
     },
     mounted() {
-        this.url = `${import.meta.env.VITE_API_URL}/admins/report/`
+        this.url = `${import.meta.env.VITE_API_URL || "http://34.51.250.115"}/admins/report/`
         this.toast = useToast(); // initiate a toast variable
         this.fetchReportList();
 
