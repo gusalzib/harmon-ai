@@ -37,15 +37,17 @@ spec:
           mountPath: /var/secrets/google
           readOnly: true
 
-          ports:
-          - containerPort: 8000
-          resources:
-            requests:
-              cpu: "250m"         
-              memory: "2Gi"    
-            limits:
-              cpu: "2"
-              memory: "4Gi"
+        ports:
+        - containerPort: 8000
+
+        resources:
+          requests:
+            cpu: "250m"         
+            memory: "2Gi"    
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+
       volumes:
         - name: gcp-key-volume
           secret:
