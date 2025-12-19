@@ -9,7 +9,7 @@ metadata:
   labels:
     app: training-app
 spec: 
-  # Create two replicas of [pod templates?] whose labels match training-app
+  # Create three replicas of [pod templates?] whose labels match training-app
   replicas: 3
   selector:
     matchLabels:
@@ -23,9 +23,16 @@ spec:
       containers:
       - name: training-app
         image: TRAINING_IMAGE_PLACEHOLDER
-        imagePullPolicy: Always  # Don't pull, only use klubernetes-local images (minikube image load <name>:<tag>)
+        imagePullPolicy: Always  
         ports:
         - containerPort: 8000
+        resources:
+              requests:
+                cpu: "2"         
+                memory: "4Gi"    
+              limits:
+                cpu: "4"
+                memory: "8Gi"
 ---
 # Service bit
 # Forward request to the appropriate pods

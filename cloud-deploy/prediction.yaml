@@ -29,6 +29,13 @@ spec:
           value: "HarmonAi_v1"
         ports:
         - containerPort: 8000
+        resources:
+              requests:
+                cpu: "1"         
+                memory: "2Gi"    
+              limits:
+                cpu: "2"
+                memory: "4Gi"
         #readinessProbe:
         #  # Any code greater than or equal to 200 and less than 400 indicates success. 
         #  # Any other code indicates failure.
