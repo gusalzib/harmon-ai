@@ -65,7 +65,7 @@ deploy_images:
   - kubectl apply -f cloud-deploy/client.yaml
   - kubectl apply -f cloud-deploy/nginx-ingress.yaml
 
-  
+
   - kubectl rollout restart deployment/users-app-deployment
   - kubectl rollout restart deployment/prediction-app-deployment
   - kubectl rollout restart deployment/training-app-deployment
