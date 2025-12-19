@@ -25,6 +25,8 @@ spec:
             secretKeyRef:
               name: system-secrets
               key: mongo-prediction
+        - name: MODEL_NAME
+          value: "HarmonAi_v1"
         ports:
         - containerPort: 8000
         #readinessProbe:
