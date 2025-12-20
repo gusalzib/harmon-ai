@@ -81,7 +81,7 @@ export default {
         }
     },
     mounted() {
-        this.url = `${import.meta.env.VITE_API_URL || "http://34.51.250.115"}/admins/train/`
+        this.url = `${import.meta.env.VITE_API_URL || "http://34.51.250.115.nip.io"}/admins/train/`
         this.toast = useToast(); // initiate a toast variable
 
         /**
