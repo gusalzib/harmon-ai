@@ -63,7 +63,8 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://34.51.250.115"
+    "http://34.51.250.115",
+    "http://34.51.250.115.nip.io"
 ]
 
 ROOT_URLCONF = "validation_training_backend.urls"

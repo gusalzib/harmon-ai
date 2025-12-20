@@ -65,7 +65,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:80",
     "http://localhost:8080",
     "https://localhost",
-    "http://34.51.250.115"
+    "http://34.51.250.115",
+    "http://34.51.250.115.nip.io"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
