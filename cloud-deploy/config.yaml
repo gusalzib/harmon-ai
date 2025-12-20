@@ -6,5 +6,5 @@ metadata:
   name: system-config
 data:
   # Comma-separate these badboys, maybe, if you feel like it, but parse it explicitly in the settings.py
-  cors-allowed-origins: http://34.51.226.148
-  csrf-trusted-origins: http://34.51.226.148
+  cors-allowed-origins: http://34.51.250.115.nip.io
+  csrf-trusted-origins: http://34.51.250.115.nip.io
