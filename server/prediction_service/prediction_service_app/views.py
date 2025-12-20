@@ -12,7 +12,7 @@ import tensorflow as tf
 from dotenv import load_dotenv
 load_dotenv()
 
-#from spleeter.separator import Separator #The Spleeter model
+from spleeter.separator import Separator #The Spleeter model
 
 from .methods import create_chroma, fetch_duration, get_tempo
 from .prediction import predict, prediction_into_chords,structure_chords
@@ -71,12 +71,12 @@ def create_song(request):
 
             #save audio in a folder and separate the audio
             print("Splitting the audio")
-            #audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
+            audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
 
 
             print("creating the waveform")
             #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(audio, sr=22050)
+            waveform, sampling_rate = librosa.load(prosessed_audio, sr=22050)
             #separate harmonics and percussives into two waveforms
             y_harmonic, y_percussive = librosa.effects.hpss(waveform)
 
@@ -105,17 +105,17 @@ def create_song(request):
             
             #create the song object and save it to the db
             print("creates song object")
-            #new_song = Song.objects.create(
-            #    title=title,
-            #    artist=artist,
-            #    genre=genre,
-            #    tempo=tempo,
-            #    duration=duration, 
-            #    columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-            #    #chromogram=chroma_T.astype(float).tolist(),
-            #    prediction=song_chords
-            #    )
-            #new_song.save()
+            new_song = Song.objects.create(
+               title=title,
+               artist=artist,
+               genre=genre,
+               tempo=tempo,
+               duration=duration, 
+               columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
+               #chromogram=chroma_T.astype(float).tolist(),
+               prediction=song_chords
+               )
+            new_song.save()
 
     
             response = JsonResponse({
