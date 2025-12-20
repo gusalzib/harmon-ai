@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async checkStatus() {
       // Ask for session validity from server
-      const baseUrl = import.meta.env.VITE_API_URL || "http://34.51.250.115"
+      const baseUrl = import.meta.env.VITE_API_URL || "http://34.51.250.115.nip.io"
 
       const statusUrl = `${baseUrl}/users/check-status`
       await axios.get(statusUrl, {
