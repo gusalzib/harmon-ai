@@ -20,7 +20,7 @@ spec:
         image: PREDICTION_IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
-        - name: MONGODB_URL
+        - name: MONGODB_URI
           valueFrom:
             secretKeyRef:
               name: system-secrets
