@@ -42,6 +42,8 @@ model = tf.saved_model.load(local_dir)
 #the old way of loading our model when it was saved in repo
 #model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
+
+#connecting to Google cloud strorage
 @require_GET
 @csrf_exempt
 def is_db_connected(request):
@@ -68,15 +70,14 @@ def create_song(request):
             title = request.POST.get("title")
             artist = request.POST.get("artist")
             genre = request.POST.get("genre")
-        
             audio = request.FILES['audio']
 
-            #save audio in a folder and separate the audio
+            #save audio in temp_audio folder and split the udion into 4 files saved in temp_output
             print("Splitting the audio")
             audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
 
 
-            print("creating the waveform")
+            print("loading")
             #extract the samplingrate and create the waveform of the audio
             waveform, sampling_rate = librosa.load(prosessed_audio, sr=22050)
             #separate harmonics and percussives into two waveforms
@@ -87,19 +88,17 @@ def create_song(request):
             print("creating the chroma")
             chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate)
 
-
-            print("getting the duration")
-            print("TIMESTAMPS: ", timestamps)
+            #collect information from the audio file
             duration = fetch_duration(y_harmonic, sampling_rate)
-            print("getting the tempo")
             tempo = get_tempo(y_percussive, sampling_rate)
+            
             print("predicting")
+            #getting the prediction from the model and structure the output
             key_prediction, major_minor = predict(chroma_T,model)
-            print("turn prediction into chords")
             chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
-            print("structure the chords")
             song_chords = structure_chords(chords)
 
+            #deleting the temporary saved audio files
             if stems == 2:
                 print(delete_audio_2_stems(audio_file_path, output_folder_name,))
             else:
@@ -180,16 +179,19 @@ def update_song(request):
 def get_songs(request):
     if request.method == "GET":
         try:
-            searchGenre = request.GET.get("genre")
-            searchArtist = request.GET.get("artist")
-            searchTitle =request.GET.get("title")
+            songs_query = Song.objects.all()
 
+            searchGenre = request.GET.get("genre")
             if searchGenre:
-                songs_query= Song.objects.filter(genre__iexact=searchGenre)
-            elif searchArtist:
-                songs_query= Song.objects.filter(artist__iexact=searchArtist)
-            elif searchTitle:
-                songs_query= Song.objects.filter(title__iexact=searchTitle)
+                songs_query= Song.objects.filter(genre__contains=searchGenre)
+
+            searchArtist = request.GET.get("artist")
+            if searchArtist:
+                songs_query= Song.objects.filter(artist__contains=searchArtist)
+            searchTitle =request.GET.get("title")            
+            if searchTitle:
+                songs_query= Song.objects.filter(title__contains=searchTitle)
+            
         
             if not songs_query.exists():
                 return JsonResponse({
