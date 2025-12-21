@@ -38,13 +38,16 @@ def chord_filter(interval, **kwargs):
     
     return strongest_chord
 
-def prediction_into_chords(key_prediction, index_of_the_beats, major_minor, timestamps):
+def prediction_into_chords(key_prediction, major_minor):
     #gets a prediction from the model and translates the output to chords
     prediction_with_quality=np.stack((key_prediction, major_minor), axis=1)
     condition = (prediction_with_quality[:,1] == 2)
     result_true = (np.array(MAJOR)[ prediction_with_quality[:,0]])
     result_false = ((np.array(MINOR)[ prediction_with_quality[:,0]]))
     quality_chords = np.where(condition, result_true, result_false)
+    return quality_chords
+
+def chord_per_beat(quality_chords, index_of_the_beats):
 
     #takes the intervals of frames between 2 beats and calculates which chord is the most common chord in this beat. 
     chords_beat= librosa.util.sync(
@@ -75,8 +78,8 @@ def structure_chords(chords_beat):
     else:
         chords_array = np.array(chords_beat, dtype='<U8')
         #chords_array = chords_array[1:]
-        first_chord=chords_array[0]
-        chords_array = np.insert(chords_array, 0,first_chord)
+        #first_chord=chords_array[0]
+        #chords_array = np.insert(chords_array, 0,first_chord)
         total_beats = len(chords_beat)
         bars = np.arange(0, total_beats, 4)
 

@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 from spleeter.separator import Separator #The Spleeter model
 
 from .methods import create_chroma, fetch_duration, get_tempo
-from .prediction import predict, prediction_into_chords,structure_chords
-from .file_handler import separate_audio, delete_audio_2_stems, delete_audio_4_stems,download_model_from_google
+from .prediction import predict, prediction_into_chords,structure_chords, chord_per_beat
+from .file_handler import separate_audio, download_model_from_google
 
 
 BUCKET_NAME = "harmon_ai"
@@ -31,10 +31,10 @@ if not MODEL_NAME:
 local_dir = download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME)
 
 #this is the spleeter model
-separator = Separator('spleeter:4stems')
+separator = Separator('spleeter:2stems')
 #there is two options for the spleeter model. use 2 stems or 4 stems.
-#update the variable "stems" depending what you choose
-stems = 4
+#update the variable "stems" depending on what you choose
+stems = 2
 
 #this is our model
 model = tf.saved_model.load(local_dir)
@@ -43,7 +43,7 @@ model = tf.saved_model.load(local_dir)
 #model = tf.saved_model.load("prediction_service_app/HarmonAi_v1-monday")
 
 
-#connecting to Google cloud strorage
+#ping for google cloud storage connection
 @require_GET
 @csrf_exempt
 def is_db_connected(request):
@@ -72,37 +72,25 @@ def create_song(request):
             genre = request.POST.get("genre")
             audio = request.FILES['audio']
 
-            #save audio in temp_audio folder and split the udion into 4 files saved in temp_output
-            print("Splitting the audio")
-            audio_file_path, output_folder_name, prosessed_audio = separate_audio(audio, separator, stems)
-
-
-            print("loading")
-            #extract the samplingrate and create the waveform of the audio
-            waveform, sampling_rate = librosa.load(prosessed_audio, sr=22050)
-            #separate harmonics and percussives into two waveforms
-            y_harmonic, y_percussive = librosa.effects.hpss(waveform)
-
-            #call the methods to extract info from audio
-            #chromagram = create_chroma(y_harmonic, y_percussive, sampling_rate)
-            print("creating the chroma")
-            chroma_T, index_of_the_beats, timestamps = create_chroma(y_harmonic, y_percussive, sampling_rate)
+            #create the waveform of the audio
+            waveform, sampling_rate = librosa.load(audio, sr=44100, mono=False)
+            #Separate the audio
+            prosessed_audio = separate_audio(waveform, separator, stems)
+            #create the chromagram
+            chromagram, index_of_the_beats = create_chroma(prosessed_audio, prosessed_audio, sampling_rate)
 
             #collect information from the audio file
-            duration = fetch_duration(y_harmonic, sampling_rate)
-            tempo = get_tempo(y_percussive, sampling_rate)
+            duration = fetch_duration(prosessed_audio, sampling_rate)
+            tempo = get_tempo(prosessed_audio, sampling_rate)
             
-            print("predicting")
-            #getting the prediction from the model and structure the output
-            key_prediction, major_minor = predict(chroma_T,model)
-            chords = prediction_into_chords(key_prediction, index_of_the_beats, major_minor,timestamps)
-            song_chords = structure_chords(chords)
+            #getting the prediction from the model
+            key_prediction, major_minor = predict(chromagram,model)
 
-            #deleting the temporary saved audio files
-            if stems == 2:
-                print(delete_audio_2_stems(audio_file_path, output_folder_name,))
-            else:
-                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
+            #translate and structure the output
+            chords = prediction_into_chords(key_prediction, major_minor)
+            chords2 = chord_per_beat(chords, index_of_the_beats)
+            chords3 = structure_chords(chords2)
+
             
             #create the song object and save it to the db
             print("creates song object")
@@ -113,8 +101,8 @@ def create_song(request):
                 tempo=tempo,
                 duration=duration, 
                 columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-                chromogram=chroma_T.astype(float).tolist(),
-                prediction=song_chords
+                chromogram=chromagram.astype(float).tolist(),
+                prediction=chords3
                 )
 
     
@@ -124,7 +112,7 @@ def create_song(request):
                 'genre':genre,
                 'tempo':tempo,
                 'duration':duration, 
-                'chords':song_chords,
+                'chords':chords3,
                 'result': 'success',
                 'message': 'Audio received',
             },status=200)

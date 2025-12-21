@@ -40,22 +40,22 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate):
     #)
 
     #make the array show what time the beats occur insted of what index
-    beat_into_time = librosa.frames_to_time(
-        index_of_the_beats,
-        sr=sampling_rate,
-        hop_length=hop_length
-    )
+    # beat_into_time = librosa.frames_to_time(
+    #     index_of_the_beats,
+    #     sr=sampling_rate,
+    #     hop_length=hop_length
+    # )
     
     
     #flip the columns and rows in the chroma
     #beat_chroma_T = beat_chroma.T
     chromagram_T= the_chroma.T
-    frames = np.arange(chromagram_T.shape[0])
-    timestamps = librosa.frames_to_time(
-        frames,
-        sr=sampling_rate,
-        hop_length=hop_length
-    )
+    # frames = np.arange(chromagram_T.shape[0])
+    # timestamps = librosa.frames_to_time(
+    #     frames,
+    #     sr=sampling_rate,
+    #     hop_length=hop_length
+    # )
     
  
     #remove the extra line so the sizes matches
@@ -63,7 +63,7 @@ def create_chroma(y_harmonic, y_percussive, sampling_rate):
     #add time to the chroma
     #chroma = np.column_stack((sliced_beat_into_time, beat_chroma_T))
     
-    return chromagram_T,index_of_the_beats,timestamps
+    return chromagram_T,index_of_the_beats
 
 def fetch_duration(y_harmonic,sampling_rate):
     the_duration = librosa.get_duration(y=y_harmonic,sr= sampling_rate)
