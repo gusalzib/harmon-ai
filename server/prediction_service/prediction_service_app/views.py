@@ -31,7 +31,7 @@ if not MODEL_NAME:
 local_dir = download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME)
 
 #this is the spleeter model
-#separator = Separator('spleeter:4stems')
+separator = Separator('spleeter:4stems')
 #there is two options for the spleeter model. use 2 stems or 4 stems.
 #update the variable "stems" depending what you choose
 stems = 4
@@ -100,26 +100,14 @@ def create_song(request):
             print("structure the chords")
             song_chords = structure_chords(chords)
 
-            """if stems == 2:
+            if stems == 2:
                 print(delete_audio_2_stems(audio_file_path, output_folder_name,))
             else:
-                print(delete_audio_4_stems(audio_file_path, output_folder_name,))"""
+                print(delete_audio_4_stems(audio_file_path, output_folder_name,))
             
             #create the song object and save it to the db
             print("creates song object")
             new_song = Song.objects.create(
-<<<<<<< HEAD
-               title=title,
-               artist=artist,
-               genre=genre,
-               tempo=tempo,
-               duration=duration, 
-               columns=["time","1=C", "2=C#", "3=D", "4=D#", "5=E", "6=F", "7=F#", "8=G", "9=G#", "10=A", "11=A#", "12=B"],
-               #chromogram=chroma_T.astype(float).tolist(),
-               prediction=song_chords
-               )
-            new_song.save()
-=======
                 title=title,
                 artist=artist,
                 genre=genre,
@@ -129,7 +117,6 @@ def create_song(request):
                 chromogram=chroma_T.astype(float).tolist(),
                 prediction=song_chords
                 )
->>>>>>> main
 
     
             response = JsonResponse({
