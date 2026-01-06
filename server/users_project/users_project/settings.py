@@ -147,7 +147,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:80",
     "http://localhost:8080",
-    "https://localhost"
+    "https://localhost",
+    "http://34.51.250.115",
+    "http://34.51.250.115.nip.io"
 ]
 CORS_ALLOW_CREDENTIALS = True
 USE_X_FORWARDED_HOST = True
@@ -157,7 +159,9 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:80",
     "http://localhost:8080",
-    "https://localhost"
+    "https://localhost",
+    "http://34.51.250.115",
+    "http://34.51.250.115.nip.io"
 ]
 
 # overriding the default DATA_UPLOAD_MAX_NUMBER_FILES to allow for the dataset to be uploaded from frontend

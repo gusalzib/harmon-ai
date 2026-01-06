@@ -31,10 +31,10 @@ if not MODEL_NAME:
 local_dir = download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME)
 
 #this is the spleeter model
-separator = Separator('spleeter:4stems')
+separator = Separator('spleeter:2stems')
 #there is two options for the spleeter model. use 2 stems or 4 stems.
 #update the variable "stems" depending what you choose
-stems = 4
+stems = 2
 
 #this is our model
 model = tf.saved_model.load(local_dir)
