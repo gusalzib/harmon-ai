@@ -21,4 +21,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 EXPOSE 8000
-CMD ["gunicorn", "-k gevent", "--workers=2", "--log-level", "debug", "--bind", "0.0.0.0:8000", "--timeout", "600", "prediction_service_backend.wsgi"]
+CMD ["gunicorn", "--workers=1", "--threads=4", "--log-level", "debug", "--bind", "0.0.0.0:8000", "--timeout", "600", "prediction_service_backend.wsgi"]
