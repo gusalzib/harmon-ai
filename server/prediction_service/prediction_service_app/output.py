@@ -43,15 +43,16 @@ def chord_filter(interval, **kwargs):
 
 def chord_per_beat(NX_removed, index_of_the_beats):
     #takes the intervals of frames between 2 beats and calculates which chord is the most common chord in this beat. 
-    print(len(NX_removed))
-    print(index_of_the_beats[:10])
-    print(index_of_the_beats[-10:])
-    print(index_of_the_beats.min(),index_of_the_beats.max())
-    print(np.all(np.diff(index_of_the_beats.astype(int)) > 0))
     
+    beats = index_of_the_beats.astype(int)
+    if beats.size == 0:
+        return np.array([], dtype=str)
+    if beats[0] != 0:
+        beats = np.insert(beats,0,0)
+
     chord_beats= librosa.util.sync(
         data=NX_removed,
-        idx=index_of_the_beats.astype(int),
+        idx=beats,
         aggregate=chord_filter, #uses chord_filter to calculate most common and remove 'N' values
         pad=False
     )

@@ -64,11 +64,13 @@ def tempo_formatting(the_tempo):
     the_tempo = the_tempo + " Bpm"
     return the_tempo
 
-def get_index_of_the_beats(beat_times,sr,hop_length):
+def get_index_of_the_beats(beat_times,sample_rate,hop_length):
     beat_times = np.asarray(beat_times, dtype=float)
-    beat_frames = np.rint(beat_times * sr / hop_length).astype(int)
+    #Change seconds into frames
+    beat_frames = np.rint(beat_times * sample_rate / hop_length).astype(int)
 
-    beat_framse = beat_frames[beat_frames >=0]
+    #remove frames with negative values and duplicate frames
+    beat_frames = beat_frames[beat_frames >=0]
     beat_frames = np.unique(beat_frames)
 
     return beat_frames
