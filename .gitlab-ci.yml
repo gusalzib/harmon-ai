@@ -103,13 +103,13 @@ update_model:
     - when: never
 
   script:
-    - echo "Fast Track: ML model change detected. Skipping build."
+    - echo "Fast Track:ML model change detected. Skipping build."
     - gcloud container clusters get-credentials $GCP_CLUSTER_NAME --region $GCP_REGION --project $GCP_PROJECT_ID
     
     - echo "Fetching current images from Kubernetes..."
     - PRED_IMG=$(kubectl get deployment prediction-app-deployment -o=jsonpath='{.spec.template.spec.containers[0].image}')
     
-    - echo "Preserving current image: $PRED_IMG"
+    - echo "Preserving current image:$PRED_IMG"
     - 'sed -i "s|PREDICTION_IMAGE_PLACEHOLDER|$PRED_IMG|g" cloud-deploy/prediction.yaml'
     - kubectl apply -f cloud-deploy/prediction.yaml
     
