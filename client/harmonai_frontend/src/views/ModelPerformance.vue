@@ -43,7 +43,7 @@
                 <div class="report-panel primary-report">
                     <h4>{{ $t('admin.model.reportFor') }} V{{ this.selectedReport.version }}</h4>
                     <button class="standard-btn update-model-btn" @click="updateModel">
-                        {{ $t('buttons.updateModel') || 'Update Model' }}
+                        {{ $te('buttons.deployModel') ? $t('buttons.deployModel') : 'Deploy Model' }}
                     </button>
                      <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
                 </div>
@@ -149,7 +149,7 @@ export default {
             try {
                 const baseUrl = import.meta.env.VITE_API_URL || "http://34.51.250.115";
                 // Call the backend endpoint that triggers update_model.py
-                const response = await axios.post(`${baseUrl}/admins/update_model`, {
+                const response = await axios.post(`${baseUrl}/admins/update`, {
                     modelName: this.selectedReport.name
                 });
 
@@ -164,3 +164,14 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.update-model-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+.update-model-btn:hover {
+    background-color: #218838;
+}
+</style>
