@@ -1,3 +1,7 @@
+/**
+ * Authors of code:
+ * - 
+ */
 
 export function getCsrfToken() {
 

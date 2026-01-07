@@ -1,3 +1,8 @@
+/**
+ * Authors of code:
+ * - 
+ */
+
 import axios from 'axios'
 import { getCsrfToken } from '@/utils/csrfTokenUtils';
 import { defineStore } from 'pinia';
