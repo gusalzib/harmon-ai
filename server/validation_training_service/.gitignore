@@ -24,3 +24,6 @@ media/
 # IDE files
 .idea/
 .vscode/
+
+# Testing directories
+testing_evaluation/
