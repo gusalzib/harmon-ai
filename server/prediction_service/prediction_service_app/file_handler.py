@@ -13,13 +13,20 @@ def separate_audio(waveform, separator, stems):
     separated = separator.separate(waveform_T)
     if stems==2:
         prosessed_audio = separated["accompaniment"]
+        mono_audio = np.mean(prosessed_audio,axis=1)
+        return mono_audio
     else:
+        print("start splitting")
         prosessed_audio = separated["other"]
+        percussive_audio = separated["drums"]
+        mono_audio = np.mean(prosessed_audio,axis=1)
+        mono_percussive = np.mean(percussive_audio,axis=1)
+        print("splitting is done")
+        return mono_audio, mono_percussive
 
-    #make it mono so we can use it for the chromagram
-    mono_audio = np.mean(prosessed_audio,axis=1)
+
     
-    return mono_audio
+
 
 
 def download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME):

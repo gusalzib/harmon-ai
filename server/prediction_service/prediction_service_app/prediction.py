@@ -23,20 +23,6 @@ def predict(chroma_T, model):
     
     return key_predictions,major_minor
 
-def chord_filter(interval, **kwargs):
-    counts = collections.Counter(interval).most_common()
-    first_chord = counts[0][0]
-    if first_chord == N:
-        if len(counts) <=1:
-            strongest_chord= counts[0][0]
-        else:
-            strongest_chord= counts[1][0]
-    else:
-        strongest_chord = counts[0][0]
-    
-    
-    
-    return strongest_chord
 
 def prediction_into_chords(key_prediction, major_minor):
     #gets a prediction from the model and translates the output to chords
@@ -45,55 +31,69 @@ def prediction_into_chords(key_prediction, major_minor):
     result_true = (np.array(MAJOR)[ prediction_with_quality[:,0]])
     result_false = ((np.array(MINOR)[ prediction_with_quality[:,0]]))
     quality_chords = np.where(condition, result_true, result_false)
+    np.set_printoptions(threshold=np.inf)
+    #print("quality chords: ",quality_chords)
     return quality_chords
 
-def chord_per_beat(quality_chords, index_of_the_beats):
+# def chord_filter(interval, **kwargs):
+#     counts = collections.Counter(interval).most_common()
+#     first_chord = counts[0][0]
+#     if first_chord == N:
+#         if len(counts) <=1:
+#             strongest_chord= counts[0][0]
+#         else:
+#             strongest_chord= counts[1][0]
+#     else:
+#         strongest_chord = counts[0][0]
+#     return strongest_chord
 
-    #takes the intervals of frames between 2 beats and calculates which chord is the most common chord in this beat. 
-    chords_beat= librosa.util.sync(
-        data=quality_chords,
-        idx=index_of_the_beats.astype(int),
-        aggregate=chord_filter, #uses chord_filter to calculate most common and remove 'N' values
-        pad=False
-    )
+# def chord_per_beat(quality_chords, index_of_the_beats):
+
+#     #takes the intervals of frames between 2 beats and calculates which chord is the most common chord in this beat. 
+#     chords_beat= librosa.util.sync(
+#         data=quality_chords,
+#         idx=index_of_the_beats.astype(int),
+#         aggregate=chord_filter, #uses chord_filter to calculate most common and remove 'N' values
+#         pad=False
+#     )
     
-    #the qualities of the chords [0] 7, [1] none, [2] Major , [3] MINOR
-    return chords_beat
+#     #the qualities of the chords [0] 7, [1] none, [2] Major , [3] MINOR
+#     return chords_beat
 
-def structure(interval,**kwargs):
-    bar=[]
-    last_chord= None
-    for chord in interval:
-        if chord != last_chord:
-            bar.append(chord)
-        last_chord = chord
+# def structure(interval,**kwargs):
+#     bar=[]
+#     last_chord= None
+#     for chord in interval:
+#         if chord != last_chord:
+#             bar.append(chord)
+#         last_chord = chord
 
-    chord_string = " ".join(bar)
-    return chord_string
+#     chord_string = " ".join(bar)
+#     return chord_string
 
 
-def structure_chords(chords_beat):
-    if len(chords_beat) == 0:
-        final_chords_bar = "| "
-    else:
-        chords_array = np.array(chords_beat, dtype='<U8')
-        #chords_array = chords_array[1:]
-        #first_chord=chords_array[0]
-        #chords_array = np.insert(chords_array, 0,first_chord)
-        total_beats = len(chords_beat)
-        bars = np.arange(0, total_beats, 4)
+# def structure_chords(chords_beat):
+#     if len(chords_beat) == 0:
+#         final_chords_bar = "| "
+#     else:
+#         chords_array = np.array(chords_beat, dtype='<U8')
+#         #chords_array = chords_array[1:]
+#         #first_chord=chords_array[0]
+#         #chords_array = np.insert(chords_array, 0,first_chord)
+#         total_beats = len(chords_beat)
+#         bars = np.arange(0, total_beats, 4)
 
-        chords_bar= librosa.util.sync(
-        data=chords_array,
-        idx= bars,
-        aggregate=structure,
-        pad=False
-        )
-        chords_bar_list = chords_bar.tolist()
+#         chords_bar= librosa.util.sync(
+#         data=chords_array,
+#         idx= bars,
+#         aggregate=structure,
+#         pad=False
+#         )
+#         chords_bar_list = chords_bar.tolist()
 
-        joined_chords_bar = " | ".join(chords_bar_list)
-        final_chords_bar = "| " + joined_chords_bar.strip()
+#         joined_chords_bar = " | ".join(chords_bar_list)
+#         final_chords_bar = "| " + joined_chords_bar.strip()
 
-        print("CHORDS_BEAT : ", chords_beat)
-        print("PRINT THE CHORDS",final_chords_bar)
-    return final_chords_bar
+#         print("CHORDS_BEAT : ", chords_beat)
+#         print("PRINT THE CHORDS",final_chords_bar)
+#     return final_chords_bar
