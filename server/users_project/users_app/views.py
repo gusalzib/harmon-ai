@@ -1,5 +1,6 @@
 # Authors of code:
 # - Carl-Johan Erikson
+# - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
 
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requires_csrf_token

@@ -1,6 +1,6 @@
 /**
  * Authors of code:
- * - 
+ * - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
  */
 
 import { createRouter, createWebHistory } from 'vue-router'

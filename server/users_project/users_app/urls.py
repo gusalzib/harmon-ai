@@ -1,3 +1,7 @@
+# Authors of code:
+# - Carl-Johan Erikson
+# - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+
 from django.urls import path
 from . import views
 
