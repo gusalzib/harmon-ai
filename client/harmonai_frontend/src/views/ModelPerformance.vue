@@ -147,9 +147,9 @@ export default {
             this.toast.info(this.$t('admin.model.updatingModel') || "Updating model...", { timeout: false });
 
             try {
-                const baseUrl = import.meta.env.VITE_API_URL || "http://34.51.250.115";
+                const baseUrl = import.meta.env.VITE_API_URL || "http://34.51.250.115.nip.io";
                 // Call the backend endpoint that triggers update_model.py
-                const response = await axios.post(`${baseUrl}/admins/update/`, {
+                const response = await axios.post(`${baseUrl}/admins/update`, {
                     modelName: this.selectedReport.name
                 });
 
