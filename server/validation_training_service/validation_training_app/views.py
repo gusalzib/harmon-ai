@@ -6,6 +6,8 @@ from .training import build_model, train_model, save_serving_model, save_model_f
 from .evaluation import generate_report
 from .version import version_model
 from .gcs_utils import upload_blob_from_string, get_all_reports, get_zip
+from .update_model import update_model
+
 
 
  # --- Configuration ---
@@ -66,5 +68,13 @@ def fetch_reports(request):
         reports = get_all_reports(BUCKET_NAME,path)
         # return reports
         return JsonResponse({"reports":reports})
+
+@csrf_exempt
+def update_model_name(request):
+    if request.method == 'POST':
+        modelName = request.POST['modelName']
+        print(modelName)
+        update_model(modelName)
+        return JsonResponse({"status": "success", "message": f"Model name updated to {modelName}."})
 
         
