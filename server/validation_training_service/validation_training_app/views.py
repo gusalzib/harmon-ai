@@ -1,6 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import os
+import json
 from .data_preprocessing import load_data, create_test_train_validationset, save_testdata_to_tfrecord
 from .training import build_model, train_model, save_serving_model, save_model_for_tfma
 from .evaluation import generate_report
@@ -72,7 +73,8 @@ def fetch_reports(request):
 @csrf_exempt
 def update_model_name(request):
     if request.method == 'POST':
-        modelName = request.POST['modelName']
+        data = json.loads(request.body)
+        modelName = data['modelName']
         print(modelName)
         update_model(modelName)
         return JsonResponse({"status": "success", "message": f"Model name updated to {modelName}."})
