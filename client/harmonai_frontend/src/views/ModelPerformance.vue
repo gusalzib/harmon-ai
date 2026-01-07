@@ -43,7 +43,7 @@
                 <div class="report-panel primary-report">
                     <h4>{{ $t('admin.model.reportFor') }} V{{ this.selectedReport.version }}</h4>
                     <button class="standard-btn update-model-btn" @click="updateModel">
-                        {{ $te('buttons.deployModel') ? $t('buttons.deployModel') : 'Deploy Model' }}
+                        {{ $t('buttons.deployModel') || 'Deploy Model' }}
                     </button>
                      <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
                 </div>
