@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
     <div class="account-main-container">
         <div class="account-sidebar">

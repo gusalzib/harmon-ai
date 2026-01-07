@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
   <button @click="toggleTheme" class="theme-toggle">
     {{ isDark ? '☀️ ' + $t('nav.lighttheme') :  '🌙' + $t('nav.darktheme')  }}

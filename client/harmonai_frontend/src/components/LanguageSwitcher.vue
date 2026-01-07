@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
   <select class="language-selector" :value="locale" @change="changeLanguage($event.target.value)">
     <option value="en">English</option>

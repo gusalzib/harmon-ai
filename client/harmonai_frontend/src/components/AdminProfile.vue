@@ -1,3 +1,10 @@
+<!--
+
+Authors of code:
+- 
+
+-->
+
 <template>
     <div class="profile" id="edit-profile" v-if="activeSection === 'adminProfile'">
         <h3>{{ $t('profile.editProfile') }}</h3>

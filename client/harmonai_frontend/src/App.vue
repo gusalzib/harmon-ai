@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
   <div class="nav-bar">
     <header>

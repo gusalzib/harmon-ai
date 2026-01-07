@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
 
     <div class="signup-form-container">

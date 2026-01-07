@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
     <div class="upload-data-section" id="upload" v-if="activeSection === 'dataUpload'">
         <h3>{{ $t('admin.model.uploadData') }}</h3>

@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
     <div class="model-training-section" id="training" v-if="activeSection === 'modelTraining'">
         <h3>{{ $t('admin.model.startTrainingCycle') }}</h3>

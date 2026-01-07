@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
     <div class="history-section" id="history" v-if="activeSection === 'history'">
         <h3>{{ $t('history.yourSongsHistory') }}</h3>

@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
     <div class="model-performance-section" id="performance-report">
         <h3>{{ $t('admin.model.modelPerformanceReports') }}</h3>

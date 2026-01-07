@@ -1,3 +1,9 @@
+<!--
+
+Authors of code:
+- 
+
+-->
 <template>
     <div class="favorite-songs-section" id="favorite-songs" v-if="activeSection === 'favorite_songs'">
         <h3>{{ $t('song.yourFavoriteSongs') }}</h3>
