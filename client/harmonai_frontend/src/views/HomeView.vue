@@ -121,7 +121,7 @@ export default {
       artist: '',
       genre: '',
       error: '',
-      url: 'http://localhost:8002/api/create-song/',
+      url: '',
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
       activeView: 'title', // default search field is title
@@ -137,7 +137,7 @@ export default {
     }
   },
   mounted() {
-    this.url = `${import.meta.env.VITE_API_URL}/api/create-song/`,
+    this.url = `${import.meta.env.VITE_API_URL}/api/create-song/`|| "http://34.51.250.115.nip.io/api/create-song/",
     this.toast = useToast(); // initiate a toast variable
   },
   methods: {

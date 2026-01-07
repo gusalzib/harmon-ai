@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM public.ecr.aws/docker/library/node:lts-alpine
 
 # install simple http server for serving static content
 RUN npm install -g http-server
