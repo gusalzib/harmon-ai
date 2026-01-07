@@ -30,7 +30,7 @@ if not MODEL_NAME:
 local_dir = download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME)
 
 #this is the spleeter model
-separator = Separator('spleeter:2stems')
+separator = Separator('spleeter:4stems')
 #there is two options for the spleeter model. use 2 stems or 4 stems.
 #update the variable "stems" depending on what you choose
 stems = 4

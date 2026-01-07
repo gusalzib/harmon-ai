@@ -18,8 +18,11 @@ def separate_audio(waveform, separator, stems):
     else:
         print("start splitting")
         prosessed_audio = separated["other"]
+        print("first")
         percussive_audio = separated["drums"]
+        print("second")
         mono_audio = np.mean(prosessed_audio,axis=1)
+        print("third")
         mono_percussive = np.mean(percussive_audio,axis=1)
         print("splitting is done")
         return mono_audio, mono_percussive
