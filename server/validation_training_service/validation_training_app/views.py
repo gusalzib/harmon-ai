@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import os

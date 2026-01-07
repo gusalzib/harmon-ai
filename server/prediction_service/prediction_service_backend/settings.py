@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 """
 Django settings for prediction_service_backend project.
 

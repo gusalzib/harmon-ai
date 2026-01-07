@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requires_csrf_token
 from django.views.decorators.http import require_GET, require_POST, require_http_methods

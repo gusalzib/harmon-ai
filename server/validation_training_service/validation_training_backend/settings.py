@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 """
 Django settings for validation_training_backend project.
 

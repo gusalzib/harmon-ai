@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 import os
 
 # Turn flats into sharps/naturals

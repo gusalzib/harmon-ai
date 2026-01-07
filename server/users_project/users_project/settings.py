@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 """
 Django settings for users_project project.
 

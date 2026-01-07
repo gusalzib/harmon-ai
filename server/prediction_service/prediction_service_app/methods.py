@@ -1,3 +1,6 @@
+# Authors of code:
+# - 
+
 import librosa
 import numpy as np
 
