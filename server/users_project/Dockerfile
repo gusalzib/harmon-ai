@@ -1,3 +1,6 @@
+## Authors of code:
+# - 
+
 # Main content from https://www.docker.com/blog/how-to-dockerize-django-app/
 # "Official python runtime image"
 FROM public.ecr.aws/docker/library/python:3.12-slim

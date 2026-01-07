@@ -1,3 +1,6 @@
+## Authors of code:
+# - 
+
 FROM public.ecr.aws/docker/library/python:3.10.8-slim
 # FROM python:3.8.12-slim
 

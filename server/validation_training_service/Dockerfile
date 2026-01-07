@@ -1,3 +1,6 @@
+## Authors of code:
+# - 
+
 # Use an official Python runtime as a parent image
 # Python 3.10 is generally stable for TensorFlow and TFMA
 # pull from aws to avoid pull limit restrictions
