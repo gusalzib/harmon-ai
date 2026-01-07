@@ -14,28 +14,29 @@ def update_model(modelName):
 
     yaml_file = project.files.get(FILE_PATH, ref=BRANCH)
     yaml_content = yaml_file.decode()
-    yaml_data = yaml.safe_load(yaml_content)
+    # Use safe_load_all to handle multiple documents (Deployment + Service)
+    yaml_docs = list(yaml.safe_load_all(yaml_content))
 
-    containers = yaml_data['spec']['template']['spec']['containers']
-        
-    # We assume the first container is the one we want to update
-    env_vars = containers[0]['env']
-        
-    found = False
-    # Loop through existing variables to find MODEL_NAME
-    for env in env_vars:
-        if env['name'] == 'MODEL_NAME':
-            print(f"Updating MODEL_NAME from '{env['value']}' to '{modelName}'")
-            env['value'] = modelName
-            found = True
+    for doc in yaml_docs:
+        if doc.get('kind') == 'Deployment':
+            containers = doc['spec']['template']['spec']['containers']
+            
+            # We assume the first container is the one we want to update
+            env_vars = containers[0]['env']
+            
+            # Loop through existing variables to find MODEL_NAME
+            for env in env_vars:
+                if env['name'] == 'MODEL_NAME':
+                    print(f"Updating MODEL_NAME from '{env['value']}' to '{modelName}'")
+                    env['value'] = modelName
+                    break
             break
 
-    # Convert the Python dictionary back to a YAML string
-    new_yaml_str = yaml.dump(yaml_data, default_flow_style=False, sort_keys=False)
+    # Convert the list of documents back to a multi-document YAML string
+    new_yaml_str = yaml.dump_all(yaml_docs, default_flow_style=False, sort_keys=False)
 
     commit_data = {
             'branch': BRANCH,
-            # CRITICAL: This tag triggers the 'update_model' job in your .gitlab-ci.yml
             'commit_message': f"Update MODEL_NAME to {modelName} [update_model]",
             'actions': [
                 {
@@ -47,4 +48,3 @@ def update_model(modelName):
         }
     # 5. Push to GitLab
     project.commits.create(commit_data)
-
