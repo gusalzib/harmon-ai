@@ -1,3 +1,6 @@
+# Authors of code:
+# -
+
 name: py_3.10-tensor
 channels:
   - defaults
