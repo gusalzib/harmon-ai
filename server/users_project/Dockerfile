@@ -1,5 +1,5 @@
 ## Authors of code:
-# - 
+# - Carl-Johan Erikson
 
 # Main content from https://www.docker.com/blog/how-to-dockerize-django-app/
 # "Official python runtime image"

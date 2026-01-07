@@ -1,5 +1,5 @@
 # Authors of code:
-# - 
+# - Carl-Johan Erikson
 
 """
 Django settings for users_project project.

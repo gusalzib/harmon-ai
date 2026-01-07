@@ -1,5 +1,5 @@
 # Authors of code:
-# -
+# - Carl-Johan Erikson
 
 apiVersion: apps/v1
 kind: Deployment

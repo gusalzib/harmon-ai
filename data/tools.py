@@ -1,5 +1,5 @@
 # Authors of code:
-# - 
+# - Carl-Johan Erikson
 
 import os
 

@@ -1,7 +1,7 @@
 <!--
 
 Authors of code:
-- 
+- Carl-Johan Erikson
 
 -->
 <template>

@@ -1,6 +1,6 @@
 /**
  * Authors of code:
- * - 
+ * - Carl-Johan Erikson
  */
 
 import './assets/main.css'
