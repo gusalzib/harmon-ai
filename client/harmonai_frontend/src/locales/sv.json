@@ -102,7 +102,8 @@
     "song": {
         "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",
         "chords": "Chords",
-        "yourFavoriteSongs": "Dina favoritlåtar"
+        "yourFavoriteSongs": "Dina favoritlåtar",
+        "downloadChords": "Ladda ned"
     },
     "admin": {
         "model": {

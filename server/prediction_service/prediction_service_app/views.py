@@ -137,11 +137,13 @@ def create_song(request):
             },status=200)
             
         except json.JSONDecodeError:
+            print("Invalid JSON error:", e, flush=True)
             response = JsonResponse({
                 'result': 'error',
                 'message': 'Invalid JSON',
             },status=400)
         except Exception as e:
+            print("Caught Exception:", e, flush=True)
             response = JsonResponse({'message': f"Exception: {str(e)}"}, status=500)
     else:
         response = JsonResponse({
