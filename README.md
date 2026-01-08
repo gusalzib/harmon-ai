@@ -24,3 +24,51 @@ If you promise you can be discrete 🤫, we'll share a **set of credentials with
 username: fran
 password: fran
 ```
+
+## Config Files Required to Build & Deploy
+If you want to deploy the project yourself, either locally or on Google Cloud, you'll need to do some setup of your own. Some scattered instructions on deploying with Minikube can be found at `team3/server/using-minikube.md`, but in addition to this you'll need to create some config files:
+
+### Google credentials
+Location(s):
+- `team3/server/validation_training_service/HarmonAI_storage.json`
+- `team3/server/prediction_service/HarmonAI_storage.json`
+```
+{
+  "type": "service_account",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": "",
+  "universe_domain": "googleapis.com"
+}
+
+```
+
+### DB connection string
+Location(s):
+- `team3/server/users_project/.env`
+```
+DB_CONNECTION_STRING=<MongoDB database URL w/ username + password>
+```
+
+### Client top domain URL
+Location(s):
+- `team3/client/harmonai_frontend/.env.production`
+```
+VITE_API_URL=<URL/address to where the site will be hosted>
+```
+
+### 
+Location(s):
+- `team3/client/harmonai_frontend/.env`
+```
+VITE_GCS_BUCKET_NAME=
+VITE_GCS_CLIENT_ID=
+VITE_GCS_SCOPE=
+VITE_API_URL=<URL/address to where the site will be hosted>
+```

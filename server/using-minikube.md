@@ -65,9 +65,6 @@ To rebuild all SERVICE images in one go, make sure you're in `/team3/server`:
 minikube image build -t users-proj:latest users_project;minikube image build -t training-proj:latest validation_training_service;minikube image build -t prediction-proj:latest prediction_service
 ```
 
-# Gateway API
-Fuck the Gateway API
-
 # "Regular Ingress"
 - You must have an Ingress controller to satisfy an Ingress
 - Whole-ass minikube-specific nginx guide that is easy to follow: https://v1-33.docs.kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
