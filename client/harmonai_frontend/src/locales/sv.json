@@ -18,7 +18,8 @@
         "closeButton": "Stäng",
         "searchBoxTitle": "Titel",
         "searchBoxArtist": "Artist",
-        "searchBoxGenre": "Genre"
+        "searchBoxGenre": "Genre",
+        "deployModel": "använd modell"
     },
     "nav": {
         "about": "Om Oss",

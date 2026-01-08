@@ -37,6 +37,12 @@ spec:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: "/var/secrets/google/key.json"
 
+        - name: GITLAB_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-auth
+              key: token
+
         volumeMounts:
         - name: gcp-key-volume
           mountPath: /var/secrets/google

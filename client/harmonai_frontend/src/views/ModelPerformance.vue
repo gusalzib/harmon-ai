@@ -42,6 +42,9 @@
 
                 <div class="report-panel primary-report">
                     <h4>{{ $t('admin.model.reportFor') }} V{{ this.selectedReport.version }}</h4>
+                    <button class="standard-btn update-model-btn" @click="updateModel">
+                        {{ $t('buttons.deployModel') || 'Deploy Model' }}
+                    </button>
                      <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
                 </div>
 
@@ -137,6 +140,38 @@ export default {
             this.comparisonReport = null;
             this.selectedReport = null;
         },
+
+        async updateModel() {
+            if (!this.selectedReport) return;
+
+            this.toast.info(this.$t('admin.model.updatingModel') || "Updating model...", { timeout: false });
+
+            try {
+                const baseUrl = import.meta.env.VITE_API_URL || "http://34.51.250.115.nip.io";
+                // Call the backend endpoint that triggers update_model.py
+                const response = await axios.post(`${baseUrl}/admins/update/`, {
+                    modelName: this.selectedReport.name
+                });
+
+                this.toast.clear();
+                this.toast.success(this.$t('admin.model.modelUpdateSuccess') || "Model updated successfully");
+            } catch (error) {
+                this.toast.clear();
+                this.toast.error(this.$t('admin.model.modelUpdateFailed') || "Failed to update model");
+                console.error(error);
+            }
+        }
     }
 }
 </script>
+
+<style scoped>
+.update-model-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+.update-model-btn:hover {
+    background-color: #218838;
+}
+</style>
