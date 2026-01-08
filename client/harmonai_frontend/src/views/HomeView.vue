@@ -88,13 +88,21 @@
                 </div>
 
                 <div class="chord-display-box">
+                  
                     <label class="chord-label" for="chord-list">{{ $t('song.chords') }}</label>
+                    <div class="transposing">
+                      <span class="transpose-label"> Transpose </span>
+                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, up)">+</button>
+                      <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,down)">-</button>
+                    </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
                 </div>
+                
             </li>
-
-            
+  
         </ul>
+        
+    
             
 
     </div>
@@ -122,6 +130,8 @@ export default {
       genre: '',
       error: '',
       url: '',
+      up: "up",
+      down: "down",
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
       activeView: 'title', // default search field is title
@@ -133,7 +143,9 @@ export default {
         prediction: [],
         BPM: "",
         duration:""
-      }
+      },
+      MAJOR: ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
+      MINOR: ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "Abm", "Am", "Bbm", "Bm"]
     }
   },
   mounted() {
@@ -141,6 +153,44 @@ export default {
     this.toast = useToast(); // initiate a toast variable
   },
   methods: {
+
+    transpose(chordString, change){
+      var songChordList = chordString.split(" ");
+      var chordIndex = 0;
+      var chordList = []
+      for (let i=0; i< songChordList.length; i++){
+        const chord = songChordList[i];
+        if (chord.endsWith("N") || chord.endsWith("X") || chord.endsWith("|")){
+          continue;
+        }else{
+          if (chord.endsWith("m")){
+          chordList = this.MINOR
+        }else{
+          chordList = this.MAJOR
+        }
+          chordIndex = chordList.indexOf(chord);
+          
+          if (change == "up"){
+            if (chordIndex == 11){
+              chordIndex = 0;
+            }else{
+              chordIndex=chordIndex+1;
+            }
+            songChordList[i] = chordList[chordIndex]
+          }else if (change == "down"){
+            if (chordIndex == 0){
+              chordIndex = 11;
+            }else{
+              chordIndex = chordIndex -1;
+            }
+            songChordList[i] = chordList[chordIndex]
+          }
+        }
+      }
+      const transposedChords = songChordList.join(" ");
+      return transposedChords
+    },
+
     async searchQuery(queryType) {
       var search = "";
       var kind = "";
