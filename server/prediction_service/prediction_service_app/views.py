@@ -190,14 +190,14 @@ def get_songs(request):
 
             searchGenre = request.GET.get("genre")
             if searchGenre:
-                songs_query= Song.objects.filter(genre__contains=searchGenre)
+                songs_query= Song.objects.filter(genre__icontains=searchGenre)
 
             searchArtist = request.GET.get("artist")
             if searchArtist:
-                songs_query= Song.objects.filter(artist__contains=searchArtist)
+                songs_query= Song.objects.filter(artist__icontains=searchArtist)
             searchTitle =request.GET.get("title")            
             if searchTitle:
-                songs_query= Song.objects.filter(title__contains=searchTitle)
+                songs_query= Song.objects.filter(title__icontains=searchTitle)
             
         
             if not songs_query.exists():

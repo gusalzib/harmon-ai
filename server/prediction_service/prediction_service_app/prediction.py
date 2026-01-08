@@ -33,6 +33,8 @@ def prediction_into_chords(key_prediction, major_minor):
     quality_chords = np.where(condition, result_true, result_false)
     np.set_printoptions(threshold=np.inf)
     #print("quality chords: ",quality_chords)
+    if len(quality_chords) > 0:
+        quality_chords = np.insert(quality_chords, 0, quality_chords[0])
     return quality_chords
 
 # def chord_filter(interval, **kwargs):
