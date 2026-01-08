@@ -19,10 +19,6 @@ BASE_REPORT_PATH = "reports" # GCS "folder"
 BASE_CLEAN_DATA_PATH = "data/clean_data" # GCS "folder"
 
 
-
-
-
-
 @csrf_exempt
 def test_train_model(request):
     if request.method == 'POST':
@@ -129,11 +125,11 @@ def test_train_model(request):
 
         # 6. Upload the JSON report from memory to GCS
         print("Uploading evaluation report to GCS...")
-        # upload_blob_from_string(BUCKET_NAME, report_content, gcs_report_path)
-        print(f"Report generated successfully (not uploaded for local testing)")
-        print(f"Report preview: {report_content[:200]}...")
+        upload_blob_from_string(BUCKET_NAME, report_content, gcs_report_path)
+        print(f"The report was generated and uploaded successfully")
 
         return JsonResponse({"status": "success", "message": f"Model training for {versioned_model_name} complete."})
+
     return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
 
 

@@ -30,30 +30,35 @@ all_possible_qualities = {
     3: "min"
 }
 
-def calculate_metrics(true_labels, pred_labels, annotation_ids):
-    annotation_slices = set(annotation_ids)
+def calculate_metrics(true_labels, pred_labels, annotations):
+    annotation_slices = set(annotations)
     metrics_per_slice = {}
 
     true_labels = np.array(true_labels)
     pred_labels = np.array(pred_labels)
 
     for annotation in annotation_slices:
-        annotation_indices = [i for i, s in enumerate(annotation_ids) if s == annotation]
+        # the following compact and beautiful one-liner was suggested by gemini as a shortcut from my 5 liner loop
+        annotation_indices = [i for i, value in enumerate(annotations) if value == annotation]
 
         if annotation_indices: # do we have any?
             annotation_ground_truth = true_labels[annotation_indices]
             annotation_prediction = pred_labels[annotation_indices]
             annotation_accuracy = accuracy_score(annotation_ground_truth, annotation_prediction)
             metrics_per_slice[annotation] = {
-                "accuracy": float(annotation_accuracy),
+                "accuracy": round(float(annotation_accuracy), 2),
                 "number_of_examples": int(len(annotation_ground_truth))
                 }
     return metrics_per_slice
 
 
 def evaluate_model(model, test_dataset):
+
+    # for accuracy of key prediction 
     all_key_preds = []
     all_key_labels = []
+
+    # for accuracy of quality prediction
     all_quality_preds = []
     all_quality_labels = []
 
@@ -66,8 +71,12 @@ def evaluate_model(model, test_dataset):
 
     for x, y in test_dataset: 
         predictions = model(x, training=False)
-        key_pred = predictions['key']
-        quality_pred = predictions['quality']
+        
+        # key_pred = predictions['key']
+        # quality_pred = predictions['quality']
+        
+        key_pred = predictions[0]
+        quality_pred = predictions[1]
 
         key_pred_numerical = tf.argmax(key_pred, axis=1).numpy()
         quality_pred_numerical = tf.argmax(quality_pred, axis=1).numpy()
@@ -80,6 +89,8 @@ def evaluate_model(model, test_dataset):
         all_quality_preds.extend(quality_pred_numerical)
         all_quality_labels.extend(quality_ground_truth)
 
+        # the following compact and beautiful two-liners were suggested by gemini as a shortcut from my loop
+        # str(k) is a fallback in case we receive an invalid key that is not in the all_possible 
         all_grouped_by_keys.extend([all_possible_keys.get(int(k), str(k)) for k in key_ground_truth])
         all_grouped_by_qualities.extend([all_possible_qualities.get(int(q), str(q)) for q in quality_ground_truth])
 
@@ -92,20 +103,24 @@ def evaluate_model(model, test_dataset):
     # calculating metrics
     key_accuracy = accuracy_score(all_key_labels, all_key_preds)
     quality_accuracy = accuracy_score(all_quality_labels, all_quality_preds)
+    
     total_examples = len(all_key_labels)
 
     # confusion metrics
-    key_confusion_matrix = confusion_matrix(all_key_labels, all_key_preds).tolist()
-    quality_confusion_matrix = confusion_matrix(all_quality_labels, all_quality_preds).tolist()
+    # key_confusion_matrix = confusion_matrix(all_key_labels, all_key_preds).tolist()
+    # quality_confusion_matrix = confusion_matrix(all_quality_labels, all_quality_preds).tolist()
 
+    key_confusion_matrix = confusion_matrix(all_key_labels, all_key_preds, labels=list(range(14))).tolist() 
+    quality_confusion_matrix = confusion_matrix(all_quality_labels, all_quality_preds, labels=[0, 1, 2, 3]).tolist()
 
+    # 14x14 conf matrix labels of keys including X and N 
     key_class_labels = []
     for class_index in range(len(key_confusion_matrix)):
         
         chord_name = all_possible_keys.get(class_index, str(class_index))
         key_class_labels.append(chord_name)
 
-    
+    # 4x4 conf matrix labels of qualities including none and 7 
     quality_class_labels = []
     for class_index in range(len(quality_confusion_matrix)):
     
@@ -130,12 +145,12 @@ def evaluate_model(model, test_dataset):
         "overall_metrics": {
             "total_examples": int(total_examples),
             "key": {
-                "accuracy": float(key_accuracy),
+                "accuracy": round(float(key_accuracy), 2),
                 "confusion_matrix": key_confusion_matrix,
                 "class_labels": key_class_labels
             }, 
             "quality": {
-                "accuracy": float(quality_accuracy),
+                "accuracy": round(float(quality_accuracy), 2),
                 "confusion_matrix": quality_confusion_matrix,
                 "class_labels": quality_class_labels
             }
@@ -159,4 +174,3 @@ def generate_report(model, test_dataset):
     json_report = json.dumps(metrics)
 
     return json_report
-
