@@ -48,10 +48,11 @@
           <h4 class="song-name">{{ song.title }}</h4>
           <h4 class="song-artist">{{ song.artist }}</h4>
           <h4 class="song-genre">{{ song.genre }}</h4>
-          <div class="transposing">        
-            <button class="transpose-btn-+" @click="song.prediction = transpose(song.prediction, 'up')">transpose up</button>
+          <div class="transposing">
+            <button class="transpose-btn--" @click="song.prediction = transpose(song.prediction,'down')">transpose down</button>        
             <button class="transpose-btn-original" @click="songs[index].prediction= originalSongs[index].prediction">original key</button>
-            <button class="transpose-btn--" @click="song.prediction = transpose(song.prediction,'down')">transpose down</button>
+            <button class="transpose-btn-+" @click="song.prediction = transpose(song.prediction, 'up')">transpose up</button>
+            
           </div>
           <p class="chord-list">{{ song.prediction }}</p>
           
@@ -97,10 +98,9 @@
                   
                     <label class="chord-label" for="chord-list">{{ $t('song.chords') }}</label>
                     <div class="transposing">
-                    
-                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button>
-                      <button class="transpose-btn-original" @click="this.song.chord_list = this.song.original_chord_list">original key</button>
                       <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,'down')">transpose down</button>
+                      <button class="transpose-btn-original" @click="this.song.chord_list = this.song.original_chord_list">original key</button>
+                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button> 
                     </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
 
