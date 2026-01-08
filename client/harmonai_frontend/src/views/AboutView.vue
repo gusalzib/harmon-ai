@@ -1,7 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <h2> Responsible AI Principles</h2>
+    <h1>Responsible AI Principles</h1>
     <div class="principles">
       <section class="card">
         <h3>Fairness:</h3>

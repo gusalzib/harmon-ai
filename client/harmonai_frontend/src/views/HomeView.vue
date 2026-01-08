@@ -91,9 +91,10 @@
                   
                     <label class="chord-label" for="chord-list">{{ $t('song.chords') }}</label>
                     <div class="transposing">
-                      <span class="transpose-label"> Transpose </span>
-                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, up)">+</button>
-                      <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,down)">-</button>
+                    
+                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, up)">transpose up</button>
+                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, up)">original key</button>
+                      <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,down)">transpose down</button>
                     </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
                 </div>
