@@ -1,5 +1,5 @@
 # Authors of code:
-# - 
+# - Viktor Kolak
 
 from google.cloud import storage
 import re

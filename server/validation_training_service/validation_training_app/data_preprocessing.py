@@ -1,5 +1,5 @@
 # Authors of code:
-# - 
+# - Viktor Kolak
 
 import os 
 from dotenv import load_dotenv
