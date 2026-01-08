@@ -20,6 +20,6 @@ Not everyone can manage or create an administrator account. Security is a very i
 
 If you promise you can be discrete 🤫, we'll share a **set of credentials with you**! 😊<br>
 ```
-username:
-password:
+username: fran
+password: fran
 ```
