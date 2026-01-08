@@ -17,6 +17,7 @@ Not everyone can manage or create an administrator account. Security is a very i
 **Functionality of administrator accounts:**
 - Upload new training data and trigger the training of a new model
 - Choose which version of the model is active
+- Look at model performance statistics and compare them side by side
 
 If you promise you can be discrete 🤫, we'll share a **set of credentials with you**! 😊<br>
 ```
