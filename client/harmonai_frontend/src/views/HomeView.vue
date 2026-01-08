@@ -213,7 +213,12 @@ export default {
       }else if(change == "original"){
         this.keyChange = 0
       }
-      this.keyChange = ((this.keyChange % 12)+ 12) %12;
+      if(this.keyChange >= 12){
+        this.ketChange = this.keyChange -12;
+      }
+      if(this.keyChange >= -12){
+        this.ketChange = this.keyChange +12;
+      }
       
       const transposedChords = songChordList.join(" ");
       return transposedChords
