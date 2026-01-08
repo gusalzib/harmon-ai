@@ -1,69 +1,36 @@
 from django import forms
 import os
 from google.cloud import storage
+import numpy as np
+import io
 
-#save audio in a folder
-
-def separate_audio(audio, separator, stems):
-
-    temp_audio_folder = "./prediction_service_app/temp_audio"
-    temp_output_folder = "./prediction_service_app/temp_output"
+#Updated to not save the splitted audio in a file and later delete it. 
+#Now we use it instantly and then it is gone
+def separate_audio(waveform, separator, stems):
+    #flip the waveform
+    waveform_T = waveform.T
     
-    output_folder_name = os.path.splitext(audio.name)[0]
-    audio_file_path= os.path.join(temp_audio_folder, audio.name)
-    with open(audio_file_path, "wb+") as destination:
-        for chunk in audio.chunks():
-            destination.write(chunk)
-
-    temp_output_folder = "./prediction_service_app/temp_output"
-    separator.separate_to_file(audio_file_path, temp_output_folder)
-    
-    
-    if stems == 2:
-        prosessed_audio = os.path.join(temp_output_folder,output_folder_name,"accompaniment.wav")
+    separated = separator.separate(waveform_T)
+    if stems==2:
+        prosessed_audio = separated["accompaniment"]
+        mono_audio = np.mean(prosessed_audio,axis=1)
+        return mono_audio
     else:
-        prosessed_audio = os.path.join(temp_output_folder,output_folder_name,"other.wav")
+        print("start splitting")
+        prosessed_audio = separated["other"]
+        print("first")
+        percussive_audio = separated["drums"]
+        print("second")
+        mono_audio = np.mean(prosessed_audio,axis=1)
+        print("third")
+        mono_percussive = np.mean(percussive_audio,axis=1)
+        print("splitting is done")
+        return mono_audio, mono_percussive
+
+
     
-    return(audio_file_path, output_folder_name, prosessed_audio)
 
 
-def delete_audio_2_stems(audio_file_path, output_folder_name):
-    #remove file in temp_audio
-    os.remove(audio_file_path)
-
-    output_folder_path = os.path.join("./prediction_service_app/temp_output", output_folder_name)
-
-    #remove files in the output_folder
-    accompaniment_path = os.path.join(output_folder_path,"accompaniment.wav")
-    vocals_path = os.path.join(output_folder_path,"vocals.wav")
-    os.remove(accompaniment_path)
-    os.remove(vocals_path)
-
-    #remove folder in temp_output
-    os.rmdir(output_folder_path)
-
-    return "audio deleted" 
-
-def delete_audio_4_stems(audio_file_path, output_folder_name):
-    #remove file in temp_audio
-    os.remove(audio_file_path)
-
-    output_folder_path = os.path.join("./prediction_service_app/temp_output", output_folder_name)
-
-    #remove files in the output_folder
-    bass_path = os.path.join(output_folder_path,"bass.wav")
-    drums_path = os.path.join(output_folder_path,"drums.wav")
-    other_path = os.path.join(output_folder_path,"other.wav")
-    vocals_path = os.path.join(output_folder_path,"vocals.wav")
-    os.remove(bass_path)
-    os.remove(drums_path)
-    os.remove(other_path)
-    os.remove(vocals_path)
-
-    #remove folder in temp_output
-    os.rmdir(output_folder_path)
-
-    return "audio deleted" 
 
 def download_model_from_google(BUCKET_NAME, BASE_MODEL_PATH, MODEL_NAME):
     model_path = f"{BASE_MODEL_PATH}/{MODEL_NAME}/serving"

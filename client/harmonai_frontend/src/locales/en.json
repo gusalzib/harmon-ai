@@ -112,7 +112,8 @@
         "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
         "chords": "Chords",
         "yourFavoriteSongs": "Your Favorite Songs",
-        "predictedChords": "Your predicted song chords:"
+        "predictedChords": "Your predicted song chords:",
+        "downloadChords": "Download"
     },
     "history": {
         "yourSongsHistory": "Your Song History",
