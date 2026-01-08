@@ -210,6 +210,10 @@ input[type=file]:hover{
   font-size: 1rem;
   font-weight: lighter;
   min-width: 185px;
+  background-color: var(--standard-btn);
+  margin: auto;
+  border-radius: 5px;
+  color: var(--color-text);
 }
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 

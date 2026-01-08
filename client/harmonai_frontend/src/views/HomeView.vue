@@ -44,11 +44,17 @@
         <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
       </div>
       <div class="search-result-display">
-        <div class="song-details-header" v-for="song in this.songs" :key="song.title">
+        <div class="song-details-header" v-for="(song, index) in this.songs" :key="song.title">
           <h4 class="song-name">{{ song.title }}</h4>
           <h4 class="song-artist">{{ song.artist }}</h4>
           <h4 class="song-genre">{{ song.genre }}</h4>
+          <div class="transposing">        
+            <button class="transpose-btn-+" @click="song.prediction = transpose(song.prediction, 'up')">transpose up</button>
+            <button class="transpose-btn-original" @click="songs[index].prediction= originalSongs[index].prediction">original key</button>
+            <button class="transpose-btn--" @click="song.prediction = transpose(song.prediction,'down')">transpose down</button>
+          </div>
           <p class="chord-list">{{ song.prediction }}</p>
+          
         </div>
       </div>
       <hr>
@@ -93,7 +99,7 @@
                     <div class="transposing">
                     
                       <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button>
-                      <button class="transpose-btn-original" @click="this.song.chord_list = transpose(this.song.chord_list, 'original')">original key</button>
+                      <button class="transpose-btn-original" @click="this.song.chord_list = this.song.original_chord_list">original key</button>
                       <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,'down')">transpose down</button>
                     </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
@@ -133,12 +139,11 @@ export default {
       url: '',
       up: "up",
       down: "down",
-      original: "original",
-      keychange: 0,
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
       activeView: 'title', // default search field is title
       songs: [], // stores result of searchQuery
+      originalSongs: [], //stores the searchquery so that transposing still has an original
       song:{
         title: "",
         artist: "",
@@ -163,7 +168,7 @@ export default {
       var chordList = []
       for (let i=0; i< songChordList.length; i++){
         const chord = songChordList[i];
-        if (chord.endsWith("N") || chord.endsWith("X") || chord.endsWith("|")){
+        if (chord === "N" || chord === "X" || chord === "|" || chord === ""){
           continue;
         }else{
           if (chord.endsWith("m")){
@@ -187,39 +192,9 @@ export default {
               chordIndex = chordIndex -1;
             }
             songChordList[i] = chordList[chordIndex]
-          }else if(change == "original"){
-            console.log("original")
-            if (this.keyChange >= 0){
-              chordIndex = chordIndex - this.keyChange;
-              if (chordIndex < 0){
-                chordIndex = chordIndex + 12
-              }
-            }else if(this.keyChange < 0){
-              chordIndex = chordIndex + this.keyChange;
-              if (chordIndex > 11){
-                chordIndex = chordIndex - 12
-              }
-            }
-            songChordList[i] = chordList[chordIndex]
-                  
           }
         }
-      }
-     
-      if(change == "up"){
-        this.keyChange = this.keyChange +1
-      }else if(change == "down"){
-        this.keyChange = this.keyChange -1
-      }else if(change == "original"){
-        this.keyChange = 0
-      }
-      if(this.keyChange >= 12){
-        this.ketChange = this.keyChange -12;
-      }
-      if(this.keyChange >= -12){
-        this.ketChange = this.keyChange +12;
-      }
-      
+      } 
       const transposedChords = songChordList.join(" ");
       return transposedChords
     },
@@ -245,6 +220,7 @@ export default {
 
         if (response.status === 200) {
           this.songs = response.data.songs; 
+          this.originalSongs = JSON.parse(JSON.stringify(response.data.songs));
 
           console.log('Retrieved songs', this.songs);
           
@@ -319,6 +295,7 @@ export default {
           this.song.BPM = response.data.tempo;
           this.song.duration = response.data.duration;
           this.song.chord_list = response.data.chords;
+          this.song.original_chord_list = response.data.chords;
           console.log("Chords:", this.song.chord_list);
         }
 
