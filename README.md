@@ -4,6 +4,9 @@ Brought to you by **Team 3** 🥳
 ## Description
 Do you like a song and want to play it on your instrument, but don't know the chords? HarmonAI has your back! Upload an mp3 file and let our AI transcribe the chords for you, or search our database and see if the song you're looking for has already been transcribed! 🎶
 
+### Wiki
+Information about requirements can be found in the [Wiki](https://git.chalmers.se/courses/dit826/2025/team3/-/wikis/home), and the corresponding issues can also be found in the [issues page](https://git.chalmers.se/courses/dit826/2025/team3/-/issues). For information about meetings and tasks/responsibilities, there is a section for that on a [separate section of the Wiki](https://git.chalmers.se/courses/dit826/2025/team3/-/wikis/home/Meetings)
+
 ## Gaining Access
 **Our project is available on the cloud! Follow this link to visit our website:** http://34.51.250.115.nip.io/
 
