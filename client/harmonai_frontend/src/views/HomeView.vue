@@ -92,9 +92,9 @@
                     <label class="chord-label" for="chord-list">{{ $t('song.chords') }}</label>
                     <div class="transposing">
                     
-                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, up)">transpose up</button>
-                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, up)">original key</button>
-                      <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,down)">transpose down</button>
+                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button>
+                      <button class="transpose-btn-original" @click="this.song.chord_list = transpose(this.song.chord_list, 'original')">original key</button>
+                      <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,'down')">transpose down</button>
                     </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
                 </div>
@@ -133,6 +133,8 @@ export default {
       url: '',
       up: "up",
       down: "down",
+      original: "original",
+      keychange: 0,
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
       activeView: 'title', // default search field is title
@@ -185,9 +187,34 @@ export default {
               chordIndex = chordIndex -1;
             }
             songChordList[i] = chordList[chordIndex]
+          }else if(change == "original"){
+            console.log("original")
+            if (this.keyChange >= 0){
+              chordIndex = chordIndex - this.keyChange;
+              if (chordIndex < 0){
+                chordIndex = chordIndex + 12
+              }
+            }else if(this.keyChange < 0){
+              chordIndex = chordIndex + this.keyChange;
+              if (chordIndex > 11){
+                chordIndex = chordIndex - 12
+              }
+            }
+            songChordList[i] = chordList[chordIndex]
+                  
           }
         }
       }
+     
+      if(change == "up"){
+        this.keyChange = this.keyChange +1
+      }else if(change == "down"){
+        this.keyChange = this.keyChange -1
+      }else if(change == "original"){
+        this.keyChange = 0
+      }
+      this.keyChange = ((this.keyChange % 12)+ 12) %12;
+      
       const transposedChords = songChordList.join(" ");
       return transposedChords
     },
