@@ -26,7 +26,7 @@ password: fran
 ```
 
 ## Config Files Required to Build & Deploy
-If you want to deploy the project yourself, either locally or on Google Cloud, you'll need to do some setup of your own. Some scattered instructions on deploying with Minikube can be found at `team3/server/using-minikube.md`, but in addition to this you'll need to create some config files:
+If you want to deploy the project yourself, either locally or on Google Cloud, you'll need to do some setup of your own. This is guaranteed to work for local deployment, with some features being unavailable, e.g. deploying a new model. Some scattered instructions on deploying with Minikube can be found at `team3/server/using-minikube.md`, but in addition to this you'll need to create some config files:
 
 ### Google credentials
 Location(s):
