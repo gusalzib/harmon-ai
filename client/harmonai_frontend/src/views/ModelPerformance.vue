@@ -43,6 +43,9 @@
                 <div class="report-panel primary-report">
                     <h4>{{ $t('admin.model.reportFor') }} V{{ this.selectedReport.version }}</h4>
                      <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
+                      <!-- <div v-if="this.json_reports"> 
+                        <pre>{{this.json_reports}}</pre>
+                      </div> -->
                 </div>
 
                 <div class="report-panel comparison-report" v-if="this.comparisonReport">
@@ -72,12 +75,16 @@ export default {
             selectedReport: null,
             comparisonReport: null, 
             availableReports: [],
+
+            // variable for JSON reports
+            json_reports: [],
         }
     },
     mounted() {
         this.url = `${import.meta.env.VITE_API_URL}/admins/report/`
         this.toast = useToast(); // initiate a toast variable
         this.fetchReportList();
+        // this.getReportJSON();
 
     },
     methods: {
@@ -87,6 +94,7 @@ export default {
             try {
 
                 const response = await axios.get(this.url)
+
 
                 const reportData = response.data.reports;
 
@@ -108,6 +116,22 @@ export default {
                 console.error('Report fetch error: ', error)
             }
         },
+        // async getReportJSON(url) {
+        //     try {
+        //         // const response = await axios.get(url)
+        //         const response = await axios.get(url, {
+        //             headers: {
+        //                 'Accept': 'application/json',
+        //                 'X-Requested-With': 'XMLHttpRequest' 
+        //             }
+        //         });
+        //         this.json_reports = JSON.parse(response.data)
+        //         console.log("Response data: " + response.data)
+        //     } catch (error) {
+        //         console.log(error)
+        //         this.toast.error("Could not fetch JSON reports");
+        //     }
+        // }, 
         // add a second report to the primary report for comparison in a split-view layout
         setComparisonReport(report) {
 
@@ -118,18 +142,38 @@ export default {
 
             this.comparisonReport = report;
             this.toast.info(this.$t('admin.model.comparisonActive').replace('{version}', report.version));
-
-
         },
-        selectReport(report) {
+
+        // Why was this function not async from the start? 
+        async selectReport(report) {
             // if the user clicks the report that is currently being compared, swap them 
+            console.log("the report url is " + report.url)
             if (this.comparisonReport && this.comparisonReport.version === report.version) {
                 let temp = this.selectedReport;
                 this.selectedReport = this.comparisonReport;
                 this.comparisonReport = temp;
             } else {
                 this.selectedReport = report;
+                
                 this.comparisonReport = null; // we exit the comparison view if a new primary report is selected
+                // this.json_reports = this.getReportJSON(report.content)
+
+                await this.$nextTick();
+                console.log("the report: " + JSON.stringify(this.selectedReport.content));
+
+                console.log("key matrix: " + JSON.stringify(this.selectedReport.content.overall_metrics.key.confusion_matrix));
+                console.log("key class_labels " + JSON.stringify(this.selectedReport.content.overall_metrics.key.class_labels));
+                const labels = this.selectedReport.content.overall_metrics.key.class_labels;
+                console.log("the second class label is: " + labels[1])
+                
+
+                
+                // THIS LINE BELOW BREAKS, WEIRDLY
+                //console.log("the report: " + JSON.stringify(this.selectedReport.content))
+                // BUT THIS BELOW WORKS...
+                // console.log("the report: " + JSON.stringify(report.content))
+
+                // console.log("total_examples is: " + JSON.stringify(report.content.overall_metrics.total_examples))
             }
         },
         // exit the split view
