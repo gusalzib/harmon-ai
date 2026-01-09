@@ -28,7 +28,7 @@ spec:
               name: system-secrets
               key: mongo-prediction
         - name: MODEL_NAME
-          value: HarmonAi_v2
+          value: HarmonAi_v19
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         volumeMounts:

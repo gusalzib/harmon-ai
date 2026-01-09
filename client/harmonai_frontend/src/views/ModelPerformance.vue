@@ -51,7 +51,34 @@ Authors of code:
                     <button class="standard-btn update-model-btn" @click="updateModel">
                         {{ $t('buttons.deployModel') || 'Deploy Model' }}
                     </button>
-                     <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
+                    <p>Total number of examples: {{this.overall_examples}}</p>
+                    <h3>Overall Accuracy of Keys and Qualities</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="overall_accuracy_chartData"
+                        />
+                    </div>
+
+                    <h3>Keys Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="keys_accuracy_chartData"
+                        />
+                    </div>
+
+                    <h3>Qualities Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="qualities_accuracy_chartData"
+                        />
+                    </div>                    
+                    
                 </div>
 
                 <div class="report-panel comparison-report" v-if="this.comparisonReport">
@@ -67,13 +94,21 @@ Authors of code:
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 import { getCsrfToken } from '@/utils/csrfTokenUtils';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, LineElement } from 'chart.js'
+import {Bar, Pie, Line} from 'vue-chartjs';
+import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, ArcElement, MatrixController, MatrixElement)
 
 export default {
     name: 'ModelPerformance',
+    components: {
+        Bar,
+        Pie,
+        Line
+    },
     data() {
         return {
-
             url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
@@ -81,12 +116,97 @@ export default {
             selectedReport: null,
             comparisonReport: null, 
             availableReports: [],
+
+            // variable for JSON reports
+            json_reports: [],
+            overall_accuracy: 0.0,
+            keyAccuracy: 0.0,
+            qualityAccuracy: 0.0,
+            overall_examples: 0.0,
+            accuracy_per_key: [],
+            examples_per_key: [],
+            accuracy_per_quality: [],
+            examples_per_quality: [],
+            key_labels: [],
+            quality_labels: [],
+            
+            chartOptions: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                    // tooltip is when we hover over the data points in the chart. It will show more detailed information
+                        tooltip: {
+                            enabled: true, // enable tooltips
+                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                        }
+                    }
+                },
         }
     },
+    computed: {
+        overall_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.overall_accuracy, 100 - this.overall_accuracy],
+                    backgroundColor: ['#db0a57', '#3f1718']
+                }]
+            }
+        }, 
+        keys_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.keyAccuracy, 100 - this.keyAccuracy],
+                    backgroundColor: ['#db0a57', '#3f1718']
+            }]
+        }
+    }, 
+        qualities_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.qualityAccuracy, 100 - this.qualityAccuracy],
+                    backgroundColor: ['#db0a57', '#3f1718']
+        }]
+    }
+    }, 
+
+            accuracy_per_key_chartData() {
+            return {
+                labels: ['Key', 'Accuracy'],
+                datasets: [{
+                    label: 'Accuracy per Key Metrics',
+                    data: [this.key_labels, this.accuracy_per_key],
+                    backgroundColor: ['#db0a57', '#3f1718']
+        }]
+    }
+    }, 
+            examples_per_key_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.key_labels, this.examples_per_key],
+                    backgroundColor: ['#4A306D', '#E8D7F1']
+        }]
+    }
+    },
+    
+},
+
     mounted() {
         this.url = `${import.meta.env.VITE_API_URL || "http://34.51.250.115"}/admins/report/`
         this.toast = useToast(); // initiate a toast variable
         this.fetchReportList();
+
 
     },
     methods: {
@@ -96,6 +216,7 @@ export default {
             try {
 
                 const response = await axios.get(this.url)
+
 
                 const reportData = response.data.reports;
 
@@ -117,6 +238,7 @@ export default {
                 console.error('Report fetch error: ', error)
             }
         },
+
         // add a second report to the primary report for comparison in a split-view layout
         setComparisonReport(report) {
 
@@ -127,20 +249,56 @@ export default {
 
             this.comparisonReport = report;
             this.toast.info(this.$t('admin.model.comparisonActive').replace('{version}', report.version));
-
-
         },
-        selectReport(report) {
+
+        // Why was this function not async from the start? 
+        async selectReport(report) {
             // if the user clicks the report that is currently being compared, swap them 
+            console.log("the report url is " + report.url)
             if (this.comparisonReport && this.comparisonReport.version === report.version) {
                 let temp = this.selectedReport;
                 this.selectedReport = this.comparisonReport;
                 this.comparisonReport = temp;
             } else {
                 this.selectedReport = report;
+                
                 this.comparisonReport = null; // we exit the comparison view if a new primary report is selected
+                // this.json_reports = this.getReportJSON(report.content)
+
+                await this.$nextTick();
+                console.log("the report: " + JSON.stringify(this.selectedReport.content));
+
+                console.log("key matrix: " + JSON.stringify(this.selectedReport.content.overall_metrics.key.confusion_matrix));
+                console.log("key class_labels " + JSON.stringify(this.selectedReport.content.overall_metrics.key.class_labels));
+                const labels = this.selectedReport.content.overall_metrics.key.class_labels;
+                console.log("the second class label is: " + labels[1])
+                this.getOverAllAccuracy(); 
+    
             }
         },
+
+        async getOverAllAccuracy() {
+            try {
+                // await this.$nextTick();
+
+                this.keyAccuracy = this.selectedReport.content.overall_metrics.key.accuracy * 100;
+                console.log("key accuracy: ", this.keyAccuracy);
+                console.log("the type of key accuracy is ", typeof this.keyAccuracy)
+
+                this.qualityAccuracy = this.selectedReport.content.overall_metrics.quality.accuracy * 100;
+                console.log("quality accuracy: ", this.qualityAccuracy);
+
+                this.overall_accuracy = ( ( this.keyAccuracy + this.qualityAccuracy ) / 2 )
+                console.log("total accuracy = " + this.overall_accuracy)
+
+                this.overall_examples = this.selectedReport.content.overall_metrics.total_examples;
+                console.log("total examples = " + this.overall_examples)
+            }
+            catch (error) {
+                console.log("Error", error)
+            }
+        },
+
         // exit the split view
         closeComparison() {
             this.comparisonReport = null;

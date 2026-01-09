@@ -4,11 +4,13 @@
 /idea/
 .idea/
 resources/
-
-
+ml_pipeline/
+pipeline_service/
 #----- 
 server/.DS_Store
 .DS_Store
+**/.DS_Store
+.vscode/
 #----- Personal notes ---------
 personal-notes/
 

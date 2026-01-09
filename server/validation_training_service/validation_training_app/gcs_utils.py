@@ -5,9 +5,10 @@ from google.cloud import storage
 import re
 import os
 import zipfile
+import json
 
 
-def upload_blob_from_string(bucket_name, string_data, destination_blob_name, content_type='text/html'):
+def upload_blob_from_string(bucket_name, string_data, destination_blob_name, content_type):
     """Uploads a string to the bucket.
 
     Args:
@@ -19,7 +20,8 @@ def upload_blob_from_string(bucket_name, string_data, destination_blob_name, con
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
-
+    if content_type:
+        blob.content_type = content_type
     blob.upload_from_string(string_data, content_type=content_type)
 
     print(f"String data uploaded to {destination_blob_name}.")
@@ -56,9 +58,15 @@ def get_all_reports(bucket_name,path_to_reports):
         if version is None:
             print(f"Warning: No version found in {blob.name}")
         #append the reports to the response
+        content = blob.download_as_text()
+        try:
+            content = json.loads(content)
+        except json.JSONDecodeError:
+            pass
         reports.append({
             "url": blob.public_url,
             "version": version,
+            "content": content,
             "name": "HarmonAi_v"+str(version)
         })
     return reports
