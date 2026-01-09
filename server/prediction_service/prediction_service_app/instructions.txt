@@ -1,3 +1,6 @@
+# Authors of code:
+# Rebecka Åkerblom - gusakerre@sudent.gu.se - rebake@chalmers.se 
+
 1. Create the conda environment
     conda create -n harmonai python=3.10
     conda activate harmonai

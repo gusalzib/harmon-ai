@@ -1,5 +1,5 @@
 # Authors of code:
-# - 
+# Rebecka Åkerblom - gusakerre@sudent.gu.se - rebake@chalmers.se 
 
 """
 Django settings for prediction_service_backend project.
