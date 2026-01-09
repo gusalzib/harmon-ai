@@ -198,6 +198,28 @@ input[type=file]:hover{
   background-color: var(--color-border-hover);
   cursor: pointer;
 }
+.favorite-songs-section h3{
+  color: var(--color-text);
+}
+.chord-display-box{
+  color: var(--color-text);
+}
+.transposing{
+  display: flex;
+  flex-direction: row;
+  background-color: var(--standard-btn);
+  margin: auto 5px;
+}
+
+.transposing button{
+  font-size: 1rem;
+  font-weight: lighter;
+  min-width: 185px;
+  background-color: var(--standard-btn);
+  margin: auto;
+  border-radius: 5px;
+  color: var(--color-text);
+}
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 
 /* ###########################################################  USER ACCOUNT PAGE  ###########################################################*/
@@ -421,9 +443,15 @@ input[type=file]:hover{
 /* ###########################################################  ABOUT PAGE  ###########################################################*/
   .about {
     min-height: 100vh;
+    width: 50%;
+    margin: 5% auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     color: var(--color-text);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border-active);
+    border-radius: 10px;
   }
 
 @media (min-width: 1024px) {

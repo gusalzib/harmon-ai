@@ -48,11 +48,20 @@ Authors of code:
         <button class="btn search-btn" @click="searchQuery(this.activeView)">{{ $t('buttons.searchButton') }}</button>
       </div>
       <div class="search-result-display">
-        <div class="song-details-header" v-for="song in this.songs" :key="song.title">
+        <div class="song-details-header" v-for="(song, index) in this.songs" :key="song.title">
           <h4 class="song-name">{{ song.title }}</h4>
           <h4 class="song-artist">{{ song.artist }}</h4>
           <h4 class="song-genre">{{ song.genre }}</h4>
+          <div class="transposing">
+            <button class="transpose-btn--" @click="song.prediction = transpose(song.prediction,'down')">transpose down</button>        
+            <button class="transpose-btn-original" @click="songs[index].prediction= originalSongs[index].prediction">original key</button>
+            <button class="transpose-btn-+" @click="song.prediction = transpose(song.prediction, 'up')">transpose up</button>
+            <button class="download-btn" @click="downloadChordsLocal(song)">{{ $t('song.downloadChords') || 'Download Chords' }}</button>
+
+            
+          </div>
           <p class="chord-list">{{ song.prediction }}</p>
+          
         </div>
       </div>
       <hr>
@@ -92,13 +101,23 @@ Authors of code:
                 </div>
 
                 <div class="chord-display-box">
+                  
                     <label class="chord-label" for="chord-list">{{ $t('song.chords') }}</label>
+                    <div class="transposing">
+                      <button class="transpose-btn--" @click="this.song.chord_list = transpose(this.song.chord_list,'down')">transpose down</button>
+                      <button class="transpose-btn-original" @click="this.song.chord_list = this.song.original_chord_list">original key</button>
+                      <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button> 
+                    </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
-                </div>
-            </li>
 
-            
+                    <button class="download-btn" @click="downloadChords">{{ $t('song.downloadChords') || 'Download Chords' }}</button>
+                </div>
+                
+            </li>
+  
         </ul>
+        
+    
             
 
     </div>
@@ -126,10 +145,13 @@ export default {
       genre: '',
       error: '',
       url: '',
+      up: "up",
+      down: "down",
       toast: null, // declare a toast variable to be used with toastification library for notifications,
       predictionsIsMade: false,
       activeView: 'title', // default search field is title
       songs: [], // stores result of searchQuery
+      originalSongs: [], //stores the searchquery so that transposing still has an original
       song:{
         title: "",
         artist: "",
@@ -137,7 +159,9 @@ export default {
         prediction: [],
         BPM: "",
         duration:""
-      }
+      },
+      MAJOR: ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
+      MINOR: ["Cm", "C#m", "Dm", "Ebm", "Em", "Fm", "F#m", "Gm", "Abm", "Am", "Bbm", "Bm"]
     }
   },
   mounted() {
@@ -145,6 +169,44 @@ export default {
     this.toast = useToast(); // initiate a toast variable
   },
   methods: {
+
+    transpose(chordString, change){
+      var songChordList = chordString.split(" ");
+      var chordIndex = 0;
+      var chordList = []
+      for (let i=0; i< songChordList.length; i++){
+        const chord = songChordList[i];
+        if (chord === "N" || chord === "X" || chord === "|" || chord === ""){
+          continue;
+        }else{
+          if (chord.endsWith("m")){
+          chordList = this.MINOR
+        }else{
+          chordList = this.MAJOR
+        }
+          chordIndex = chordList.indexOf(chord);
+          
+          if (change == "up"){
+            if (chordIndex == 11){
+              chordIndex = 0;
+            }else{
+              chordIndex=chordIndex+1;
+            }
+            songChordList[i] = chordList[chordIndex]
+          }else if (change == "down"){
+            if (chordIndex == 0){
+              chordIndex = 11;
+            }else{
+              chordIndex = chordIndex -1;
+            }
+            songChordList[i] = chordList[chordIndex]
+          }
+        }
+      } 
+      const transposedChords = songChordList.join(" ");
+      return transposedChords
+    },
+
     async searchQuery(queryType) {
       var search = "";
       var kind = "";
@@ -166,6 +228,7 @@ export default {
 
         if (response.status === 200) {
           this.songs = response.data.songs; 
+          this.originalSongs = JSON.parse(JSON.stringify(response.data.songs));
 
           console.log('Retrieved songs', this.songs);
           
@@ -240,6 +303,7 @@ export default {
           this.song.BPM = response.data.tempo;
           this.song.duration = response.data.duration;
           this.song.chord_list = response.data.chords;
+          this.song.original_chord_list = response.data.chords;
           console.log("Chords:", this.song.chord_list);
         }
 
@@ -252,8 +316,69 @@ export default {
 
         console.error(error); // debug
       }
-    }
+    },
+    downloadChords() {
+      // https://stackoverflow.com/questions/3916191/download-data-url-file
 
+
+      // package the chords into a short varibale name for better readability 
+      const chords = this.song.chord_list;
+
+      // isArray: check if the chord_list is a proper array
+      // if it is then join all the elements together with spaces in between
+      // if it is not, then just use the value as it is
+      const content = Array.isArray(chords) ? chords.join(' ') : chords;
+
+      // adding a header at the top of the file to give more context to the user
+      const fileHeader = `Song ${this.song.title}\nArtist: ${this.song.artist}\nBPM: ${this.song.BPM}\n\n\nChords: \n`;
+
+      // a blob is a like a file but it is not saved anywhere in the system until it is downloaded. it lives in memory
+      const blob = new Blob([fileHeader + content], { type: 'text/plain' });
+
+      // creating a download link
+      // link is an 'a' anchor element that is generated by the button click to create a download link
+      const link = document.createElement('a');
+      // take the blobl and make a temporary url out of it 
+      link.href = URL.createObjectURL(blob);
+      // we replace all white spaces with underscores  to avoid problems 
+      // link.download forces the browser to download the link content instead of trying to navigate to it
+      link.download = `${this.song.title.replace(/\s+/g, '_')}_chord.txt`;
+
+      document.body.appendChild(link);
+      link.click(); // simulate a user click which starts the download
+      document.body.removeChild(link); // removes the link form the DOM
+      URL.revokeObjectURL(link.href); // release the memory taken by the Blob
+
+    },
+    downloadChordsLocal(song) {
+      // https://stackoverflow.com/questions/3916191/download-data-url-file
+
+      // isArray: check if the chord_list is a proper array
+      // if it is then join all the elements together with spaces in between
+      // if it is not, then just use the value as it is
+      const content = Array.isArray(song.prediction) ? song.prediction.join(' ') : song.prediction;
+
+      // adding a header at the top of the file to give more context to the user
+      const fileHeader = `Song ${song.title}\nArtist: ${song.artist}\nBPM: ${song.BPM}\n\n\nChords: \n`;
+
+      // a blob is a like a file but it is not saved anywhere in the system until it is downloaded. it lives in memory
+      const blob = new Blob([fileHeader + content], { type: 'text/plain' });
+
+      // creating a download link
+      // link is an 'a' anchor element that is generated by the button click to create a download link
+      const link = document.createElement('a');
+      // take the blobl and make a temporary url out of it 
+      link.href = URL.createObjectURL(blob);
+      // we replace all white spaces with underscores  to avoid problems 
+      // link.download forces the browser to download the link content instead of trying to navigate to it
+      link.download = `${song.title.replace(/\s+/g, '_')}_chord.txt`;
+
+      document.body.appendChild(link);
+      link.click(); // simulate a user click which starts the download
+      document.body.removeChild(link); // removes the link form the DOM
+      URL.revokeObjectURL(link.href); // release the memory taken by the Blob
+
+    }
   }
 }
 </script>
