@@ -3,6 +3,7 @@ import re
 import os
 import zipfile
 
+
 def upload_blob_from_string(bucket_name, string_data, destination_blob_name, content_type='text/html'):
     """Uploads a string to the bucket.
 
@@ -29,8 +30,8 @@ def upload_blob_from_file(bucket_name, source_file_name, destination_blob_name):
         destination_blob_name (str): The destination path within the bucket.
     """
 
-    storage = storage.client()
-    bucket = storage.bucket(bucket_name)
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
 
     blob.upload_from_filename(source_file_name)
@@ -60,11 +61,16 @@ def get_all_reports(bucket_name,path_to_reports):
     return reports
 
 
-def get_zip(bucket_name, source_blob_name, destination_file_name="temp/dataset.zip"):
+def get_zip(bucket_name, source_blob_name, destination_file_name=None):
     #connect to google
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(source_blob_name)
+
+    if destination_file_name is None:
+        os.makedirs("temp", exist_ok=True)
+        destination_file_name = f"temp/training_data.zip"
+
     #if no directory exist for filepath create one
     if os.path.dirname(destination_file_name):
         os.makedirs(os.path.dirname(destination_file_name), exist_ok=True)
