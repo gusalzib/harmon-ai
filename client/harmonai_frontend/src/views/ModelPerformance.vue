@@ -42,7 +42,80 @@
 
                 <div class="report-panel primary-report">
                     <h4>{{ $t('admin.model.reportFor') }} V{{ this.selectedReport.version }}</h4>
-                     <iframe :src="this.selectedReport.url" frameborder="0"></iframe>
+                    <p>Total number of examples: {{this.overall_examples}}</p>
+                    <h3>Overall Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="overall_accuracy_chartData"
+                        />
+                    </div>
+
+                    <h3>Keys Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="keys_accuracy_chartData"
+                        />
+                    </div>
+
+                    <h3>Qualities Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="qualities_accuracy_chartData"
+                        />
+                    </div>                    
+                    
+                    <!-- <h3>Accuracy per Key</h3>
+                    <div class="pie-chart-container">
+                        <Bar
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="accuracy_per_key_chartData"
+                        />
+                    </div>                    
+                    
+                    <h3>Number of examples per Key</h3>
+                    <div class="pie-chart-container">
+                        <Bar
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="examples_per_key_chartData"
+                        />
+                    </div> -->
+
+
+                    <!-- <h3>Accuracy per Quality</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="qualities_accuracy_chartData"
+                        />
+                    </div>                    
+                    
+                    <h3>Number of examples per Quality</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="qualities_accuracy_chartData"
+                        />
+                    </div> -->
+                    <!-- <h3>Keys Confusion Matrix</h3>
+                    <div class="pie-chart-container">
+                        <canvas ref="confusion_matrix_canvas" id="confusion_matrix_canvas">
+                        </canvas>
+                    </div> -->
+
+
+
+                     <!-- <iframe :src="this.selectedReport.url" frameborder="0"></iframe> -->
+
                       <!-- <div v-if="this.json_reports"> 
                         <pre>{{this.json_reports}}</pre>
                       </div> -->
@@ -61,13 +134,21 @@
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
 import { getCsrfToken } from '@/utils/csrfTokenUtils';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, LineElement } from 'chart.js'
+import {Bar, Pie, Line} from 'vue-chartjs';
+import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, ArcElement, MatrixController, MatrixElement)
 
 export default {
     name: 'ModelPerformance',
+    components: {
+        Bar,
+        Pie,
+        Line
+    },
     data() {
         return {
-
             url: '',
             toast: null, // declare a toast variable to be used with toastification library for notifications
             timeout: 2000,
@@ -78,13 +159,122 @@ export default {
 
             // variable for JSON reports
             json_reports: [],
+            overall_accuracy: 0.0,
+            keyAccuracy: 0.0,
+            qualityAccuracy: 0.0,
+            overall_examples: 0.0,
+            accuracy_per_key: [],
+            examples_per_key: [],
+            accuracy_per_quality: [],
+            examples_per_quality: [],
+            key_labels: [],
+            quality_labels: [],
+
+            // chartData: {
+            //     // labels: [ 'January', 'February', 'March' ],
+            //     // datasets: [ { data: [40, 20, 12] } ]
+            //     labels: [ 'overall_accuracy' ],
+            //     datasets: [ {data: [this.overall_accuracy, this.keyAccuracy, this.qualityAccuracy]} ]
+            // },
+            
+            chartOptions: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                    // tooltip is when we hover over the data points in the chart. It will show more detailed information
+                        tooltip: {
+                            enabled: true, // enable tooltips
+                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                        }
+                    }
+                },
         }
     },
+    computed: {
+        overall_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.overall_accuracy, 100 - this.overall_accuracy],
+                    backgroundColor: ['#db0a57', '#3f1718']
+                }]
+            }
+        }, 
+        keys_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.keyAccuracy, 100 - this.keyAccuracy],
+                    backgroundColor: ['#db0a57', '#3f1718']
+            }]
+        }
+    }, 
+        qualities_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.qualityAccuracy, 100 - this.qualityAccuracy],
+                    backgroundColor: ['#db0a57', '#3f1718']
+        }]
+    }
+    }, 
+
+            accuracy_per_key_chartData() {
+            return {
+                labels: ['Key', 'Accuracy'],
+                datasets: [{
+                    label: 'Accuracy per Key Metrics',
+                    data: [this.key_labels, this.accuracy_per_key],
+                    backgroundColor: ['#db0a57', '#3f1718']
+        }]
+    }
+    }, 
+            examples_per_key_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.key_labels, this.examples_per_key],
+                    backgroundColor: ['#db0a57', '#3f1718']
+        }]
+    }
+    },
+    //         accuracy_per_quality_chartData() {
+    //         return {
+    //             labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+    //             datasets: [{
+    //                 label: 'Accuracy Metrics',
+    //                 data: [this.qualityAccuracy, 100 - this.qualityAccuracy],
+    //                 backgroundColor: ['#db0a57', '#3f1718']
+    //     }]
+    // }
+    // },
+    //         examples_per_quality_chartData() {
+    //         return {
+    //             labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+    //             datasets: [{
+    //                 label: 'Accuracy Metrics',
+    //                 data: [this.qualityAccuracy, 100 - this.qualityAccuracy],
+    //                 backgroundColor: ['#db0a57', '#3f1718']
+    //     }]
+    // }
+    // },
+    
+},
+
     mounted() {
         this.url = `${import.meta.env.VITE_API_URL}/admins/report/`
         this.toast = useToast(); // initiate a toast variable
         this.fetchReportList();
         // this.getReportJSON();
+        // this.getOverAllAccuracy();
 
     },
     methods: {
@@ -165,17 +355,140 @@ export default {
                 console.log("key class_labels " + JSON.stringify(this.selectedReport.content.overall_metrics.key.class_labels));
                 const labels = this.selectedReport.content.overall_metrics.key.class_labels;
                 console.log("the second class label is: " + labels[1])
-                
-
-                
-                // THIS LINE BELOW BREAKS, WEIRDLY
-                //console.log("the report: " + JSON.stringify(this.selectedReport.content))
-                // BUT THIS BELOW WORKS...
-                // console.log("the report: " + JSON.stringify(report.content))
-
-                // console.log("total_examples is: " + JSON.stringify(report.content.overall_metrics.total_examples))
+                this.getOverAllAccuracy(); 
+                this.getKeysAndQualitiesAccuracy()        
+                // this.createConfusionMatrix();    
             }
         },
+
+        async getOverAllAccuracy() {
+            try {
+                // await this.$nextTick();
+
+                this.keyAccuracy = this.selectedReport.content.overall_metrics.key.accuracy * 100;
+                console.log("key accuracy: ", this.keyAccuracy);
+                console.log("the type of key accuracy is ", typeof this.keyAccuracy)
+
+                this.qualityAccuracy = this.selectedReport.content.overall_metrics.quality.accuracy * 100;
+                console.log("quality accuracy: ", this.qualityAccuracy);
+
+                this.overall_accuracy = ( ( this.keyAccuracy + this.qualityAccuracy ) / 2 ) * 100
+                console.log("total accuracy = " + this.overall_accuracy)
+
+                this.overall_examples = this.selectedReport.content.overall_metrics.total_examples;
+                console.log("total examples = " + this.overall_examples)
+            }
+            catch (error) {
+                console.log("Error", error)
+            }
+        },
+
+        
+        // async getKeysAndQualitiesAccuracy() {
+        //     try {
+
+        //         this.key_labels = Object.keys(this.selectedReport.content.annotations.key_annotations)                
+                
+        //         for (var i = 0; i < this.key_labels.length; i++) {
+        //             this.examples_per_key[i] = (this.selectedReport.content.annotations.key_annotations[this.key_labels[i]].number_of_examples)
+        //             this.accuracy_per_key[i] = (this.selectedReport.content.annotations.key_annotations[this.key_labels[i]].accuracy)
+
+        //         }
+        //         console.log("Accuracy array is: ", this.accuracy_per_key)
+        //         console.log("Examples array is: ", this.examples_per_key)
+
+
+
+                        
+        //     // this.accuracy_per_key = this.selectedReport.content.annotations.key_annotations.
+        //     // examples_per_key: [],
+        //     // accuracy_per_quality: [],
+        //     // examples_per_quality: [],
+        //         // this. = this.selectedReport.content.overall_metrics.key.accuracy * 100;
+        //         // console.log("key accuracy: ", this.keyAccuracy);
+        //         // console.log("the type of key accuracy is ", typeof this.keyAccuracy)
+
+        //         // this.qualityAccuracy = this.selectedReport.content.overall_metrics.quality.accuracy * 100;
+        //         // console.log("quality accuracy: ", this.qualityAccuracy);
+
+        //         // this.overall_accuracy = ( ( this.keyAccuracy + this.qualityAccuracy ) / 2 ) * 100
+        //         // console.log("total accuracy = " + this.overall_accuracy)
+
+        //         // this.overall_examples = this.selectedReport.content.overall_metrics.total_examples;
+        //         // console.log("total examples = " + this.overall_examples)
+
+                
+
+        //     }
+        //     catch (error) {
+        //         console.log("Error", error)
+        //     }
+        // },
+
+
+        // createConfusionMatrix() {
+        //     const canvas = this.$refs.confusion_matrix_canvas;
+        //     if (!canvas) {
+        //         return;
+        //     }
+
+        //     const contextObject = canvas.getContext('2d');
+        //     if (!contextObject) {
+        //         return;
+        //     }
+
+        //     const key_confusion = this.selectedReport.content.overall_metrics.key.confusion_matrix;
+
+        //     const labels = this.selectedReport.content.overall_metrics.key.class_labels;
+        //     console.log("the labels are: ", labels)
+
+        //     const colours = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
+
+        //     const chart = new ChartJS('confusion_matrix_canvas', {
+        //     type: 'matrix',
+        //     data: {
+        //         datasets: [{
+        //         label: 'Basic matrix',
+        //         data: [{x: 1, y: 1}, {x: 2, y: 1}, {x: 1, y: 2}, {x: 2, y: 2}],
+
+        //         // data: [key_confusion],
+        //         borderWidth: 1,
+        //         borderColor: 'rgba(0,0,0,0.5)',
+        //         backgroundColor: 'rgba(200,200,0,0.3)',
+        //         width: ({chart}) => (chart.chartArea || {}).width / 2 - 1,
+        //         height: ({chart}) => (chart.chartArea || {}).height / 2 - 1,
+        //         }],
+        //     },
+        //     options: {
+        //         scales: {
+        //         x: {
+        //             display: false,
+        //             min: 0.5,
+        //             max: 2.5,
+        //             offset: false,
+        //             labels: 'A',
+        //             ticks: { color: '#1a8c0e' },
+        //             type: 'category',
+        //             offset: true,
+        //         },
+        //         y: {
+        //             display: false,
+        //             min: 0.5,
+        //             max: 2.5,
+        //             labels: 'B',
+        //             ticks: { color: '#1a8c0e' },
+        //             type: 'category',
+        //             offset: true,
+        //         }
+        //         },
+        //         plugins: {
+        //             legend: { display: true }
+        //         }
+        //     }
+        //     });
+
+        // },
+
         // exit the split view
         closeComparison() {
             this.comparisonReport = null;
