@@ -193,7 +193,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.overall_accuracy, 100 - this.overall_accuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
                 }]
             }
         }, 
@@ -203,7 +203,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.keyAccuracy, 100 - this.keyAccuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
             }]
         }
     }, 
@@ -213,7 +213,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.qualityAccuracy, 100 - this.qualityAccuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     }, 
@@ -225,7 +225,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.comparison_overall_accuracy, 100 - this.comparison_overall_accuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
                 }]
             }
         }, 
@@ -235,7 +235,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.comparison_keyAccuracy, 100 - this.comparison_keyAccuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
             }]
         }
     }, 
@@ -245,7 +245,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.comparison_qualityAccuracy, 100 - this.comparison_qualityAccuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     }, 
@@ -257,7 +257,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy per Key Metrics',
                     data: [this.key_labels, this.accuracy_per_key],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     }, 
@@ -267,7 +267,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.key_labels, this.examples_per_key],
-                    backgroundColor: ['#4A306D', '#E8D7F1']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     },
