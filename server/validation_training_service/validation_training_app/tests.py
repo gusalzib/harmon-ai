@@ -1,13 +1,13 @@
-from django.test import TestCase
-from . import vetl_orchestrator
+from django.test import SimpleTestCase
+from .vetl_orchestrator import vetl_orchestrator
 import os
 
 # Create your tests here.
-class PipelineTestCase(TestCase):
+class PipelineTestCase(SimpleTestCase):
     def test_valid_data(self):
         data_test_folder = "McGill-valid"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
@@ -17,7 +17,7 @@ class PipelineTestCase(TestCase):
     def test_single_set(self):
         data_test_folder = "McGill-single"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
@@ -27,7 +27,7 @@ class PipelineTestCase(TestCase):
     def test_literal_trash(self):
         data_test_folder = "McGill-trash"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
@@ -38,7 +38,7 @@ class PipelineTestCase(TestCase):
     def test_missing_columns(self):
         data_test_folder = "McGill-missing-columns"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
@@ -49,7 +49,7 @@ class PipelineTestCase(TestCase):
     def test_non_sequential_timestamps(self):
         data_test_folder = "McGill-non-sequential"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
@@ -60,7 +60,7 @@ class PipelineTestCase(TestCase):
     def test_invalid_values(self):
         data_test_folder = "McGill-invalid-values"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
@@ -71,7 +71,7 @@ class PipelineTestCase(TestCase):
     def test_dataset_mismatch(self):
         data_test_folder = "McGill-set-mismatch"
         dataset_version = 1
-        test_data_path = os.path.join("testing_data", data_test_folder)
+        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
         val_threshold = 1
 
         result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
