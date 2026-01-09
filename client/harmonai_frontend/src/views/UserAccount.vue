@@ -54,7 +54,7 @@ export default {
         }
     },
     mounted() {
-        this.url = `${import.meta.env.VITE_API_USERS_URL}/api/users`
+        this.url = `${import.meta.env.VITE_API_URL}/api/users`
         this.toast = useToast(); // initiate a toast variable
 
     },
