@@ -10,7 +10,7 @@ import traceback
 def create_chroma(y_harmonic, y_percussive, sampling_rate):
 
     #this gives a 0.046 s between each frame, just like the McGill dataset
-    sampling_rate=22050
+    #sampling_rate=22050
     
     # how far to "jump" in each step
     hop_length=1024
