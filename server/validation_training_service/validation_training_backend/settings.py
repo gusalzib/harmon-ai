@@ -30,7 +30,7 @@ SECRET_KEY = "django-insecure-65t1(dlq5$is@@11@*uyozk#**!2^e4jra^bhle951+y$zgk)o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -63,6 +63,8 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://34.51.250.115",
+    "http://34.51.250.115.nip.io"
 ]
 
 ROOT_URLCONF = "validation_training_backend.urls"

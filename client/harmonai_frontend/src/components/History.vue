@@ -66,7 +66,7 @@ export default {
         }
     },
     mounted() {
-        this.baseURL = import.meta.env.VITE_API_URL
+        this.baseURL = import.meta.env.VITE_API_URL || "http://34.51.250.115.nip.io"
         this.url = `${this.baseURL}/api/users`
         this.toast = useToast(); // initiate a toast variable
 

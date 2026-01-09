@@ -18,7 +18,8 @@
         "closeButton": "Stäng",
         "searchBoxTitle": "Titel",
         "searchBoxArtist": "Artist",
-        "searchBoxGenre": "Genre"
+        "searchBoxGenre": "Genre",
+        "deployModel": "använd modell"
     },
     "nav": {
         "about": "Om Oss",
@@ -102,7 +103,8 @@
     "song": {
         "noFavoriteSongsFound": "Inga favoritlåtar hittades. Sök efter dina favoritlåtar här",
         "chords": "Chords",
-        "yourFavoriteSongs": "Dina favoritlåtar"
+        "yourFavoriteSongs": "Dina favoritlåtar",
+        "downloadChords": "Ladda ned"
     },
     "admin": {
         "model": {

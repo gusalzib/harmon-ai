@@ -8,6 +8,7 @@ from .evaluation import generate_report
 from .version import version_model, version_clean_data
 from .gcs_utils import upload_blob_from_string, get_all_reports, get_zip, upload_blob_from_file
 from .vetl_orchestrator import vetl_orchestrator
+from .update_model import update_model
 
 
  # --- Configuration ---
@@ -143,5 +144,14 @@ def fetch_reports(request):
         reports = get_all_reports(BUCKET_NAME,path)
         # return reports
         return JsonResponse({"reports":reports})
+
+@csrf_exempt
+def update_model_name(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        modelName = data['modelName']
+        print(modelName)
+        update_model(modelName)
+        return JsonResponse({"status": "success", "message": f"Model name updated to {modelName}."})
 
         

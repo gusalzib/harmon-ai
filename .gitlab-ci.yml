@@ -1,0 +1,117 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+default:
+  tags:
+    - docker-build
+
+.authorise: &authorise
+  before_script:
+    - apt-get update && apt-get install -y curl
+    - curl -fsSL https://get.docker.com | sh
+
+    - gcloud auth activate-service-account --key-file=$GCP_SERVICE_KEY
+    - gcloud config set project $GCP_PROJECT_ID
+    - gcloud auth configure-docker europe-north2-docker.pkg.dev
+  
+build_images:
+  stage: build
+  image: google/cloud-sdk:latest
+  services:
+    - docker:dind
+  <<: *authorise
+
+  rules:
+    # 1. SKIP this job if the commit is just an infra update
+    - if: $CI_COMMIT_MESSAGE =~ /\[update_model\]/
+      when: never
+    # 2. Otherwise, run as normal
+    - when: always
+
+  script:
+  
+  - docker build -t $GAR_REPO/user-proj:$CI_COMMIT_SHORT_SHA ./server/users_project
+  - docker push $GAR_REPO/user-proj:$CI_COMMIT_SHORT_SHA
+
+  
+  - docker build -t $GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA ./server/prediction_service
+  - docker push $GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA
+
+    
+  - docker build -t $GAR_REPO/training-proj:$CI_COMMIT_SHORT_SHA ./server/validation_training_service
+  - docker push $GAR_REPO/training-proj:$CI_COMMIT_SHORT_SHA
+
+  - docker build -t $GAR_REPO/client-proj:$CI_COMMIT_SHORT_SHA ./client/harmonai_frontend
+  - docker push $GAR_REPO/client-proj:$CI_COMMIT_SHORT_SHA
+
+deploy_images:
+  stage: deploy
+  image: google/cloud-sdk:latest
+  <<: *authorise
+
+  rules:
+    # 1. SKIP this job if the commit is just an infra update
+    - if: $CI_COMMIT_MESSAGE =~ /\[update_model\]/
+      when: never
+    # 2. Otherwise, run as normal
+    - when: always
+
+  script:
+
+  - gcloud container clusters get-credentials $GCP_CLUSTER_NAME --region $GCP_REGION --project $GCP_PROJECT_ID
+
+  - kubectl create secret generic gitlab-auth --from-literal=token="$GITLAB_ACCESS_TOKEN" --dry-run=client -o yaml | kubectl apply -f -
+
+  - kubectl create secret generic system-secrets --from-literal=mongo-users="$MONGO_URL_USERS" --from-literal=mongo-prediction="$MONGO_URL_PREDICTION" --dry-run=client -o yaml | kubectl apply -f -
+
+  - kubectl create secret generic gcp-auth --from-file=key.json="$GCP_STORAGE_KEY" --dry-run=client -o yaml | kubectl apply -f -
+
+  - 'sed -i "s|USER_IMAGE_PLACEHOLDER|$GAR_REPO/user-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/users.yaml'
+  - 'sed -i "s|PREDICTION_IMAGE_PLACEHOLDER|$GAR_REPO/prediction-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/prediction.yaml'
+  - 'sed -i "s|TRAINING_IMAGE_PLACEHOLDER|$GAR_REPO/training-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/training.yaml'
+  - 'sed -i "s|CLIENT_IMAGE_PLACEHOLDER|$GAR_REPO/client-proj:$CI_COMMIT_SHORT_SHA|g" cloud-deploy/client.yaml'
+    
+  - kubectl apply -f cloud-deploy/config.yaml
+  - kubectl apply -f cloud-deploy/users.yaml
+  - kubectl apply -f cloud-deploy/prediction.yaml
+  - kubectl apply -f cloud-deploy/training.yaml
+  - kubectl apply -f cloud-deploy/client.yaml
+  - kubectl apply -f cloud-deploy/nginx-ingress.yaml
+
+
+  - kubectl rollout restart deployment/users-app-deployment
+  - kubectl rollout restart deployment/prediction-app-deployment
+  - kubectl rollout restart deployment/training-app-deployment
+  - kubectl rollout restart deployment/client-app-deployment
+
+
+update_model:
+  stage: deploy
+  image: google/cloud-sdk:latest
+  <<: *authorise
+
+  rules:
+    # ONLY run if the commit message contains [update_model]
+    - if: $CI_COMMIT_MESSAGE =~ /\[update_model\]/
+      when: always
+    # Otherwise, never run
+    - when: never
+
+  script:
+    - echo "Fast Track:ML model change detected. Skipping build."
+    - gcloud container clusters get-credentials $GCP_CLUSTER_NAME --region $GCP_REGION --project $GCP_PROJECT_ID
+    
+    - echo "Fetching current images from Kubernetes..."
+    - PRED_IMG=$(kubectl get deployment prediction-app-deployment -o=jsonpath='{.spec.template.spec.containers[0].image}')
+    
+    - echo "Preserving current image:$PRED_IMG"
+    - 'sed -i "s|PREDICTION_IMAGE_PLACEHOLDER|$PRED_IMG|g" cloud-deploy/prediction.yaml'
+    - kubectl apply -f cloud-deploy/prediction.yaml
+    
+    # Force a rollout to pick up the Env Var change
+    - kubectl rollout restart deployment/prediction-app-deployment

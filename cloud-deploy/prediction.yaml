@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prediction-app-deployment
+  labels:
+    app: prediction-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: prediction-app
+  template:
+    metadata:
+      labels:
+        app: prediction-app
+    spec:
+      containers:
+      - name: prediction-app
+        image: PREDICTION_IMAGE_PLACEHOLDER
+        imagePullPolicy: Always
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: system-secrets
+              key: mongo-prediction
+        - name: MODEL_NAME
+          value: HarmonAi_v2
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        volumeMounts:
+        - name: gcp-key-volume
+          mountPath: /var/secrets/google
+          readOnly: true
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 250m
+            memory: 5Gi
+          limits:
+            cpu: '4'
+            memory: 11Gi
+      volumes:
+      - name: gcp-key-volume
+        secret:
+          secretName: gcp-auth
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prediction-service
+spec:
+  type: ClusterIP
+  selector:
+    app: prediction-app
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000

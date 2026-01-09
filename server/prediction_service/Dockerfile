@@ -1,4 +1,4 @@
-FROM python:3.10.8-slim
+FROM public.ecr.aws/docker/library/python:3.10.8-slim
 # FROM python:3.8.12-slim
 
 
@@ -21,4 +21,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 EXPOSE 8000
-CMD ["gunicorn", "--log-level", "debug", "--bind", "0.0.0.0:8000", "--timeout", "300", "prediction_service_backend.wsgi"]
+CMD ["gunicorn", "--workers=1", "--threads=4", "--log-level", "debug", "--bind", "0.0.0.0:8000", "--timeout", "600", "--keep-alive", "75", "prediction_service_backend.wsgi"]
