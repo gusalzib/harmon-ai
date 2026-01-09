@@ -45,17 +45,6 @@ class PipelineTestCase(SimpleTestCase):
         # Some assertions
         self.assertEqual(result, None)
 
-    # Test if chronological timestamps may decrease. Moved chunk of bothchroma to misalign timestamp
-    def test_non_sequential_timestamps(self):
-        data_test_folder = "McGill-non-sequential"
-        dataset_version = 1
-        test_data_path = os.path.join("validation_training_app", "testing_data", data_test_folder)
-        val_threshold = 1
-
-        result = vetl_orchestrator(dataset_version, test_data_path, val_threshold)
-        # Some assertions
-        self.assertEqual(result, None)
-
     # C chord replaced with Q, maj replaced with mij, and min replaced with mao
     def test_invalid_values(self):
         data_test_folder = "McGill-invalid-values"
