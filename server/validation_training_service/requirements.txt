@@ -19,3 +19,5 @@ gunicorn==23.0.0
 python-dotenv
 ipywidgets==7.8.5
 tqdm
+python-gitlab==4.4.0
+PyYAML==6.0.1

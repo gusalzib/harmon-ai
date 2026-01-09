@@ -50,7 +50,7 @@ export default {
   },
   async mounted() {
     // Get API URLs from env
-    const baseURL = import.meta.env.VITE_API_USERS_URL
+    const baseURL = import.meta.env.VITE_API_URL
     console.log(`Base URL: ${baseURL}`);
     this.url = `${baseURL}/users/logout`,
     this.statusURL = `${baseURL}/users/check-status`,

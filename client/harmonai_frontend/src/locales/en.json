@@ -18,7 +18,8 @@
         "closeButton": "Close",
         "searchBoxTitle": "Title",
         "searchBoxArtist": "Artist",
-        "searchBoxGenre": "Genre"
+        "searchBoxGenre": "Genre",
+        "deployModel": "Deploy model"
     },
     "nav": {
         "about": "About",
@@ -111,7 +112,8 @@
         "noFavoriteSongsFound": "No favorite songs found. Search for your favorite songs here",
         "chords": "Chords",
         "yourFavoriteSongs": "Your Favorite Songs",
-        "predictedChords": "Your predicted song chords:"
+        "predictedChords": "Your predicted song chords:",
+        "downloadChords": "Download"
     },
     "history": {
         "yourSongsHistory": "Your Song History",

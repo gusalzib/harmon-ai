@@ -1,0 +1,64 @@
+# Notes:
+# Same may be used for prediction service, 
+# only need to change name, image and only maaaybe containerport?
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-app-deployment
+  labels:
+    app: users-app
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-app
+  # Defining pod template
+  template:
+    metadata:
+      labels:
+        app: users-app
+    spec:
+      containers:
+      - name: users-app
+        image: USER_IMAGE_PLACEHOLDER
+        imagePullPolicy: Always
+        env:
+        - name: DB_CONNECTION_STRING # The variable name your Python/Node code expects
+          valueFrom:
+            secretKeyRef:
+              name: system-secrets
+              key: mongo-users
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          # Any code greater than or equal to 200 and less than 400 indicates success. 
+          # Any other code indicates failure.
+          httpGet:
+            path: /users/is-db-connected
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        resources:
+              requests:
+                cpu: "250m"      
+                memory: "512Mi" 
+              limits:
+                cpu: "1000m"
+                memory: "1Gi"
+---
+# Service bit
+# Forward request to the appropriate pods
+# Docs: https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  type: ClusterIP
+  selector:
+    app: users-app  # Docs use different selector
+  ports:
+  - protocol: TCP
+    port: 8000        # Port of which this service is accessible
+    targetPort: 8000  # Port of the pods belonging to the service
