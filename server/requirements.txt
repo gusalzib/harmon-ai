@@ -1,12 +1,23 @@
+# asgiref==3.11.0
+# Django==5.2.8
+# django-cors-headers==4.9.0
+# django-mongodb-backend==5.2.3
+# dnspython==1.16.0
+# dotenv==0.9.9
+# pymongo==4.15.4
+# python-dotenv==1.2.1
+# sqlparse==0.5.3
+# django-cors-headers==4.9.0
+# numpy==2.3.5
+# librosa==0.11.0
+
 asgiref==3.11.0
 Django==5.2.8
 django-cors-headers==4.9.0
 django-mongodb-backend==5.2.3
 dnspython==1.16.0
-dotenv==0.9.9
 pymongo==4.15.4
 python-dotenv==1.2.1
 sqlparse==0.5.3
-django-cors-headers==4.9.0
 numpy==2.3.5
 librosa==0.11.0

@@ -978,7 +978,7 @@ input[type=file]:hover{
   border-radius: 8px;
   box-shadow: var(--light-shadow);
   min-width: 400px;
-  height: 90%;
+  /* height: 90%; */
 
 }
 
@@ -1015,6 +1015,12 @@ input[type=file]:hover{
   max-height: 90vh;
   overflow-y: auto;
   overflow-x: auto;
+}
+
+.pie-chart-container{
+  width: 90%;
+  height: 500px;
+  margin: 100px auto;
 }
 
 
