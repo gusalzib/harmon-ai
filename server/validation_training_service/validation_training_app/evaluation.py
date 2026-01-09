@@ -1,3 +1,6 @@
+# Authors of code:
+# - Viktor Kolak
+
 import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
 import tensorflow as tf

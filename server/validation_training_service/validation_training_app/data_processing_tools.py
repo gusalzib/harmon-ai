@@ -1,3 +1,9 @@
+# Authors of code:
+# - Viktor 
+# - Carl
+# - Muhamad Jawad Ahmad 
+
+ 
 import os
 
 # Add this function to your tools.py file:

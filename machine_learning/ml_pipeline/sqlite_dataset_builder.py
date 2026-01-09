@@ -1,3 +1,6 @@
+# Authors of code:
+# - Muhamad Jawad Ahmad 
+
 import pandas as pd
 import sqlite3
 import os

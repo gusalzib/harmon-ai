@@ -1,3 +1,6 @@
+# Authors of code:
+# - Muhamad Jawad Ahmad 
+
 import os
 
 # ===== import fix from gemini in below block ==========
@@ -19,11 +22,6 @@ DEFAULT_MCGILL_PATH = os.path.join(project_root, 'resources', 'The-McGill-Billbo
 def vetl_orchestrator(path=DEFAULT_MCGILL_PATH, val_threshold=0.65):
     
     print("inside the orchestrator??! or?")
-
-    # # Check the resources directory
-    # resources_path = os.path.join(project_root, 'resources')
-    # if os.path.exists(resources_path):
-    #     print(f"Contents of resources directory:")
 
     chordino_path = os.path.join(path, "billboard-2.0-chordino")
     mirex_path = os.path.join(path, "billboard-2.0.1-mirex")

@@ -1,3 +1,7 @@
+# Authors of code:
+# - Viktor Kolak
+# - Muhamad Jawad Ahmad 
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import os
@@ -153,4 +157,3 @@ def update_model_name(request):
         update_model(modelName)
         return JsonResponse({"status": "success", "message": f"Model name updated to {modelName}."})
 
-        

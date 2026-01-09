@@ -1,3 +1,6 @@
+## Authors of code:
+# - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+
 FROM public.ecr.aws/docker/library/node:lts-alpine
 
 # install simple http server for serving static content

@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson
+
 
 # ConfigMap used for storing non-sensitive information
 apiVersion: v1

@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

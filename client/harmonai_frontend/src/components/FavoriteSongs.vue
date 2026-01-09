@@ -1,3 +1,10 @@
+<!--
+
+Authors of code:
+- Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+- Carl-Johan Erikson
+
+-->
 <template>
     <div class="favorite-songs-section" id="favorite-songs" v-if="activeSection === 'favorite_songs'">
         <h3>{{ $t('song.yourFavoriteSongs') }}</h3>

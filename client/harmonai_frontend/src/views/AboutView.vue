@@ -1,3 +1,10 @@
+<!--
+
+Authors of code:
+- Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+- Rebecka Åkerblom - gusakerre@sudent.gu.se - rebake@chalmers.se 
+
+-->
 <template>
   <div class="about">
     <h1>Responsible AI Principles</h1>

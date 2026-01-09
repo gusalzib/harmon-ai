@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson, Viktor Kolak
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:

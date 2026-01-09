@@ -1,3 +1,6 @@
+# Authors of code:
+# Rebecka Åkerblom - gusakerre@sudent.gu.se - rebake@chalmers.se 
+
 from django import forms
 import os
 from google.cloud import storage

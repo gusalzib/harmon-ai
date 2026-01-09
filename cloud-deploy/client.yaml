@@ -1,5 +1,7 @@
-# If in need of "what is happening", refer to users.yaml
+# Authors of code:
+# - Carl-Johan Erikson, Viktor Kolak
 
+# If in need of "what is happening", refer to users.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -1,3 +1,10 @@
+<!--
+
+Authors of code:
+- Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+- Muhamad Jawad Ahmad 
+
+-->
 <template>
     <div class="model-performance-section" id="performance-report">
         <h3>{{ $t('admin.model.modelPerformanceReports') }}</h3>
@@ -77,7 +84,38 @@
 
                 <div class="report-panel comparison-report" v-if="this.comparisonReport">
                     <h4>{{ $t('admin.model.comparisonTo') }} V{{ this.comparisonReport.version }}</h4>
-                    <iframe :src="this.comparisonReport.url" frameborder="0"></iframe>
+
+                    <button class="standard-btn update-model-btn" @click="updateModel">
+                        {{ $t('buttons.deployModel') || 'Deploy Model' }}
+                    </button>
+                    <p>Total number of examples: {{this.comparison_overall_examples}}</p>
+                    <h3>Overall Accuracy of Keys and Qualities</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="comparison_overall_accuracy_chartData"
+                        />
+                    </div>
+
+                    <h3>Keys Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="comparison_keys_accuracy_chartData"
+                        />
+                    </div>
+
+                    <h3>Qualities Accuracy</h3>
+                    <div class="pie-chart-container">
+                        <Pie
+                            id="Overall-Accuracy"
+                            :options="chartOptions"
+                            :data="comparison_qualities_accuracy_chartData"
+                        />
+                    </div>                    
+                    
                 </div>
             </div>
         </div>
@@ -117,6 +155,13 @@ export default {
             keyAccuracy: 0.0,
             qualityAccuracy: 0.0,
             overall_examples: 0.0,
+
+
+            comparison_overall_accuracy: 0.0,
+            comparison_keyAccuracy: 0.0,
+            comparison_qualityAccuracy: 0.0,
+            comparison_overall_examples: 0.0,
+
             accuracy_per_key: [],
             examples_per_key: [],
             accuracy_per_quality: [],
@@ -148,7 +193,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.overall_accuracy, 100 - this.overall_accuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
                 }]
             }
         }, 
@@ -158,7 +203,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.keyAccuracy, 100 - this.keyAccuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
             }]
         }
     }, 
@@ -168,10 +213,43 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.qualityAccuracy, 100 - this.qualityAccuracy],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     }, 
+
+
+        comparison_overall_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.comparison_overall_accuracy, 100 - this.comparison_overall_accuracy],
+                    backgroundColor: ['#4A306D', '#CBAADE']
+                }]
+            }
+        }, 
+        comparison_keys_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.comparison_keyAccuracy, 100 - this.comparison_keyAccuracy],
+                    backgroundColor: ['#4A306D', '#CBAADE']
+            }]
+        }
+    }, 
+        comparison_qualities_accuracy_chartData() {
+            return {
+                labels: ['Accurate Predictions', 'Inaccurate Predictions'],
+                datasets: [{
+                    label: 'Accuracy Metrics',
+                    data: [this.comparison_qualityAccuracy, 100 - this.comparison_qualityAccuracy],
+                    backgroundColor: ['#4A306D', '#CBAADE']
+        }]
+    }
+    }, 
+
 
             accuracy_per_key_chartData() {
             return {
@@ -179,7 +257,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy per Key Metrics',
                     data: [this.key_labels, this.accuracy_per_key],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     }, 
@@ -189,7 +267,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.key_labels, this.examples_per_key],
-                    backgroundColor: ['#4A306D', '#E8D7F1']
+                    backgroundColor: ['#4A306D', '#CBAADE']
         }]
     }
     },
@@ -243,6 +321,17 @@ export default {
 
             this.comparisonReport = report;
             this.toast.info(this.$t('admin.model.comparisonActive').replace('{version}', report.version));
+            this.comparison_keyAccuracy = this.comparisonReport.content.overall_metrics.key.accuracy * 100;
+
+            this.comparison_qualityAccuracy = this.comparisonReport.content.overall_metrics.quality.accuracy * 100;
+            console.log("quality accuracy: ", this.qualityAccuracy);
+
+            this.comparison_overall_accuracy = ( ( this.comparison_keyAccuracy + this.comparison_qualityAccuracy ) / 2 )
+            console.log("total accuracy = " + this.comparison_overall_accuracy)
+
+            this.comparison_overall_examples = this.comparisonReport.content.overall_metrics.total_examples;
+            console.log("total examples = " + this.comparison_overall_examples)
+            this.getOverAllAccuracy()
         },
 
         // Why was this function not async from the start? 
@@ -253,6 +342,8 @@ export default {
                 let temp = this.selectedReport;
                 this.selectedReport = this.comparisonReport;
                 this.comparisonReport = temp;
+
+
             } else {
                 this.selectedReport = report;
                 

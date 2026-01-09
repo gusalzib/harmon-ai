@@ -1,3 +1,9 @@
+/**
+ * Authors of code:
+ * - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+ * - Carl-Johan Erikson
+ */
+
 import axios from 'axios'
 import { getCsrfToken } from '@/utils/csrfTokenUtils';
 import { defineStore } from 'pinia';

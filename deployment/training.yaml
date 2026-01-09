@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson
+
 # Notes:
 # Same may be used for prediction service, 
 # only need to change name, image and only maaaybe containerport?

@@ -1,3 +1,8 @@
+/**
+ * Authors of code:
+ * - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+ * - Carl-Johan Erikson
+ */
 
 export function getCsrfToken() {
 

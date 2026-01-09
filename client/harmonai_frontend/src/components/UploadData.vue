@@ -1,3 +1,10 @@
+<!--
+
+Authors of code:
+- Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+- Carl-Johan Erikson
+
+-->
 <template>
     <div class="upload-data-section" id="upload" v-if="activeSection === 'dataUpload'">
         <h3>{{ $t('admin.model.uploadData') }}</h3>

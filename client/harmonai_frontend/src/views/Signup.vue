@@ -1,3 +1,10 @@
+<!--
+
+Authors of code:
+- Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+- Carl-Johan Erikson
+
+-->
 <template>
 
     <div class="signup-form-container">

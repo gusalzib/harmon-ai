@@ -1,3 +1,8 @@
+<!-- 
+ Author of code:
+  - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+
+ -->
 <template>
   <div class="item">
     <i>

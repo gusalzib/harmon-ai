@@ -1,3 +1,6 @@
+# Authors of code:
+# Rebecka Åkerblom - gusakerre@sudent.gu.se - rebake@chalmers.se 
+
 import librosa
 import numpy as np
 import collections

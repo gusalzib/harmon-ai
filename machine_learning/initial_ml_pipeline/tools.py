@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson
+
 import os
 
 # Turn flats into sharps/naturals

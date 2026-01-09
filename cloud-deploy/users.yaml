@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson, Viktor Kolak
+
 # Notes:
 # Same may be used for prediction service, 
 # only need to change name, image and only maaaybe containerport?
@@ -24,7 +27,7 @@ spec:
         image: USER_IMAGE_PLACEHOLDER
         imagePullPolicy: Always
         env:
-        - name: DB_CONNECTION_STRING # The variable name your Python/Node code expects
+        - name: DB_CONNECTION_STRING 
           valueFrom:
             secretKeyRef:
               name: system-secrets
