@@ -46,7 +46,7 @@
                         {{ $t('buttons.deployModel') || 'Deploy Model' }}
                     </button>
                     <p>Total number of examples: {{this.overall_examples}}</p>
-                    <h3>Overall Accuracy</h3>
+                    <h3>Overall Accuracy of Keys and Qualities</h3>
                     <div class="pie-chart-container">
                         <Pie
                             id="Overall-Accuracy"
@@ -245,7 +245,7 @@ export default {
                 datasets: [{
                     label: 'Accuracy Metrics',
                     data: [this.key_labels, this.examples_per_key],
-                    backgroundColor: ['#db0a57', '#3f1718']
+                    backgroundColor: ['#4A306D', '#E8D7F1']
         }]
     }
     },
@@ -359,7 +359,7 @@ export default {
                 const labels = this.selectedReport.content.overall_metrics.key.class_labels;
                 console.log("the second class label is: " + labels[1])
                 this.getOverAllAccuracy(); 
-                this.getKeysAndQualitiesAccuracy()        
+                // this.getKeysAndQualitiesAccuracy()        
                 // this.createConfusionMatrix();    
             }
         },
@@ -375,7 +375,7 @@ export default {
                 this.qualityAccuracy = this.selectedReport.content.overall_metrics.quality.accuracy * 100;
                 console.log("quality accuracy: ", this.qualityAccuracy);
 
-                this.overall_accuracy = ( ( this.keyAccuracy + this.qualityAccuracy ) / 2 ) * 100
+                this.overall_accuracy = ( ( this.keyAccuracy + this.qualityAccuracy ) / 2 )
                 console.log("total accuracy = " + this.overall_accuracy)
 
                 this.overall_examples = this.selectedReport.content.overall_metrics.total_examples;
