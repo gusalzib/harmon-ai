@@ -55,6 +55,7 @@
             <button class="download-btn" @click="downloadChordsLocal(song)">{{ $t('song.downloadChords') || 'Download Chords' }}</button>            
           </div>
           <p class="chord-list">{{ song.prediction }}</p>
+          <h3 class="used-chords-title">This is how you play the chords on a guitar:</h3>
           <div class="used-chords">
                       <img
                         v-for="chord in usedChords(song.prediction)"
@@ -112,6 +113,7 @@
                       <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button> 
                     </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
+                    <h3 class="used-chords-title">This is how you play the chords on a guitar:</h3>
                     <div class="used-chords">
                       <img
                         v-for="chord in usedChords(this.song.chord_list)"

@@ -68,6 +68,10 @@ label{
 .chord-image{
   width: 70px;
   height: 100px;
+  transition: 0.3s ease;
+}
+.chord-image:hover{
+  transform: scale(5);
 }
 
 .home-container hr{
