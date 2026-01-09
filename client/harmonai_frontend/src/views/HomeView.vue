@@ -55,7 +55,15 @@
             <button class="download-btn" @click="downloadChordsLocal(song)">{{ $t('song.downloadChords') || 'Download Chords' }}</button>            
           </div>
           <p class="chord-list">{{ song.prediction }}</p>
-          <div class="used-chords">{{ usedChords(song.prediction) }}</div>
+          <div class="used-chords">
+                      <img
+                        v-for="chord in usedChords(song.prediction)"
+                        :key="chord"
+                        :src="getImage(chord)"
+                        :alt="chord"
+                        class="chord-image"
+                      />
+                    </div>
           
         </div>
       </div>
