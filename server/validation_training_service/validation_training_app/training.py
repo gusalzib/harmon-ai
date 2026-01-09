@@ -63,7 +63,7 @@ def train_model(model, train_dataset, val_dataset):
     model.fit(
         train_dataset,
         validation_data=val_dataset,
-        epochs=1,
+        epochs=3,
         callbacks = [
             tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True), lr_scheduler
         ]

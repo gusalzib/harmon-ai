@@ -1,4 +1,5 @@
 stages:
+  - test
   - build
   - deploy
 
@@ -9,6 +10,20 @@ variables:
 default:
   tags:
     - docker-build
+
+run_tests:
+  stage: test
+  image: public.ecr.aws/docker/library/python:3.10-slim
+
+  before_script:
+    - apt-get update
+    - apt-get install -y build-essential
+    - pip install --upgrade pip
+    - pip install -r server/validation_training_service/requirements.txt
+  
+  script:
+    - cd server/validation_training_service
+    - python manage.py test
 
 .authorise: &authorise
   before_script:

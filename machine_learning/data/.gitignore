@@ -1,0 +1,27 @@
+
+### ================= Ignore artifact that is not needed in repo =============== ### 
+
+# Do not push the outputs to gitlab
+output/
+output
+
+# Do not push experiment code to gitlab
+experiments/
+test_quality_gate.py
+validate.py
+toy_around.ipynb
+validation.py
+testing.py
+
+# Do not push the McGill dataset to gitlab
+McGill_Billboard/
+
+# Do not push CSV to gitlab
+cleaned_data.csv
+
+# Do not push database to gitlab
+cleaned_data.db
+
+# Python cache files
+__pycache__/
+*.pyc
