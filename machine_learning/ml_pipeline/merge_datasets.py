@@ -1,3 +1,6 @@
+# Authors of code:
+# - Muhamad Jawad Ahmad 
+
 import os
 import shutil
 from os.path import join, isdir

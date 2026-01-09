@@ -1,5 +1,8 @@
 # Authors of code:
-# -
+# - Viktor 
+# - Carl
+# - Muhamad Jawad Ahmad 
+
  
 import os
 

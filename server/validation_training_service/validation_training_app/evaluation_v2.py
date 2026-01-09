@@ -1,3 +1,6 @@
+# Authors of code:
+# - Muhamad Jawad Ahmad 
+
 import tensorflow as tf
 import numpy as np
 from sklearn.metrics import confusion_matrix, accuracy_score

@@ -1,4 +1,6 @@
 # install tqdm for progress bar: pip install tqdm 
+# Authors of code:
+# - Muhamad Jawad Ahmad 
 
 import os
 import pandas as pd

@@ -2,6 +2,7 @@
 
 Authors of code:
 - Ibrahim Alzoubi - gusalzib@student.gu.se - alzoubi@chalmers.se
+- Muhamad Jawad Ahmad 
 
 -->
 <template>
