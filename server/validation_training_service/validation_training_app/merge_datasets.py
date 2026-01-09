@@ -1,3 +1,6 @@
+# Authors of code:
+# -
+
 import os
 import shutil
 from os.path import join, isdir

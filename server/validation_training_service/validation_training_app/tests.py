@@ -1,3 +1,6 @@
+# Authors of code:
+# - Carl-Johan Erikson
+
 from django.test import SimpleTestCase
 from .vetl_orchestrator import vetl_orchestrator
 import os

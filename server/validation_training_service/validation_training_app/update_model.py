@@ -1,3 +1,6 @@
+# Authors of code:
+# - Viktor Kolak
+
 import gitlab
 import yaml
 import os
