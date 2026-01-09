@@ -125,7 +125,7 @@ def test_train_model(request):
 
         # 6. Upload the JSON report from memory to GCS
         print("Uploading evaluation report to GCS...")
-        upload_blob_from_string(BUCKET_NAME, report_content, gcs_report_path)
+        upload_blob_from_string(BUCKET_NAME, report_content, gcs_report_path, content_type='application/json')
         print(f"The report was generated and uploaded successfully")
 
         return JsonResponse({"status": "success", "message": f"Model training for {versioned_model_name} complete."})
