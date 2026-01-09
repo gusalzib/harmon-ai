@@ -233,8 +233,9 @@ export default {
       return usedChords
     },
     getImage(chord){
+      const fixedChord = chord.replace("#", "sharp");
       return new URL(
-         `../assets/images/chords/${chord}.jpeg`,
+         `../assets/images/chords/${fixedChord}.jpeg`,
          import.meta.url
       ).href;
     },
