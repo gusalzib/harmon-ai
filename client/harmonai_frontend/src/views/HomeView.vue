@@ -52,11 +52,19 @@
             <button class="transpose-btn--" @click="song.prediction = transpose(song.prediction,'down')">transpose down</button>        
             <button class="transpose-btn-original" @click="songs[index].prediction= originalSongs[index].prediction">original key</button>
             <button class="transpose-btn-+" @click="song.prediction = transpose(song.prediction, 'up')">transpose up</button>
-            <button class="download-btn" @click="downloadChordsLocal(song)">{{ $t('song.downloadChords') || 'Download Chords' }}</button>
-
-            
+            <button class="download-btn" @click="downloadChordsLocal(song)">{{ $t('song.downloadChords') || 'Download Chords' }}</button>            
           </div>
           <p class="chord-list">{{ song.prediction }}</p>
+          <h3 class="used-chords-title">This is how you play the chords on a guitar:</h3>
+          <div class="used-chords">
+                      <img
+                        v-for="chord in usedChords(song.prediction)"
+                        :key="chord"
+                        :src="getImage(chord)"
+                        :alt="chord"
+                        class="chord-image"
+                      />
+                    </div>
           
         </div>
       </div>
@@ -105,6 +113,16 @@
                       <button class="transpose-btn-+" @click="this.song.chord_list = transpose(this.song.chord_list, 'up')">transpose up</button> 
                     </div>
                     <pre class="chord-list">{{ this.song.chord_list }}</pre>
+                    <h3 class="used-chords-title">This is how you play the chords on a guitar:</h3>
+                    <div class="used-chords">
+                      <img
+                        v-for="chord in usedChords(this.song.chord_list)"
+                        :key="chord"
+                        :src="getImage(chord)"
+                        :alt="chord"
+                        class="chord-image"
+                      />
+                    </div>
 
                     <button class="download-btn" @click="downloadChords">{{ $t('song.downloadChords') || 'Download Chords' }}</button>
                 </div>
@@ -202,6 +220,28 @@ export default {
       const transposedChords = songChordList.join(" ");
       return transposedChords
     },
+    usedChords(chords){
+      const usedChords = [];
+      const chordList = chords.split(" ");
+      for (let i=0; i< chordList.length; i++){
+        const chord = chordList[i];
+        if (chord === "N" || chord === "X" || chord === "|" || chord === ""){
+          continue
+        }
+        if(!usedChords.includes(chord)){
+          usedChords.push(chord);
+        }
+      }
+      return usedChords
+    },
+    getImage(chord){
+      const fixedChord = chord.replace("#", "sharp");
+      return new URL(
+         `../assets/images/chords/${fixedChord}.jpeg`,
+         import.meta.url
+      ).href;
+    },
+
 
     async searchQuery(queryType) {
       var search = "";
