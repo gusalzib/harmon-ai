@@ -85,4 +85,4 @@ VITE_API_URL=<URL/address to where the site will be hosted>
 
 ##  Documentation & Wiki
 
-Detailed information regarding project requirements, meetings, and task distributions can be found in our [Wiki](https://github.com/gusalzib/harmon-ai/wiki/Project-Issue-Log-and-Development-Sprint-History#project-issue-log-and-development-sprint-history). Issues and progress tracking are located on the [Issues Page](https://git.chalmers.se/courses/dit826/2025/team3/-/issues).
+Detailed information regarding project requirements, meetings, and task distributions can be found in our [Wiki](https://github.com/gusalzib/harmon-ai/wiki#welcome-to-the-harmonai-project). Issues and progress tracking are located on the [Issues Page](https://github.com/gusalzib/harmon-ai/wiki/Project-Issue-Log-and-Development-Sprint-History#project-issue-log-and-development-sprint-history).
