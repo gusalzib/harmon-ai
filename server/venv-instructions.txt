@@ -1,9 +1,0 @@
-Run virtual environment to hopefully have all dependencies in one place and not system-wide. I think.
-
-At some point there will be a requirements.txt file that you can use to install the necessary packages into your environment.
-
-To create a new virtual environment:
-python3 -m venv env-name
-
-To run virtual environment:
-source django-env/bin/activate
